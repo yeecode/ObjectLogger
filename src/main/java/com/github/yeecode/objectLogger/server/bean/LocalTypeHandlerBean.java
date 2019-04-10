@@ -8,22 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocalTypeHandlerBean implements LocalTypeHandler {
 
-    public static final String USERID = "USERID";
-    public static final String ATTACHMENT = "ATTACHMENT";
-
-
     @Override
     public ActionItemModel handleLocalType(String subLocalType, String oldValue, String newValue) {
-        ActionItemModel logActionItemModel = new ActionItemModel();
-
-        if (subLocalType.equals(USERID)) {
-            logActionItemModel.setNewValue("AAAAAAAA");
-            logActionItemModel.setOldValue("aa");
-        } else {
-            logActionItemModel = null;
-        }
-        return logActionItemModel;
+        return null;
     }
-
-
 }
