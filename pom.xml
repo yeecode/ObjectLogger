@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.yeecode.objectLogger.server</groupId>
 	<artifactId>ObjectLogger</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>ObjectLogger</name>
 	<description>The simple and easy-to-use object log system, supports writing and querying of object attribute changes.</description>
 
