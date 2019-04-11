@@ -127,7 +127,7 @@ http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=myBootApp&obje
 We can get ：
 ```
 {
-  "respMsg": "成功",
+  "respMsg": "SUCCESS",
   "respData": [
     {
       "id": 16,
@@ -182,7 +182,7 @@ We can get ：
 
 ```
 {
-  "respMsg": "成功",
+  "respMsg": "SUCCESS",
   "respData": [
     {
       "id": 15,
@@ -224,7 +224,7 @@ We can get ：
           "attributeName": "DESCRIPTION",
           "oldValue": "\"\\t<p>the first line</p>\\n\\t<p>the second line</p>\\n\\t<p>the 3th line</p>\"",
           "newValue": "\"\\t<p>the first line</p>\\n\\t<p>the second line</p>\\n\\t<p>the last line</p>\"",
-          "diffValue": "第6行变化:<br/>&nbsp;&nbsp;&nbsp; -： <del> the 3th line </del> <br/>&nbsp;&nbsp; +： <u> the last line </u> <br/>"
+          "diffValue": "Line 6:<br/>&nbsp;&nbsp;&nbsp; -： <del> the 3th line </del> <br/>&nbsp;&nbsp; +： <u> the last line </u> <br/>"
         }
       ]
     }

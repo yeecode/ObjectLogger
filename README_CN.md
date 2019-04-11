@@ -2,6 +2,8 @@
 
 # ObjectLogger
 
+[English Introduction](./README.md)
+
 简单易用的对象日志记录系统，支持对象属性变动的记录与查询。
 
 # 1 系统应用

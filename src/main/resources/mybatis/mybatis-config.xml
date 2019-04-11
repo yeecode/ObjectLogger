@@ -7,7 +7,6 @@
     <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>-->
 
-    <!-- 注入别名,便于mapper书写 -->
     <typeAliases>
         <package name="com.github.yeecode.objectLogger.client.model"/>
     </typeAliases>
