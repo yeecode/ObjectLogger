@@ -1,4 +1,3 @@
-[TOC]
 
 # ObjectLogger
 
@@ -24,15 +23,11 @@
 
 # 2 系统特点
 
-- 该系统与业务系统完全独立，可插拔，不影响主业务流程
-- 采用SpringBoot实现，可以独立jar包启动
-- 日志的查询操作完全与业务系统解耦，不影响业务系统性能
-- 支持多个系统共用
-- 业务系统提供日志分析与写入jar包，日志写入简单
-- 支持一次记录对象的零个、一个、多个属性变动
-- 支持自定义对象变动说明、属性变动说明
-- 支持富文本对象的前后对比
-- 支持更多对象属性类型的扩展
+- 功能强大：部署完成后，可以支持日志的记录与查询，开发者只需再开发前端界面即可使用。
+- 完全独立：该系统与业务系统完全独立，可插拔使用，不影响主业务流程。并且可以同时支持多个业务系统使用。
+- 简单易用：系统采用SpringBoot实现，可以独立jar包启动。同时向业务系统提供jar包，便于日志的分析与写入。
+- 自动解析：能自动解析被操作对象的零个、一个、多个属性变动，支持富文本对象的前后对比。
+- 便于扩展：支持自定义对象变动说明、属性变动说明。支持更多对象属性类型的扩展
 
 # 3 系统部署
 
@@ -51,7 +46,7 @@ spring.datasource.username ={your_database_username}
 spring.datasource.password ={your_database_password}
 ```
 3. 使用maven打包该项目的jar包。
-4. 获取`taeget`目录下的jar包，使用`java -jar ObjectLogger-1.0.1.jar`启动项目。项目默认端口`8080`。
+4. 获取`target`目录下的jar包，使用`java -jar ObjectLogger-1.0.1.jar`启动项目。项目默认端口`8080`。
 
 ## 3.3 业务系统配置
 
@@ -71,10 +66,10 @@ spring.datasource.password ={your_database_password}
 
 ### 3.3.2 添加对ObjectLoggerClient中提供的bean的扫描注入。
 
-若业务应用为SpringBoot应用，则在SpringBoot的启动类前添加，如：
+若业务应用为SpringBoot应用，则在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectLoggerClient`，如：
 ```
 @SpringBootApplication
-@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectLogger"})
+@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectLoggerClient"})
 public class MyBootAppApplication {
 
 public static void main(String[] args) {
@@ -83,9 +78,9 @@ public static void main(String[] args) {
 }
 ```
 
-若业务应用为Spring应用，则在`applicationContext.xml`增加扫描：
+若业务应用为Spring应用，则在`applicationContext.xml`增加对ObjectLoggerClient包地址的扫描：
 ```
-<context:component-scan base-package="com.github.yeecode.objectLogger">
+<context:component-scan base-package="com.github.yeecode.objectLoggerClient">
 </context:component-scan>
 ```
 
@@ -98,7 +93,8 @@ object.logger.add.log.api=http://{your_ObjectLogger_address}/ObjectLogger/log/ad
 object.logger.appName={your_app_name}
 ```
 
-这两个配置项分别是指明了ObjectLogger的部署地址以便于将请求发送到那里、表明了业务应用的应用名以便于区分日志来源。
+- `object.logger.add.log.api`属性指向上一步的ObjectLogger的部署地址，用于将业务系统的日志发送到那里。
+- `object.logger.appName`指明了当前业务系统的应用名以便于区分日志来源，实现同时支持多个业务系统
 
 ### 3.3.4 声明一个扩展LocalTypeHandler的类，作为自由扩展的钩子
 
