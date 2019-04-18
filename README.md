@@ -13,7 +13,7 @@ After that, we can query all log.
 
 This project can help you to collect and query log.
 
-![Simple](./pic/page_en.jpg)
+![Web](./pic/web.gif)
 
 # 1 System Advantages
 
@@ -43,6 +43,8 @@ spring.datasource.password ={your_database_password}
 ```
 3. Use maven to get jar package.
 4. Run jar by `java -jar ObjectLogger-1.0.1.jar`. Default port is `8080`。
+
+![System Index Page](./pic/100.jpg)
 
 ## 3.3 How to use in Business System
 
@@ -105,6 +107,10 @@ public class LocalTypeHandlerBean implements LocalTypeHandler {
 End.
 
 # 4 How to Use
+
+We can query all logs via `/ObjectLogger/log/query`, and use param to filter logs:
+
+![Api](./pic/api.gif)
 
 Add `LogClient` before use：
 ```
