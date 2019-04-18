@@ -19,7 +19,7 @@
 
 使用该项目记录后，能达到如下图所示效果：
 
-![实例图片](./pic/page.jpg)
+![实例图片](./pic/web.gif)
 
 # 2 系统特点
 
@@ -47,6 +47,10 @@ spring.datasource.password ={your_database_password}
 ```
 3. 使用maven打包该项目的jar包。
 4. 获取`target`目录下的jar包，使用`java -jar ObjectLogger-1.0.1.jar`启动项目。项目默认端口`8080`。
+
+至此，已经可以可以通过对应接口访问该系统,如图：
+
+![系统首页](./pic/100.jpg)
 
 ## 3.3 业务系统配置
 
@@ -112,6 +116,10 @@ public class LocalTypeHandlerBean implements LocalTypeHandler {
 至此，整个系统部署结束。
 
 # 4 系统使用
+
+系统运行后，可以通过`/ObjectLogger/log/query`查询系统中记录的log，并通过传入参数对log进行过滤。
+
+![实例图片](./pic/api.gif)
 
 首先，业务系统在任何需要进行日志记录的类中引入`LogClient`。例如：
 ```
@@ -287,7 +295,3 @@ public class LocalTypeHandlerBean implements LocalTypeHandler {
     }
 }
 ```
-
-
-
-
