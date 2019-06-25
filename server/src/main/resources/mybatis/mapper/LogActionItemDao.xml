@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.yeecode.objectLogger.server.dao.LogActionItemDao">
+
+    <select id="queryByFilter" parameterType="ActionItemModel" resultType="ActionItemModel">
+        SELECT * FROM t_action_item
+        <where>
+            <if test="id != null">
+                `id`=#{id}
+            </if>
+            <if test="actionId != null">
+                AND `actionId`=#{actionId}
+            </if>
+            <if test="attributeType != null">
+                AND `attributeType`=#{attributeType}
+            </if>
+            <if test="attribute != null">
+                AND `attribute`=#{attribute}
+            </if>
+            <if test="attributeName != null">
+                AND `attributeName`=#{attributeName}
+            </if>
+            <if test="oldValue != null">
+                AND `oldValue`=#{oldValue}
+            </if>
+            <if test="newValue != null">
+                AND `newValue`=#{newValue}
+            </if>
+            <if test="diffValue != null">
+                AND `diffValue`=#{diffValue}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addBatch" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO t_action_item (`actionId`,`attributeType`,`attribute`,`attributeName`,
+        `oldValue`,`newValue`,`diffValue`)
+        VALUES
+        <foreach collection="logActionItemModelList" item="item" index="index" separator=",">
+            (#{item.actionId},#{item.attributeType},#{item.attribute},#{item.attributeName},
+            #{item.oldValue},#{item.newValue},#{item.diffValue})
+        </foreach>
+    </insert>
+
+</mapper>

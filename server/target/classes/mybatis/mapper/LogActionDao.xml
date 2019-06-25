@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.yeecode.objectLogger.server.dao.LogActionDao">
+
+    <select id="queryByFilter" parameterType="ActionModel" resultType="ActionModel">
+        SELECT * FROM t_action
+        <where>
+            <if test="id != null">
+                `id`=#{id}
+            </if>
+            <if test="appName != null">
+                AND `appName`=#{appName}
+            </if>
+            <if test="objectName != null">
+                AND `objectName`=#{objectName}
+            </if>
+            <if test="objectId != null">
+                AND `objectId`=#{objectId}
+            </if>
+            <if test="actor != null">
+                AND `actor`=#{actor}
+            </if>
+            <if test="action != null">
+                AND `action`=#{action}
+            </if>
+            <if test="actionName != null">
+                AND `actionName`=#{actionName}
+            </if>
+            <if test="extraWords != null">
+                AND `extraWords`=#{extraWords}
+            </if>
+            <if test="comment != null">
+                AND `comment`=#{comment}
+            </if>
+            <if test="actionTime != null">
+                AND `actionTime`=#{actionTime}
+            </if>
+        </where>
+        ORDER BY `actionTime`
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="ActionModel">
+        INSERT INTO t_action (`appName`,`objectName`,`objectId`,`actor`,`action`,
+        `actionName`,`extraWords`,`comment`,`actionTime`)
+        VALUES
+        (#{appName},#{objectName},#{objectId},#{actor},#{action},
+        #{actionName},#{extraWords},#{comment},#{actionTime})
+    </insert>
+
+</mapper>

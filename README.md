@@ -2,7 +2,7 @@
 
 [中文说明](./README_CN.md)
 
-The simple and easy-to-use object log system, supports writing and querying of object attribute changes.
+The powerful and easy-to-use object log system, supports writing and querying of object attribute changes.
 
 A lot of system need to log the change of objects:
 
