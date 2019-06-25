@@ -1,9 +1,13 @@
+<div align="left">
+<img src="./pic/ObjectLogger.png" height="80px" alt="ObjectLogger" >
+<span><font size="35">&nbsp</font></span> 
+<span><font size="100">ObjectLogger</font></span> 
+</div>
+高效易用的Java对象日志记录系统，支持对象属性变动的记录与查询。
 
-# ObjectLogger
+---
 
 [English Introduction](./README.md)
-
-高效易用的Java对象日志记录系统，支持对象属性变动的记录与查询。
 
 # 1 系统应用
 

@@ -1,8 +1,13 @@
-# ObjectLogger
+<div align="left">
+<img src="./pic/ObjectLogger.png" height="80px" alt="ObjectLogger" >
+<span><font size="35">&nbsp</font></span> 
+<span><font size="100">ObjectLogger</font></span> 
+</div>
+The powerful and easy-to-use object log system, supports writing and querying of object attribute changes.
+
+---
 
 [中文说明](./README_CN.md)
-
-The powerful and easy-to-use object log system, supports writing and querying of object attribute changes.
 
 A lot of system need to log the change of objects:
 
