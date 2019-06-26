@@ -44,12 +44,12 @@
 
 ## 3.1 数据库部分部署
 
-自备数据库。使用该项目的`/database/init_data_table.sql`文件初始化两个数据表。
+自备数据库。使用该项目的`/server/database/init_data_table.sql`文件初始化两个数据表。
 
 ## 3.2 ObjectLogger系统部署
 
 1. 下载该git项目代码。
-2. 根据你的数据库种类、地址、密码等配置`/src/main/resources/application.properties`文件中的下面部分：
+2. 根据你的数据库种类、地址、密码等配置`/server/src/main/resources/application.properties`文件中的下面部分：
 ```
 spring.datasource.driver-class-name ={db_driver}
 spring.datasource.url =jdbc:mysql://{your_mysql_address}/{your_database_name}
@@ -76,8 +76,6 @@ spring.datasource.password ={your_database_password}
     <version>1.0.4</version>
 </dependency>
 ```
-
-该依赖来源于项目[ObjectLoggerClient](https://github.com/yeecode/ObjectLoggerClient)。我们这里只需引用就可以。如果想了解详细原理可前去看看。
 
 ### 3.3.2 添加对ObjectLoggerClient中提供的bean的扫描注入。
 

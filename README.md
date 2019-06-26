@@ -42,12 +42,12 @@ This project can help you to collect and query log.
 
 ## 2.1 DataBase
 
-User script `/database/init_data_table.sql` to init two data table.
+User script `/server/database/init_data_table.sql` to init two data table.
 
 ## 2.2 ObjectLogger
 
 1. Download this project from git.
-2. Configure `/src/main/resources/application.properties`:
+2. Configure `/server/src/main/resources/application.properties`:
 ```
 spring.datasource.driver-class-name ={db_driver}
 spring.datasource.url =jdbc:mysql://{your_mysql_address}/{your_database_name}
@@ -70,8 +70,6 @@ spring.datasource.password ={your_database_password}
     <version>1.0.4</version>
 </dependency>
 ```
-
-More info about the dependency : [ObjectLoggerClient](https://github.com/yeecode/ObjectLoggerClient)
 
 ### 3.3.2 add bean autowire
 
