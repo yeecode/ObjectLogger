@@ -8,7 +8,7 @@
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
-高效易用的Java对象日志记录系统，支持对象属性变动的记录与查询。
+强大且易用的Java对象日志记录系统，支持对象属性变动的记录与查询。
 
 ---
 
@@ -16,58 +16,65 @@
 
 ---
 
-# 1 系统应用
+# 1 系统简介
 
-众多系统的运行中需要对各个对象的日志进行记录，这些日志内容包括但不限于：
-
-- 对象零个、一个或者多个属性的变化
-- 用户针对对象的操作
-- 其他对象状态的转变
-
-这些操作日志被记录下来后，还需要提供相应的查询接口。
-
-该开源项目的目的便在于协助开发者完成对象日志的采集、存储、查询操作。
-
-使用该项目记录后，能达到如下图所示效果：
+ObjectLogger是一套强大且易用的对象日志记录系统。它能够将任意对象的变动日志记录下来，并支持查询。可以应用在用户操作日志记录、对象属性变更记录等诸多场景中。
 
 ![实例图片](./pic/web.gif)
 
-# 2 系统特点
+该系统具有以下特点：
 
-- 功能强大：部署完成后，可以支持日志的记录与查询，开发者只需再开发前端界面即可使用。
-- 完全独立：该系统与业务系统完全独立，可插拔使用，不影响主业务流程。并且可以同时支持多个业务系统使用。
-- 简单易用：系统采用SpringBoot实现，可以独立jar包启动。同时向业务系统提供jar包，便于日志的分析与写入。
-- 自动解析：能自动解析被操作对象的零个、一个、多个属性变动，支持富文本对象的前后对比。
-- 便于扩展：支持自定义对象变动说明、属性变动说明。支持更多对象属性类型的扩展
+- 一站整合：系统支持日志的记录与查询，开发者只需再开发前端界面即可使用。
+- 完全独立：与业务系统无耦合，可插拔使用，不影响主业务流程。
+- 应用共享：系统可以同时供多个业务系统使用，互不影响。
+- 简单易用：服务端直接jar包启动；业务系统有官方Maven插件支持。
+- 自动解析：能自动解析对象的属性变化，并支持富文本的前后对比。
+- 便于扩展：支持自定义对象变动说明、属性变动说明。支持更多对象属性类型的扩展。
 
-# 3 系统部署
+# 2 快速上手
 
-## 3.1 数据库部分部署
+## 2.1 创建数据库
 
-自备数据库。使用该项目的`/server/database/init_data_table.sql`文件初始化两个数据表。
+使用该项目的`/server/database/init_data_table.sql`文件初始化两个数据表。
 
-## 3.2 ObjectLogger系统部署
+## 2.2 启动Server
 
-1. 下载该git项目代码。
-2. 根据你的数据库种类、地址、密码等配置`/server/src/main/resources/application.properties`文件中的下面部分：
+下载该项目下最新的Server服务jar包，地址为`/server/target/ObjectLogger-*.jar`。
+
+启动下载的jar包。
+
 ```
-spring.datasource.driver-class-name ={db_driver}
-spring.datasource.url =jdbc:mysql://{your_mysql_address}/{your_database_name}
-spring.datasource.username ={your_database_username}
-spring.datasource.password ={your_database_password}
+java -jar ObjectLogger-*.jar --spring.datasource.driver-class-name={db_driver} --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
 ```
-3. 使用maven打包该项目的jar包。
-4. 获取`target`目录下的jar包，使用`java -jar ObjectLogger-1.0.1.jar`启动项目。项目默认端口`8080`。
 
-至此，已经可以可以通过对应接口访问该系统,如图：
+上述命令中的用户配置项说明如下：
+
+- `db_driver`:数据库驱动。如果使用MySql数据库则为`com.mysql.jdbc.Driver`;如果使用SqlServer数据库则为`com.microsoft.sqlserver.jdbc.SQLServerDriver`。
+- `db`:数据库类型。如果使用MySql数据库则为`mysql`;如果使用SqlServer数据库则为`sqlserver`。
+- `db_address`:数据库连接地址。如果数据库在本机则为`127.0.0.1`。
+- `db_name`:数据库名，该数据库中需包含上一步初始化的两个数据表。
+- `db_username`:数据库登录用户名。
+- `db_password`:数据库登录密码。
+
+系统服务地址为：
+
+```
+http://127.0.0.1:8080/ObjectLogger/
+```
+
+访问上述地址可以看到下面的欢迎界面：
 
 ![系统首页](./pic/100.jpg)
 
-## 3.3 业务系统配置
+至此，ObjectLogger系统已经搭建结束，可以接受业务系统的日志写入和查询操作。
 
-该部分主要讲解如何配置业务系统来实现将业务系统中的对象变化记录到ObjectLogger中。
+# 3 业务系统接入
 
-### 3.3.1 业务系统添加maven依赖
+该部分讲解如何配置业务系统来将业务系统中的对象变化记录到ObjectLogger中。
+
+## 3.1 引入依赖包
+
+在pom中增加下面的依赖：
 
 ```
 <dependency>
@@ -77,39 +84,47 @@ spring.datasource.password ={your_database_password}
 </dependency>
 ```
 
-### 3.3.2 添加对ObjectLoggerClient中提供的bean的扫描注入。
+## 3.2 添加对ObjectLoggerClient中bean的自动注入
 
-若业务应用为SpringBoot应用，则在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectLoggerClient`，如：
+### 3.2.1 对于SpringBoot应用
+
+在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectLoggerClient`，如：
+
 ```
 @SpringBootApplication
-@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectLoggerClient"})
+@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectLogger"})
 public class MyBootAppApplication {
-
 public static void main(String[] args) {
-    SpringApplication.run(MyBootAppApplication.class, args);
-}
+    // 省略其他代码
+  }
 }
 ```
+### 3.2.2 对于Spring应用
 
-若业务应用为Spring应用，则在`applicationContext.xml`增加对ObjectLoggerClient包地址的扫描：
+在`applicationContext.xml`增加对ObjectLoggerClient包地址的扫描：
+
 ```
 <context:component-scan base-package="com.github.yeecode.objectLoggerClient">
 </context:component-scan>
 ```
 
-### 3.3.3 添加对ObjectLoggerClient的配置
+## 3.3 完成配置
 
 在`application.properties`中增加:
 
 ```
-object.logger.add.log.api=http://{your_ObjectLogger_address}/ObjectLogger/log/add
+object.logger.add.log.api=http://{ObjectLogger_address}/ObjectLogger/log/add
 object.logger.appName={your_app_name}
 ```
 
-- `object.logger.add.log.api`属性指向上一步的ObjectLogger的部署地址，用于将业务系统的日志发送到那里。
-- `object.logger.appName`指明了当前业务系统的应用名以便于区分日志来源，实现同时支持多个业务系统
+- `ObjectLogger_address`:属性指向上一步的ObjectLogger的部署地址，例如：`127.0.0.1:8080`
+- `your_app_name`:指当前业务系统的应用名。以便于区分日志来源，实现同时支持多个业务系统
 
-### 3.3.4 声明一个扩展LocalTypeHandler的类，作为自由扩展的钩子
+## 3.4 声明扩展类
+
+声明一个Bean继承LocalTypeHandler，作为自由扩展的钩子。
+
+代码如下:
 
 ```
 @Service
@@ -122,15 +137,21 @@ public class LocalTypeHandlerBean implements LocalTypeHandler {
 }
 ```
 
-至此，整个系统部署结束。
 
-# 4 系统使用
+至此，业务系统的配置完成。已经实现了和ObjectLogger的Server端的对接。
 
-系统运行后，可以通过`/ObjectLogger/log/query`查询系统中记录的log，并通过传入参数对log进行过滤。
+# 4 日志查询
+
+系统运行后，可以通过`/ObjectLogger/log/query`查询系统中记录的日志，并通过传入参数对日志进行过滤。
 
 ![实例图片](./pic/api.gif)
 
-首先，业务系统在任何需要进行日志记录的类中引入`LogClient`。例如：
+通过这里，我们可以查询下一步中写入的日志。
+
+# 5 日志写入
+
+业务系统在任何需要进行日志记录的类中引入`LogClient`。例如：
+
 ```
 @Autowired
 private LogClient logClient;
@@ -139,6 +160,7 @@ private LogClient logClient;
 ## 4.1 简单使用
 
 直接将对象的零个、一个、多个属性变化放入`actionItemModelList`中发出即可。`actionItemModelList`置为`null`则表示此次对象无需要记录的属性变动。例如，业务应用中调用：
+
 ```
 logClient.sendLogForItems("TaskModel",5,"actor name","addTask","add Task","via web page","some comments",null);
 ```
@@ -281,7 +303,11 @@ private String description;
     - AttributeTypeEnum.NORMAL：记录属性的新值和旧值，对比值为null
     - AttributeTypeEnum.TEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
     - AttributeTypeEnum.LOCALTYPE：表明该字段由用户自定义处理，此时localType生效。
-- localType：当`type = AttributeTypeEnum.LOCALTYPE`时生效。此时，该字段如果新旧值不一样，则会传递到LocalTypeHandler的实现类中。例如，示例中`userId`字段交由实现类处理，代码如下：
+- localType：当`type = AttributeTypeEnum.LOCALTYPE`时生效。此时，该字段如果新旧值不一样，则会传递到LocalTypeHandler的实现类中。
+
+## 4.3 属性处理扩展 
+
+例如，示例中`userId`字段交由实现类处理，代码如下：
 
 ```
 @Service
