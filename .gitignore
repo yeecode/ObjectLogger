@@ -1,5 +1,7 @@
 HELP.md
-/target/
+/*/target/*
+/*/target/*
+!ObjectLogger*.jar
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
