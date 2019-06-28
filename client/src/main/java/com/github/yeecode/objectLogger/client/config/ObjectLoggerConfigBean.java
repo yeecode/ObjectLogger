@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.client.bean;
+package com.github.yeecode.objectLogger.client.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,6 +9,8 @@ public class ObjectLoggerConfigBean {
     private String appName;
     @Value("${object.logger.add.log.api}")
     private String addLogApi;
+    @Value("${object.logger.autoLog}")
+    private String autoLog;
 
     public String getAppName() {
         return appName;
@@ -24,5 +26,13 @@ public class ObjectLoggerConfigBean {
 
     public void setAddLogApi(String addLogApi) {
         this.addLogApi = addLogApi;
+    }
+
+    public String getAutoLog() {
+        return autoLog;
+    }
+
+    public void setAutoLog(String autoLog) {
+        this.autoLog = autoLog;
     }
 }

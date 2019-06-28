@@ -1,7 +1,8 @@
-package com.github.yeecode.objectLogger.client.bean;
+package com.github.yeecode.objectLogger.client.http;
 
 
 import com.alibaba.fastjson.JSON;
+import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +28,8 @@ public class HttpBean {
     public void sendLog(String jsonString) {
         try{
             Map<String,String> logParamMap = new HashMap<>();
-            logParamMap.put("logJsonString",jsonString);
+            logParamMap.put("logJsonString", URLEncoder.encode(jsonString, "utf-8"));
             String response = jsonPost(objectLoggerConfigBean.getAddLogApi(),logParamMap);
-            System.out.println(response);
         } catch (Exception ex) {
             LOGGER.error("sendLog error!", ex);
         }
@@ -45,7 +46,7 @@ public class HttpBean {
             connection.setInstanceFollowRedirects(true);
             connection.setRequestMethod("POST"); // 设置请求方式
             connection.setRequestProperty("Accept", "application/json"); // 设置接收数据的格式
-            connection.setRequestProperty("Content-Type", "application/json"); // 设置发送数据的格式
+            connection.setRequestProperty("Content-builtinType", "application/json"); // 设置发送数据的格式
             connection.connect();
             OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8"); // utf-8编码
             out.append(JSON.toJSONString(params));

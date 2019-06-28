@@ -1,10 +1,5 @@
-package com.github.yeecode.objectLogger.client.constant;
+package com.github.yeecode.objectLogger.client.richText;
 
-import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectLogger.client.bean.Html2Text;
-import com.github.yeecode.objectLogger.client.bean.LocalTypeHandler;
-import com.github.yeecode.objectLogger.client.model.ActionItemModel;
-import com.github.yeecode.objectLogger.client.service.LogClient;
 import difflib.Delta;
 import difflib.DiffRow;
 import difflib.DiffRowGenerator;
@@ -18,46 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public enum AttributeTypeEnum {
-    NORMAL {
-        @Override
-        public ActionItemModel handler(LocalTypeHandler localTypeHandler, String subLocalType, String oldValue, String newValue) {
-            ActionItemModel actionItemModel = new ActionItemModel();
-            actionItemModel.setOldValue(JSON.parseObject(oldValue,String.class));
-            actionItemModel.setNewValue(JSON.parseObject(newValue,String.class));
-            return actionItemModel;
-        }
-    },
-    TEXT {
-        @Override
-        public ActionItemModel handler(LocalTypeHandler localTypeHandler, String subLocalType, String oldValue, String newValue) {
-            String simpleOldValue = Html2Text.simpleHtml(JSON.parseObject(oldValue,String.class));
-            String simpleNewValue = Html2Text.simpleHtml(JSON.parseObject(newValue,String.class));
-            if (simpleOldValue == null || simpleNewValue == null || simpleOldValue.equals(simpleNewValue)) {
-                return null;
-            } else {
-                ActionItemModel actionItemModel = new ActionItemModel();
-                actionItemModel.setOldValue(oldValue);
-                actionItemModel.setNewValue(newValue);
-                actionItemModel.setDiffValue(diffText(oldValue, newValue));
-                return actionItemModel;
-            }
-        }
-    },
-    LOCALTYPE {
-        @Override
-        public ActionItemModel handler(LocalTypeHandler localTypeHandler, String subLocalType, String oldValue, String newValue) {
-            if (subLocalType == null) {
-                return null;
-            } else {
-                return localTypeHandler.handleLocalType(subLocalType, oldValue, newValue);
-            }
-        }
-    };
-
-    private static LogClient LogClient = new LogClient();
-
-    public abstract ActionItemModel handler(LocalTypeHandler localTypeHandler, String subLocalType, String oldValue, String newValue);
+public class RichTextHandler {
+    private RichTextHandler() {
+    }
 
     /**
      * 对比两个 text对象，或者html片段的不同，生成类似于gitDiff的html片段
@@ -66,7 +24,7 @@ public enum AttributeTypeEnum {
      * @param newText 新值
      * @return 类似于gitDiff的html片段
      */
-    public String diffText(String oldText, String newText) {
+    public static String diffText(String oldText, String newText) {
         StringBuilder outputSb = new StringBuilder();
 
         List<String> oldStringList = CollectionUtils.arrayToList(Html2Text.simpleHtml(oldText).split("\n"));
@@ -128,7 +86,7 @@ public enum AttributeTypeEnum {
         return outputSb.toString();
     }
 
-    private String replaceImgTag(String s) {
+    private static String replaceImgTag(String s) {
         return s.replaceAll("【【-START_IMG-】】", "<img ").replaceAll("【【-END_IMG-】】", " >");
     }
 }

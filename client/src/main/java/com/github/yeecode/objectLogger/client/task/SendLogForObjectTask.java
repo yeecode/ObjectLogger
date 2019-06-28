@@ -1,20 +1,20 @@
 package com.github.yeecode.objectLogger.client.task;
 
 import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectLogger.client.annotation.LogDescription;
-import com.github.yeecode.objectLogger.client.bean.ObjectLoggerConfigBean;
-import com.github.yeecode.objectLogger.client.bean.HttpBean;
-import com.github.yeecode.objectLogger.client.bean.LocalTypeHandler;
-import com.github.yeecode.objectLogger.client.constant.AttributeTypeEnum;
+import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
+import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
+import com.github.yeecode.objectLogger.client.http.HttpBean;
 import com.github.yeecode.objectLogger.client.model.ActionItemModel;
 import com.github.yeecode.objectLogger.client.model.ActionModel;
+import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
+import com.github.yeecode.objectLogger.client.wrapper.FieldWrapper;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.Date;
 
 public class SendLogForObjectTask implements Runnable {
-    private LocalTypeHandler localTypeHandler;
+    private BaseExtendedTypeHandler baseExtendedTypeHandler;
     private Integer objectId;
     private String actor;
     private String action;
@@ -30,7 +30,7 @@ public class SendLogForObjectTask implements Runnable {
     public SendLogForObjectTask(Integer objectId, String actor, String action, String actionName,
                                 String extraWords, String comment,
                                 Object oldObject, Object newObject, ObjectLoggerConfigBean objectLoggerConfigBean,
-                                HttpBean httpBean, LocalTypeHandler localTypeHandler) {
+                                HttpBean httpBean, BaseExtendedTypeHandler baseExtendedTypeHandler) {
         this.objectId = objectId;
         this.actor = actor;
         this.action = action;
@@ -41,7 +41,7 @@ public class SendLogForObjectTask implements Runnable {
         this.newObject = newObject;
         this.objectLoggerConfigBean = objectLoggerConfigBean;
         this.httpBean = httpBean;
-        this.localTypeHandler = localTypeHandler;
+        this.baseExtendedTypeHandler = baseExtendedTypeHandler;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SendLogForObjectTask implements Runnable {
         try {
             // 基本Action
             ActionModel actionModel = new ActionModel(objectLoggerConfigBean.getAppName(), oldObject.getClass().getSimpleName(),
-                    objectId,actor,action,actionName,extraWords,comment,new Date());
+                    objectId, actor, action, actionName, extraWords, comment, new Date());
 
             // Action中的attributes
             Class modelClazz = newObject.getClass();
@@ -57,31 +57,20 @@ public class SendLogForObjectTask implements Runnable {
             if (oldModelClazz.equals(modelClazz)) {
                 Field[] fields = modelClazz.getDeclaredFields();
                 for (Field field : fields) {
-                    LogDescription logDescription = field.getAnnotation(LogDescription.class);
-                    if (logDescription != null) {
+                    field.setAccessible(true);
+                    FieldWrapper fieldWrapper = new FieldWrapper(field, field.get(oldObject), field.get(newObject));
+                    if (fieldWrapper.isWithLogTag()) {
                         // 对于不存在LogDescription注解的字段，直接忽略不处理
-                        field.setAccessible(true);
-                        String oldValue = field.get(oldObject) != null ? JSON.toJSONString(field.get(oldObject)) : JSON.toJSONString("");
-                        String newValue = field.get(newObject) != null ? JSON.toJSONString(field.get(newObject)) : JSON.toJSONString("");
+                        if (!fieldWrapper.getOldValue().equals(fieldWrapper.getNewValue())) {
+                            BaseActionItemModel baseActionItemModel;
+                            if (fieldWrapper.isWithExtendedType()) {
+                                baseActionItemModel = handleExtendedTypeItem(fieldWrapper);
+                            } else {
+                                baseActionItemModel = handleBuiltinTypeItem(fieldWrapper);
+                            }
 
-                        if (!oldValue.equals(newValue)) {
-                            ActionItemModel actionItemModel = new ActionItemModel();
-
-                            String attribute = field.getName();
-                            actionItemModel.setAttribute(attribute);
-                            actionItemModel.setAttributeName(logDescription.name().length() == 0
-                                    ? attribute : logDescription.name());
-
-                            ActionItemModel handlerOutput = logDescription.type().handler(localTypeHandler, logDescription.localType(), oldValue, newValue);
-                            if (handlerOutput != null) {
-                                actionItemModel.setOldValue(handlerOutput.getOldValue());
-                                actionItemModel.setNewValue(handlerOutput.getNewValue());
-                                actionItemModel.setDiffValue(handlerOutput.getDiffValue());
-                                actionItemModel.setAttributeType(
-                                        logDescription.type().equals(AttributeTypeEnum.LOCALTYPE) ?
-                                                logDescription.localType() : logDescription.type().name());
-
-                                actionModel.getActionItemModelList().add(actionItemModel);
+                            if (baseActionItemModel != null) {
+                                actionModel.getActionItemModelList().add((ActionItemModel) baseActionItemModel);
                             }
                         }
                     }
@@ -93,5 +82,44 @@ public class SendLogForObjectTask implements Runnable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private BaseActionItemModel handleBuiltinTypeItem(FieldWrapper fieldWrapper) {
+        BaseActionItemModel handlerOutput = fieldWrapper.getLogTag().builtinType().handlerAttributeChange(fieldWrapper);
+        if (handlerOutput != null) {
+            BaseActionItemModel baseActionItemModel = new ActionItemModel();
+            // 固定值
+            baseActionItemModel.setAttribute(fieldWrapper.getAttributeName());
+            baseActionItemModel.setAttributeName(fieldWrapper.getDisplayName());
+            baseActionItemModel.setAttributeType(fieldWrapper.getLogTag().builtinType().name());
+            // 自定义类型返回的值
+            baseActionItemModel.setOldValue(handlerOutput.getOldValue());
+            baseActionItemModel.setNewValue(handlerOutput.getNewValue());
+            baseActionItemModel.setDiffValue(handlerOutput.getDiffValue());
+            return baseActionItemModel;
+        } else {
+            return null;
+        }
+    }
+
+    private BaseActionItemModel handleExtendedTypeItem(FieldWrapper fieldWrapper) {
+        BaseActionItemModel baseActionItemModel = baseExtendedTypeHandler.handleAttributeChange(
+                fieldWrapper.getAttributeName(),
+                fieldWrapper.getLogTagName(),
+                fieldWrapper.getOldValue(),
+                fieldWrapper.getNewValue()
+        );
+
+        if (baseActionItemModel.getAttributeType() == null) {
+            baseActionItemModel.setAttributeType(fieldWrapper.getExtendedType());
+        }
+        if (baseActionItemModel.getAttribute() == null) {
+            baseActionItemModel.setAttribute(fieldWrapper.getAttributeName());
+        }
+        if (baseActionItemModel.getAttributeName() == null) {
+            baseActionItemModel.setAttributeName(fieldWrapper.getDisplayName());
+        }
+
+        return baseActionItemModel;
     }
 }

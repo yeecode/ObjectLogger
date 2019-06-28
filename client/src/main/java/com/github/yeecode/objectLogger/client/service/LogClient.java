@@ -1,8 +1,8 @@
 package com.github.yeecode.objectLogger.client.service;
 
-import com.github.yeecode.objectLogger.client.bean.ObjectLoggerConfigBean;
-import com.github.yeecode.objectLogger.client.bean.HttpBean;
-import com.github.yeecode.objectLogger.client.bean.LocalTypeHandler;
+import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
+import com.github.yeecode.objectLogger.client.http.HttpBean;
+import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
 import com.github.yeecode.objectLogger.client.model.ActionItemModel;
 import com.github.yeecode.objectLogger.client.task.SendLogForObjectTask;
 import com.github.yeecode.objectLogger.client.task.SendLogForItemsTask;
@@ -19,15 +19,15 @@ public class LogClient {
     private ObjectLoggerConfigBean objectLoggerConfigBean;
     @Autowired
     private HttpBean httpBean;
-    @Autowired
-    private LocalTypeHandler localTypeHandler;
+    @Autowired(required = false)
+    private BaseExtendedTypeHandler baseExtendedTypeHandler;
 
     private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
 
 
     /**
      * Auto diff old/new object and write one log
-     * Attention: the attributes be diffed must with @LogDescription
+     * Attention: the attributes be diffed must with @LogTag
      *
      * @param objectId   required,objectId
      * @param actor      required,actor
@@ -43,7 +43,7 @@ public class LogClient {
                                  Object oldObject, Object newObject) {
         try {
             SendLogForObjectTask sendLogForObjectTask = new SendLogForObjectTask(objectId, actor, action, actionName,
-                    extraWords, comment, oldObject, newObject, objectLoggerConfigBean, httpBean, localTypeHandler);
+                    extraWords, comment, oldObject, newObject, objectLoggerConfigBean, httpBean, baseExtendedTypeHandler);
             fixedThreadPool.execute(sendLogForObjectTask);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -53,7 +53,7 @@ public class LogClient {
 
 
     /**
-     * simple write one log
+     * Write log with items
      *
      * @param objectName           required,the object name
      * @param objectId             required,the object id

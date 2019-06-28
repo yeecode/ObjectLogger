@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.client.bean;
+package com.github.yeecode.objectLogger.client.richText;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
