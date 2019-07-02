@@ -1,12 +1,10 @@
 package com.github.yeecode.objectLogger.client.task;
 
 import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectLogger.client.annotation.LogTag;
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
 import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
 import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
 import com.github.yeecode.objectLogger.client.http.HttpBean;
-import com.github.yeecode.objectLogger.client.model.ActionItemModel;
 import com.github.yeecode.objectLogger.client.model.ActionModel;
 import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
 import com.github.yeecode.objectLogger.client.wrapper.FieldWrapper;
@@ -106,6 +104,7 @@ public class SendLogForObjectTask implements Runnable {
 
     private BaseActionItemModel handleExtendedTypeItem(FieldWrapper fieldWrapper) {
         BaseActionItemModel baseActionItemModel = baseExtendedTypeHandler.handleAttributeChange(
+                fieldWrapper.getExtendedType(),
                 fieldWrapper.getAttributeName(),
                 fieldWrapper.getLogTagName(),
                 fieldWrapper.getOldValue(),

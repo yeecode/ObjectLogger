@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface BaseExtendedTypeHandler {
-    BaseActionItemModel handleAttributeChange(String attributeName, String logTagName, Object oldValue, Object newValue);
+    BaseActionItemModel handleAttributeChange(String extendedType, String attributeName, String logTagName, Object oldValue, Object newValue);
 }

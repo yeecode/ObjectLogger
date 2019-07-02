@@ -4,6 +4,9 @@ public class ActionItemModel extends BaseActionItemModel {
     private Integer id;
     private Integer actionId;
 
+    public ActionItemModel() {
+    }
+
     public ActionItemModel(BaseActionItemModel baseActionItemModel) {
         this.setAttributeType(baseActionItemModel.getAttributeType());
         this.setAttribute(baseActionItemModel.getAttribute());

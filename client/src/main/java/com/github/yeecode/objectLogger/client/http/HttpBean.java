@@ -1,19 +1,25 @@
 package com.github.yeecode.objectLogger.client.http;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class HttpBean {
@@ -24,54 +30,37 @@ public class HttpBean {
 
     public synchronized void sendLog(String jsonString) {
         try {
-            Map<String, Object> logParamMap = new HashMap<>();
-            logParamMap.put("logJsonString", jsonString);
-            String response = sendPost(objectLoggerConfigBean.getAddLogApi(), logParamMap, "utf-8");
+            List<NameValuePair> paramsList = new ArrayList<>();
+            paramsList.add(new BasicNameValuePair("logJsonString", jsonString));
+            String response = sendPost(objectLoggerConfigBean.getAddLogApi(), paramsList);
         } catch (Exception ex) {
             LOGGER.error("sendLog error!", ex);
         }
     }
 
-
-    private String sendPost(String urlParam, Map<String, Object> params, String charset) {
-        StringBuffer resultBuffer = null;
-        // 构建请求参数
-        StringBuffer sbParams = new StringBuffer();
-        if (params != null && params.size() > 0) {
-            for (Map.Entry<String, Object> e : params.entrySet()) {
-                sbParams.append(e.getKey());
-                sbParams.append("=");
-                sbParams.append(e.getValue());
-                sbParams.append("&");
-            }
-        }
-        HttpURLConnection con = null;
-        // 发送请求
+    private synchronized String sendPost(String url, List<NameValuePair> nameValuePairList) throws Exception {
+        JSONObject jsonObject = null;
+        CloseableHttpClient client = null;
+        CloseableHttpResponse response = null;
         try {
-            URL url = new URL(urlParam);
-            con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setUseCaches(false);
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            if (sbParams.length() > 0) {
-                try (OutputStreamWriter osw = new OutputStreamWriter(con.getOutputStream(), charset)) {
-                    osw.write(sbParams.substring(0, sbParams.length() - 1));
-                    osw.flush();
-                }
-            }
-            // 读取返回内容
-            resultBuffer = new StringBuffer();
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset))) {
-                String temp;
-                while ((temp = br.readLine()) != null) {
-                    resultBuffer.append(temp);
-                }
+            client = HttpClients.createDefault();
+            HttpPost post = new HttpPost(url);
+            StringEntity entity = new UrlEncodedFormEntity(nameValuePairList, "UTF-8");
+            post.setEntity(entity);
+            post.setHeader(new BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8"));
+            post.setHeader(new BasicHeader("Accept", "text/plain;charset=utf-8"));
+            response = client.execute(post);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (200 == statusCode) {
+                String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+                return result;
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            LOGGER.error("send post error", e);
+        } finally {
+            response.close();
+            client.close();
         }
-        return resultBuffer.toString();
+        return null;
     }
 }

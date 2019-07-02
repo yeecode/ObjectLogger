@@ -56,7 +56,7 @@ java -jar ObjectLogger-*.jar --spring.datasource.driver-class-name={db_driver} -
 - `db_username`:数据库登录用户名。
 - `db_password`:数据库登录密码。
 
-系统服务地址为：
+启动jar包后，系统默认的服务地址为：
 
 ```
 http://127.0.0.1:8080/ObjectLogger/
@@ -80,7 +80,7 @@ http://127.0.0.1:8080/ObjectLogger/
 <dependency>
     <groupId>com.github.yeecode.objectLogger</groupId>
     <artifactId>ObjectLoggerClient</artifactId>
-    <version>1.0.4</version>
+    <version>{最新版本}</version>
 </dependency>
 ```
 
@@ -115,28 +115,12 @@ public static void main(String[] args) {
 ```
 object.logger.add.log.api=http://{ObjectLogger_address}/ObjectLogger/log/add
 object.logger.appName={your_app_name}
+object.logger.autoLog=true
 ```
 
 - `ObjectLogger_address`:属性指向上一步的ObjectLogger的部署地址，例如：`127.0.0.1:8080`
 - `your_app_name`:指当前业务系统的应用名。以便于区分日志来源，实现同时支持多个业务系统
-
-## 3.4 声明扩展类
-
-声明一个Bean继承LocalTypeHandler，作为自由扩展的钩子。
-
-代码如下:
-
-```
-@Service
-public class LocalTypeHandlerBean implements LocalTypeHandler {
-
-    @Override
-    public ActionItemModel handleLocalType(String subLocalType, String oldValue, String newValue) {
-        return null;
-    }
-}
-```
-
+- `object.logger.autoLog`:是否对对象的所有属性进行变更日志记录
 
 至此，业务系统的配置完成。已经实现了和ObjectLogger的Server端的对接。
 
@@ -157,7 +141,7 @@ public class LocalTypeHandlerBean implements LocalTypeHandler {
 private LogClient logClient;
 ```
 
-## 4.1 简单使用
+## 5.1 简单使用
 
 直接将对象的零个、一个、多个属性变化放入`actionItemModelList`中发出即可。`actionItemModelList`置为`null`则表示此次对象无需要记录的属性变动。例如，业务应用中调用：
 
@@ -193,7 +177,7 @@ http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=myBootApp&obje
 }
 ```
 
-## 4.2 对象变动自动记录
+## 5.2 对象变动自动记录
 
 该功能可以自动完成新老对象的对比，并根据对比结果，将多个属性变动一起写入日志系统中。使用时，要确保传入的新老对象属于同一个类。
 
@@ -281,52 +265,93 @@ http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=myBootApp&obje
 }
 ```
 
-对象属性的自动对比需要`@LogDescription`注解的支持。对于对象中未加注解的属性会自动跳过对比。
+# 6 对象属性过滤
 
-例如，本次示例中的注解配置如下：
+有些对象的属性的变动不需要进行日志记录，例如`updateTime`、`hashCode`等。ObjectLogger支持对对象的属性进行过滤，只追踪我们感兴趣的属性。
+
+并且，对于每个属性我们可以更改其记录到ObjectLogger系统中的具体方式，例如修改命名等。
+
+要想启用这个功能，首先将配置中的`object.logger.autoLog`改为`false`。
 
 ```
-@LogDescription(name = "TASK")
+object.logger.autoLog=false
+```
+
+然后在需要进行变化日志记录的属性上增加`@LogTag`注解。凡是没有增加该注解的属性在日志记录时会被自动跳过。
+
+例如，注解配置如下则`id`字段的变动将被忽略。
+
+```
+private Integer id;
+
+@LogTag(name = "TaskName")
 private String taskName;
 
-@LogDescription(name = "USER",type = AttributeTypeEnum.LOCALTYPE,localType = LocalTypeHandlerBean.USERID)
-private Integer userId;
+@LogTag(name = "UserId", extendedType = "userIdType")
+private int userId;
 
-@LogDescription(name = "DESCRIPTION",type = AttributeTypeEnum.TEXT)
+@LogTag(name = "Description", builtinType = BuiltinTypeHandler.TEXT)
 private String description;
 ```
 
 该注解属性介绍如下：
 
 - name:必填，对应写入日志后的`attributeName`值。
-- type：为AttributeTypeEnum的值，默认为`AttributeTypeEnum.NORMAL`。
-    - AttributeTypeEnum.NORMAL：记录属性的新值和旧值，对比值为null
-    - AttributeTypeEnum.TEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
-    - AttributeTypeEnum.LOCALTYPE：表明该字段由用户自定义处理，此时localType生效。
-- localType：当`type = AttributeTypeEnum.LOCALTYPE`时生效。此时，该字段如果新旧值不一样，则会传递到LocalTypeHandler的实现类中。
+- builtinType：ObjectLogger的内置类型，为BuiltinTypeHandler的值。默认为`BuiltinTypeHandler.NORMAL`。
+    - BuiltinTypeHandler.NORMAL：记录属性的新值和旧值，对比值为null
+    - BuiltinTypeHandler.TEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
+- extendedType：扩展属性类型。使用ObjcetLogger时，用户可以扩展某些字段的处理方式。
 
-## 4.3 属性处理扩展 
+# 7 属性处理扩展
 
-例如，示例中`userId`字段交由实现类处理，代码如下：
+很多情况下，用户希望能够自主决定某些对象属性的处理方式。例如，对于例子中`Task`对象的`userId`属性，用户可能想将其转化为姓名后存入日志系统，从而使得日志系统与`userId`完全解耦。
+
+ObjectLogger完全支持这种情况，可以让用户自主决定某些属性的日志记录方式。要想实现这种功能，首先在需要进行扩展处理的属性上为`@LogTag`的`extendedType`属性赋予一个字符串值。例如：
+
+```
+@LogTag(name = "UserId", extendedType = "userIdType")
+    private int userId;
+```
+
+然后在业务系统中声明一个Bean继承BaseExtendedTypeHandler，作为自由扩展的钩子。代码如下:
 
 ```
 @Service
-public class LocalTypeHandlerBean implements LocalTypeHandler {
-
-    public static final String USERID = "USERID";
-
+public class ExtendedTypeHandler extends BaseExtendedTypeHandler {
     @Override
-    public ActionItemModel handleLocalType(String subLocalType, String oldValue, String newValue) {
-        ActionItemModel logActionItemModel = new ActionItemModel();
-
-        if (subLocalType.equals(USERID)) {
-            logActionItemModel.setNewValue("USER:" + newValue);
-            logActionItemModel.setOldValue("USER:" + oldValue);
-            logActionItemModel.setDiffValue("diffValue");
-        } else {
-            logActionItemModel = null;
-        }
-        return logActionItemModel;
+    public BaseActionItemModel handleAttributeChange(String attributeName, String logTagName, Object oldValue, Object newValue) {
+        return null;
     }
 }
 ```
+
+接下来，当ObjectLogger处理到该属性时，会将该属性的相关信息传入到扩展Bean的`handleAttributeChange`方法中，然后用户可以自行处理。传入的四个参数解释如下：
+
+- `extendedType`：扩展类型值，即`@LogTag`注解的`extendedType`值。本示例中为`userIdType`。
+- `attributeName`：属性名。本示例中为`userId`。
+- `logTagName`：`@LogTag`注解的`name`值，可能为null。本示例中为`UserId`。
+- `oldValue`：该属性的旧值。
+- `newValue`：该属性的新值。
+
+例如我们可以采用如下的方式处理`userIdType`属性：
+
+```
+public BaseActionItemModel handleAttributeChange(String extendedType, String attributeName, String logTagName, Object oldValue, Object newValue) {
+    BaseActionItemModel baseActionItemModel = new BaseActionItemModel();
+    if (extendedType.equals("userIdType")) {
+        baseActionItemModel.setOldValue("USER_" + oldValue);
+        baseActionItemModel.setNewValue("USER_" + newValue);
+        baseActionItemModel.setDiffValue(oldValue + "->" + newValue);
+    }
+    return baseActionItemModel;
+}
+```
+
+## 8 ReleaseNotes
+
+1.0.0：实现基本功能
+2.0.0：重新组织代码结构
+2.0.1：日志写入支持多线程
+2.2.0：增加全局对象属性变动自动记录功能
+TODO：增加对继承属性的自动记录功能
+TODO：增加对象深度镜像功能

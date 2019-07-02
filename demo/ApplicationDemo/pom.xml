@@ -11,7 +11,7 @@
 	<groupId>com.github.yeecode.objectLogger</groupId>
 	<artifactId>ApplicationDemo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ApplicationDemo</name>
+	<taskName>ApplicationDemo</taskName>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

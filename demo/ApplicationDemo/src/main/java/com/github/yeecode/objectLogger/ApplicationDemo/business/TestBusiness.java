@@ -1,6 +1,6 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.business;
 
-import com.github.yeecode.objectLogger.ApplicationDemo.model.Student;
+import com.github.yeecode.objectLogger.ApplicationDemo.model.Task;
 import com.github.yeecode.objectLogger.client.service.LogClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,21 +14,21 @@ public class TestBusiness {
 
     @RequestMapping(value = "/")
     public String main() {
-        Student oldStudent = new Student();
-        oldStudent.setId(8);
-        oldStudent.setName("Tom");
-        oldStudent.setSchoolName("Tomorrow School");
-        oldStudent.setGrade(6);
-        oldStudent.setAge(10);
+        Task oldTask = new Task();
+        oldTask.setId(8);
+        oldTask.setTaskName("Old Task");
+        oldTask.setUserId(15);
+        oldTask.setDescription("This is a task\n" +
+                "some works should be down.");
 
-        Student newStudent = new Student();
-        newStudent.setId(8);
-        newStudent.setName("Tom A");
-        newStudent.setSchoolName("AA School");
-        newStudent.setGrade(1);
-        newStudent.setAge(11);
+        Task newTask = new Task();
+        newTask.setId(8);
+        newTask.setTaskName("New Task");
+        newTask.setUserId(17);
+        newTask.setDescription("This is a task\n" +
+                "more works should be down.");
 
-        logClient.sendLogForObject(8, "Licy", "doTest", "Test", null, null, oldStudent, newStudent);
+        logClient.sendLogForObject(8, "Licy", "doTest", "Test", null, null, oldTask, newTask);
 
         return "success";
     }
