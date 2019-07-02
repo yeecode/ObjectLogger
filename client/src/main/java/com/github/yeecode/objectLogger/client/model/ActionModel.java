@@ -34,6 +34,11 @@ public class ActionModel {
         this.actionTime = actionTime;
     }
 
+    public void addBaseActionItemModel(BaseActionItemModel baseActionItemModel){
+        ActionItemModel actionItemModel = new ActionItemModel(baseActionItemModel);
+        this.getActionItemModelList().add(actionItemModel);
+    }
+
     public Integer getId() {
         return id;
     }

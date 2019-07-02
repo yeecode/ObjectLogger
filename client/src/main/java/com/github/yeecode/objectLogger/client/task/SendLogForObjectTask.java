@@ -1,8 +1,10 @@
 package com.github.yeecode.objectLogger.client.task;
 
 import com.alibaba.fastjson.JSON;
+import com.github.yeecode.objectLogger.client.annotation.LogTag;
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
 import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
+import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
 import com.github.yeecode.objectLogger.client.http.HttpBean;
 import com.github.yeecode.objectLogger.client.model.ActionItemModel;
 import com.github.yeecode.objectLogger.client.model.ActionModel;
@@ -59,8 +61,7 @@ public class SendLogForObjectTask implements Runnable {
                 for (Field field : fields) {
                     field.setAccessible(true);
                     FieldWrapper fieldWrapper = new FieldWrapper(field, field.get(oldObject), field.get(newObject));
-                    if (fieldWrapper.isWithLogTag()) {
-                        // 对于不存在LogDescription注解的字段，直接忽略不处理
+                    if (fieldWrapper.isWithLogTag() || "true".equals(objectLoggerConfigBean.getAutoLog())) {
                         if (!fieldWrapper.getOldValue().equals(fieldWrapper.getNewValue())) {
                             BaseActionItemModel baseActionItemModel;
                             if (fieldWrapper.isWithExtendedType()) {
@@ -70,7 +71,7 @@ public class SendLogForObjectTask implements Runnable {
                             }
 
                             if (baseActionItemModel != null) {
-                                actionModel.getActionItemModelList().add((ActionItemModel) baseActionItemModel);
+                                actionModel.addBaseActionItemModel(baseActionItemModel);
                             }
                         }
                     }
@@ -85,18 +86,19 @@ public class SendLogForObjectTask implements Runnable {
     }
 
     private BaseActionItemModel handleBuiltinTypeItem(FieldWrapper fieldWrapper) {
-        BaseActionItemModel handlerOutput = fieldWrapper.getLogTag().builtinType().handlerAttributeChange(fieldWrapper);
+        BuiltinTypeHandler builtinType = BuiltinTypeHandler.NORMAL;
+        if (fieldWrapper.getLogTag() != null) {
+            builtinType = fieldWrapper.getLogTag().builtinType();
+        }
+
+        BaseActionItemModel handlerOutput = builtinType.handlerAttributeChange(fieldWrapper);
+
         if (handlerOutput != null) {
-            BaseActionItemModel baseActionItemModel = new ActionItemModel();
             // 固定值
-            baseActionItemModel.setAttribute(fieldWrapper.getAttributeName());
-            baseActionItemModel.setAttributeName(fieldWrapper.getDisplayName());
-            baseActionItemModel.setAttributeType(fieldWrapper.getLogTag().builtinType().name());
-            // 自定义类型返回的值
-            baseActionItemModel.setOldValue(handlerOutput.getOldValue());
-            baseActionItemModel.setNewValue(handlerOutput.getNewValue());
-            baseActionItemModel.setDiffValue(handlerOutput.getDiffValue());
-            return baseActionItemModel;
+            handlerOutput.setAttribute(fieldWrapper.getAttributeName());
+            handlerOutput.setAttributeName(fieldWrapper.getDisplayName());
+            handlerOutput.setAttributeType(builtinType.name());
+            return handlerOutput;
         } else {
             return null;
         }

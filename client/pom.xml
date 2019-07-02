@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.github.yeecode.objectLogger</groupId>
     <artifactId>ObjectLoggerClient</artifactId>
-    <version>2.0.1</version>
+    <version>2.2.0</version>
     <name>ObjectLoggerClient</name>
     <url>https://github.com/yeecode/ObjectLoggerClient</url>
     <licenses>

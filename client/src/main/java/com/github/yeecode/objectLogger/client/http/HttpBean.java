@@ -26,14 +26,14 @@ public class HttpBean {
         try {
             Map<String, Object> logParamMap = new HashMap<>();
             logParamMap.put("logJsonString", jsonString);
-            sendPost(objectLoggerConfigBean.getAddLogApi(), logParamMap, "utf-8");
+            String response = sendPost(objectLoggerConfigBean.getAddLogApi(), logParamMap, "utf-8");
         } catch (Exception ex) {
             LOGGER.error("sendLog error!", ex);
         }
     }
 
 
-    private synchronized String sendPost(String urlParam, Map<String, Object> params, String charset) {
+    private String sendPost(String urlParam, Map<String, Object> params, String charset) {
         StringBuffer resultBuffer = null;
         // 构建请求参数
         StringBuffer sbParams = new StringBuffer();
@@ -63,15 +63,11 @@ public class HttpBean {
             }
             // 读取返回内容
             resultBuffer = new StringBuffer();
-            int contentLength = Integer.parseInt(con.getHeaderField("Content-Length"));
-            if (contentLength > 0) {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset))) {
-                    String temp;
-                    while ((temp = br.readLine()) != null) {
-                        resultBuffer.append(temp);
-                    }
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset))) {
+                String temp;
+                while ((temp = br.readLine()) != null) {
+                    resultBuffer.append(temp);
                 }
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

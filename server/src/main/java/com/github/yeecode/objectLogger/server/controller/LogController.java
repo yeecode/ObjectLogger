@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@ResponseBody
 @RequestMapping("/log")
 public class LogController {
     @Autowired

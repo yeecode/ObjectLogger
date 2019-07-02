@@ -23,12 +23,12 @@ public class TestBusiness {
 
         Student newStudent = new Student();
         newStudent.setId(8);
-        newStudent.setName("Tom");
+        newStudent.setName("Tom A");
         newStudent.setSchoolName("AA School");
         newStudent.setGrade(1);
         newStudent.setAge(11);
 
-        logClient.sendLogForObject(5, "Licy", "doTest", "Test", null, null, oldStudent, newStudent);
+        logClient.sendLogForObject(8, "Licy", "doTest", "Test", null, null, oldStudent, newStudent);
 
         return "success";
     }

@@ -27,7 +27,7 @@ public class FieldWrapper {
         this.logTag = field.getAnnotation(LogTag.class);
         this.withLogTag = logTag != null;
         this.logTagName = (withLogTag && logTag.name().length() != 0) ? logTag.name() : null;
-        this.displayName = logTagName != null ? logTag.name() : attributeName;
+        this.displayName = logTagName != null ? logTagName : attributeName;
         this.withExtendedType = withLogTag && logTag.extendedType().length() != 0;
         this.extendedType = withExtendedType ? logTag.extendedType() : null;
     }

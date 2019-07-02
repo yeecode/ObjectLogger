@@ -4,7 +4,6 @@ import com.github.yeecode.objectLogger.client.annotation.LogTag;
 
 public class Person {
     private Integer id;
-    @LogTag(name = "Person Name")
     private String name;
     @LogTag(name = "Age")
     private int age;

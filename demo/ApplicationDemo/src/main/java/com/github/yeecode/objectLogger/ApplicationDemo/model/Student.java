@@ -5,7 +5,6 @@ import com.github.yeecode.objectLogger.client.annotation.LogTag;
 public class Student extends Person {
     @LogTag(name = "School Name")
     private String schoolName;
-    @LogTag(name = "Grade")
     private Integer grade;
 
     public String getSchoolName() {
