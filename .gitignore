@@ -1,4 +1,5 @@
 HELP.md
+!ObjectLogger*.jar
 /*/target/*
 !ObjectLogger*.jar
 !*/*.mvn/wrapper/maven-wrapper.jar
