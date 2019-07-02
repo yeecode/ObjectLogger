@@ -297,9 +297,7 @@ private String description;
 ```
 
 - name:The attribute name to display.
-- builtinType：Built-in type of ObjectLogger, which form the BuiltinTypeHandler enum. 
-默认值为
-The default value is `BuiltinTypeHandler.NORMAL`.
+- builtinType：Built-in type of ObjectLogger, which form the BuiltinTypeHandler enum. The default value is `BuiltinTypeHandler.NORMAL`.
     - BuiltinTypeHandler.NORMAL：Record the new and old values.
     - BuiltinTypeHandler.TEXT: Line-by-line comparison of rich text differences.
 - extendedType：Extend attribute types. Users can extend the processing of certain fields.

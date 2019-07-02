@@ -317,7 +317,7 @@ ObjectLogger完全支持这种情况，可以让用户自主决定某些属性�
 
 ```
 @Service
-public class ExtendedTypeHandler extends BaseExtendedTypeHandler {
+public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
     @Override
     public BaseActionItemModel handleAttributeChange(String attributeName, String logTagName, Object oldValue, Object newValue) {
         return null;
