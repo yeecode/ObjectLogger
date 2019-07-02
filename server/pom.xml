@@ -12,7 +12,7 @@
 	<artifactId>ObjectLogger</artifactId>
 	<version>1.0.1</version>
 	<name>ObjectLogger</name>
-	<description>The simple and easy-to-use object log system, supports writing and querying of object attribute changes.</description>
+	<description>The powerful and easy-to-use object log system, supports writing and querying of object attribute changes.</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.github.yeecode.objectLogger</groupId>
 			<artifactId>ObjectLoggerClient</artifactId>
-			<version>1.0.4</version>
+			<version>2.0.1</version>
 		</dependency>
 	</dependencies>
 

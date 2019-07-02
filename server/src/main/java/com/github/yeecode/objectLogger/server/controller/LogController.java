@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
+@ResponseBody
 @RequestMapping("/log")
 public class LogController {
     @Autowired
     private LogBusiness logBusiness;
 
     @RequestMapping(value = "/add")
-    public Map<String, Object> add(@RequestBody AddLogForm addLogForm) {
-        return logBusiness.add(addLogForm);
+    public Map<String, Object> add(String logJsonString) {
+        return logBusiness.add(logJsonString);
     }
 
     @RequestMapping(value = "/query")

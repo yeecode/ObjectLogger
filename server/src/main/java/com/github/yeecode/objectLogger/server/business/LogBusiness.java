@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +31,9 @@ public class LogBusiness {
     @Autowired
     private LogActionItemDao logActionItemDao;
 
-    public Map<String, Object> add(AddLogForm addLogForm) {
+    public Map<String, Object> add(String logJsonString) {
         try {
-            String logJsonString = addLogForm.getLogJsonString();
+//            String decodedLogJsonString = URLDecoder.decode(logJsonString,"utf-8");
 
             ActionModel actionModel = logServer.resolveActionModel(logJsonString);
             logActionDao.add(actionModel);
