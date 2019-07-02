@@ -7,7 +7,6 @@ import com.github.yeecode.objectLogger.server.constant.RespConstant;
 import com.github.yeecode.objectLogger.server.dao.LogActionDao;
 import com.github.yeecode.objectLogger.server.dao.LogActionItemDao;
 import com.github.yeecode.objectLogger.server.form.ActionForm;
-import com.github.yeecode.objectLogger.server.form.AddLogForm;
 import com.github.yeecode.objectLogger.server.util.RespUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +30,6 @@ public class LogBusiness {
 
     public Map<String, Object> add(String logJsonString) {
         try {
-//            String decodedLogJsonString = URLDecoder.decode(logJsonString,"utf-8");
-
             ActionModel actionModel = logServer.resolveActionModel(logJsonString);
             logActionDao.add(actionModel);
             Integer logActionId = actionModel.getId();
