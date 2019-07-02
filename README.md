@@ -349,12 +349,12 @@ public BaseActionItemModel handleAttributeChange(String extendedType, String att
 
 ## 8 ReleaseNotes
 
-1.0.0：Initialize the system
-2.0.0：Optimized system structure
-2.0.1：Made the system support multi-threading
-2.2.0：Added automatic recording function of global object attribute change
-TODO：Added automatic recording for inherited attributes
-TODO：Added object deep copy function
+- 1.0.0：Initialize the system
+- 2.0.0：Optimized system structure
+- 2.0.1：Made the system support multi-threading
+- 2.2.0：Added automatic recording function of global object attribute change
+- TODO：Added automatic recording for inherited attributes
+- TODO：Added object deep copy function
 
 
 

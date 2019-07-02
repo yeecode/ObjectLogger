@@ -349,9 +349,9 @@ public BaseActionItemModel handleAttributeChange(String extendedType, String att
 
 ## 8 ReleaseNotes
 
-1.0.0：实现基本功能
-2.0.0：重新组织代码结构
-2.0.1：日志写入支持多线程
-2.2.0：增加全局对象属性变动自动记录功能
-TODO：增加对继承属性的自动记录功能
-TODO：增加对象深度镜像功能
+- 1.0.0：实现基本功能
+- 2.0.0：重新组织代码结构
+- 2.0.1：日志写入支持多线程
+- 2.2.0：增加全局对象属性变动自动记录功能
+- TODO：增加对继承属性的自动记录功能
+- TODO：增加对象深度镜像功能
