@@ -60,7 +60,7 @@ public class SendLogForObjectTask implements Runnable {
                     field.setAccessible(true);
                     FieldWrapper fieldWrapper = new FieldWrapper(field, field.get(oldObject), field.get(newObject));
                     if (fieldWrapper.isWithLogTag() || "true".equals(objectLoggerConfigBean.getAutoLog())) {
-                        if (!fieldWrapper.getOldValue().equals(fieldWrapper.getNewValue())) {
+                        if (!nullableEquals(fieldWrapper.getOldValue(),fieldWrapper.getNewValue())) {
                             BaseActionItemModel baseActionItemModel;
                             if (fieldWrapper.isWithExtendedType()) {
                                 baseActionItemModel = handleExtendedTypeItem(fieldWrapper);
@@ -122,5 +122,10 @@ public class SendLogForObjectTask implements Runnable {
         }
 
         return baseActionItemModel;
+    }
+
+    // issue #2
+    private boolean nullableEquals(Object a, Object b) {
+        return (a == null && b == null) || (a != null && a.equals(b));
     }
 }
