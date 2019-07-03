@@ -4,7 +4,7 @@
 
 # ObjectLogger
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-2.2.1-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-2.3.0-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -353,5 +353,5 @@ public BaseActionItemModel handleAttributeChange(String extendedType, String att
 - 2.0.0：重新组织代码结构
 - 2.0.1：日志写入支持多线程
 - 2.2.0：增加全局对象属性变动自动记录功能
-- TODO：增加对继承属性的自动记录功能
+- 2.3.0：增加对继承属性的自动记录功能
 - TODO：增加对象深度镜像功能

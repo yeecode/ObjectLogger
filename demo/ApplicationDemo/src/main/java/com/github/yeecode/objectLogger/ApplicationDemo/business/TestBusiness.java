@@ -1,6 +1,6 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.business;
 
-import com.github.yeecode.objectLogger.ApplicationDemo.model.Task;
+import com.github.yeecode.objectLogger.ApplicationDemo.model.CleanRoomTask;
 import com.github.yeecode.objectLogger.client.service.LogClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,19 +14,21 @@ public class TestBusiness {
 
     @RequestMapping(value = "/")
     public String main() {
-        Task oldTask = new Task();
+        CleanRoomTask oldTask = new CleanRoomTask();
         oldTask.setId(8);
         oldTask.setTaskName("Old Task");
         oldTask.setUserId(15);
         oldTask.setDescription("This is a task\n" +
                 "some works should be down.");
+        oldTask.setAddress(null);
 
-        Task newTask = new Task();
+        CleanRoomTask newTask = new CleanRoomTask();
         newTask.setId(8);
         newTask.setTaskName("New Task");
         newTask.setUserId(17);
         newTask.setDescription("This is a task\n" +
                 "more works should be down.");
+        newTask.setAddress("Sunny Street");
 
         logClient.sendLogForObject(8, "Licy", "doTest", "Test", null, null, oldTask, newTask);
 

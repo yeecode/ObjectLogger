@@ -4,7 +4,7 @@
 
 # ObjectLogger
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-1.0.0-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-2.3.0-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -353,7 +353,7 @@ public BaseActionItemModel handleAttributeChange(String extendedType, String att
 - 2.0.0：Optimized system structure
 - 2.0.1：Made the system support multi-threading
 - 2.2.0：Added automatic recording function of global object attribute change
-- TODO：Added automatic recording for inherited attributes
+- 2.3.0：Added automatic recording for inherited attributes
 - TODO：Added object deep copy function
 
 

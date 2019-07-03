@@ -7,11 +7,13 @@ import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
 import com.github.yeecode.objectLogger.client.http.HttpBean;
 import com.github.yeecode.objectLogger.client.model.ActionModel;
 import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
+import com.github.yeecode.objectLogger.client.wrapper.ClazzWrapper;
 import com.github.yeecode.objectLogger.client.wrapper.FieldWrapper;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
 
 public class SendLogForObjectTask implements Runnable {
     private BaseExtendedTypeHandler baseExtendedTypeHandler;
@@ -55,12 +57,13 @@ public class SendLogForObjectTask implements Runnable {
             Class modelClazz = newObject.getClass();
             Class oldModelClazz = oldObject.getClass();
             if (oldModelClazz.equals(modelClazz)) {
-                Field[] fields = modelClazz.getDeclaredFields();
-                for (Field field : fields) {
+                ClazzWrapper clazzWrapper = new ClazzWrapper(modelClazz); // issue #1
+                List<Field> fieldList = clazzWrapper.getFieldList();
+                for (Field field : fieldList) {
                     field.setAccessible(true);
                     FieldWrapper fieldWrapper = new FieldWrapper(field, field.get(oldObject), field.get(newObject));
                     if (fieldWrapper.isWithLogTag() || "true".equals(objectLoggerConfigBean.getAutoLog())) {
-                        if (!nullableEquals(fieldWrapper.getOldValue(),fieldWrapper.getNewValue())) {
+                        if (!nullableEquals(fieldWrapper.getOldValue(), fieldWrapper.getNewValue())) {
                             BaseActionItemModel baseActionItemModel;
                             if (fieldWrapper.isWithExtendedType()) {
                                 baseActionItemModel = handleExtendedTypeItem(fieldWrapper);

@@ -1,6 +1,5 @@
 package com.github.yeecode.objectLogger.client.wrapper;
 
-import com.alibaba.fastjson.JSON;
 import com.github.yeecode.objectLogger.client.annotation.LogTag;
 
 import java.lang.reflect.Field;
@@ -20,10 +19,10 @@ public class FieldWrapper {
 
     public FieldWrapper(Field field, Object oldValue, Object newValue) {
         this.attributeName = field.getName();
-        this.oldValueString = JSON.toJSONString(oldValue);
-        this.newValueString = JSON.toJSONString(newValue);
         this.oldValue = oldValue;
         this.newValue = newValue;
+        this.oldValueString = oldValue == null ? "" : oldValue.toString();
+        this.newValueString = newValue == null ? "" : newValue.toString();
         this.logTag = field.getAnnotation(LogTag.class);
         this.withLogTag = logTag != null;
         this.logTagName = (withLogTag && logTag.name().length() != 0) ? logTag.name() : null;

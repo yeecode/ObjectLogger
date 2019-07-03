@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.yeecode.objectLogger.server</groupId>
 	<artifactId>ObjectLogger</artifactId>
-	<version>2.2.0</version>
+	<version>2.3.0</version>
 	<name>ObjectLogger</name>
 	<description>The powerful and easy-to-use object log system, supports writing and querying of object attribute changes.</description>
 
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.github.yeecode.objectLogger</groupId>
 			<artifactId>ObjectLoggerClient</artifactId>
-			<version>2.2.0</version>
+			<version>2.3.0</version>
 		</dependency>
 	</dependencies>
 
