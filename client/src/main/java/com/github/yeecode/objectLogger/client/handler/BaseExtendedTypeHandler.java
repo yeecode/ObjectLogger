@@ -1,10 +1,10 @@
 package com.github.yeecode.objectLogger.client.handler;
 
 
-import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
+import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface BaseExtendedTypeHandler {
-    BaseActionItemModel handleAttributeChange(String extendedType, String attributeName, String logTagName, Object oldValue, Object newValue);
+    BaseAttributeModel handleAttributeChange(String extendedType, String attributeName, String attributeAlias, Object oldValue, Object newValue);
 }

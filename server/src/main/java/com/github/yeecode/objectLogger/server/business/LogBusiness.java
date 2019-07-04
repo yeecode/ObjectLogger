@@ -1,12 +1,12 @@
 package com.github.yeecode.objectLogger.server.business;
 
-import com.github.yeecode.objectLogger.client.model.ActionItemModel;
-import com.github.yeecode.objectLogger.client.model.ActionModel;
+import com.github.yeecode.objectLogger.client.model.AttributeModel;
+import com.github.yeecode.objectLogger.client.model.OperationModel;
 import com.github.yeecode.objectLogger.client.service.LogServer;
 import com.github.yeecode.objectLogger.server.constant.RespConstant;
-import com.github.yeecode.objectLogger.server.dao.LogActionDao;
-import com.github.yeecode.objectLogger.server.dao.LogActionItemDao;
-import com.github.yeecode.objectLogger.server.form.ActionForm;
+import com.github.yeecode.objectLogger.server.dao.AttributeDao;
+import com.github.yeecode.objectLogger.server.dao.OperationDao;
+import com.github.yeecode.objectLogger.server.form.OperationForm;
 import com.github.yeecode.objectLogger.server.util.RespUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,24 +26,24 @@ public class LogBusiness {
     @Autowired
     private LogServer logServer;
     @Autowired
-    private LogActionDao logActionDao;
+    private OperationDao operationDao;
     @Autowired
-    private LogActionItemDao logActionItemDao;
+    private AttributeDao attributeDao;
 
     public Map<String, Object> add(String logJsonString) {
         try {
-            ActionModel actionModel = logServer.resolveActionModel(logJsonString);
-            logActionDao.add(actionModel);
-            Integer logActionId = actionModel.getId();
+            OperationModel operationModel = logServer.resolveOperationModel(logJsonString);
+            operationDao.add(operationModel);
+            Integer operationId = operationModel.getId();
 
-            List<ActionItemModel> logActionItemModelList = actionModel.getActionItemModelList();
-            for (ActionItemModel logActionItemModel : logActionItemModelList) {
-                logActionItemModel.setId(null);
-                logActionItemModel.setActionId(logActionId);
+            List<AttributeModel> attributeModelList = operationModel.getAttributeModelList();
+            for (AttributeModel attributeModel : attributeModelList) {
+                attributeModel.setId(null);
+                attributeModel.setOperationId(operationId);
             }
 
-            if (!CollectionUtils.isEmpty(logActionItemModelList)) {
-                logActionItemDao.addBatch(logActionItemModelList);
+            if (!CollectionUtils.isEmpty(attributeModelList)) {
+                attributeDao.addBatch(attributeModelList);
             }
 
             return RespUtil.getSuccessMap();
@@ -51,30 +53,40 @@ public class LogBusiness {
         }
     }
 
-    public Map<String, Object> query(ActionForm actionForm) {
+    public Map<String, Object> query(OperationForm operationForm) {
         try {
-            ActionModel actionModel = new ActionModel();
-            if (actionForm.getId() != null) {
-                actionModel.setId(Integer.parseInt(actionForm.getId()));
+            OperationModel operationFilterModel = new OperationModel();
+            if (operationForm.getId() != null) {
+                operationFilterModel.setId(Integer.parseInt(operationForm.getId()));
             }
-            actionModel.setAppName(actionForm.getAppName());
-            actionModel.setObjectName(actionForm.getObjectName());
-            if (actionForm.getObjectId() != null) {
-                actionModel.setObjectId(Integer.parseInt(actionForm.getObjectId()));
+            operationFilterModel.setAppName(operationForm.getAppName());
+            operationFilterModel.setObjectName(operationForm.getObjectName());
+            if (operationForm.getObjectId() != null) {
+                operationFilterModel.setObjectId(Integer.parseInt(operationForm.getObjectId()));
             }
-            actionModel.setActor(actionForm.getActor());
-            actionModel.setAction(actionForm.getAction());
-            actionModel.setActionName(actionForm.getActionName());
+            operationFilterModel.setOperator(operationForm.getOperator());
+            operationFilterModel.setOperationName(operationForm.getOperationName());
+            operationFilterModel.setOperationAlias(operationForm.getOperationAlias());
+            List<OperationModel> operationModelList = operationDao.queryByFilter(operationFilterModel);
 
-            List<ActionModel> logActionModelList = logActionDao.queryByFilter(actionModel);
+            List<Integer> operationIdList = new ArrayList<>();
+            for (OperationModel operationModel : operationModelList) {
+                operationIdList.add(operationModel.getId());
+            }
+            List<AttributeModel> attributeModelList = attributeDao.queryByOperationIdList(operationIdList);
 
-            for (ActionModel oneActionModel : logActionModelList) {
-                ActionItemModel logActionItemModel = new ActionItemModel();
-                logActionItemModel.setActionId(oneActionModel.getId());
-                oneActionModel.getActionItemModelList().addAll(logActionItemDao.queryByFilter(logActionItemModel));
+            Map<Integer, List<AttributeModel>> attributeModelMap = new HashMap<>();
+            for (AttributeModel attributeModel : attributeModelList) {
+                attributeModelMap.putIfAbsent(attributeModel.getOperationId(), new ArrayList<>());
+                attributeModelMap.get(attributeModel.getOperationId()).add(attributeModel);
             }
 
-            return RespUtil.getSuccessMap(logActionModelList);
+            for (OperationModel operationModel : operationModelList) {
+                if (attributeModelMap.containsKey(operationModel.getId())) {
+                    operationModel.getAttributeModelList().addAll(attributeModelMap.get(operationModel.getId()));
+                }
+            }
+            return RespUtil.getSuccessMap(operationModelList);
         } catch (Exception ex) {
             LOG.error("ObjectLogger ERROR : query log error,", ex);
             return RespUtil.getCommonErrorMap(RespConstant.QUERY_EXCEPTION);

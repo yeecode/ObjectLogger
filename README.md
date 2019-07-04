@@ -4,7 +4,7 @@
 
 # ObjectLogger
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-2.3.0-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-3.0.0-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -52,13 +52,13 @@ java -jar ObjectLogger-*.jar --spring.datasource.driver-class-name={db_driver} -
 The above configuration items are described below:
 
 - `db_driver`:Database driver. `com.mysql.jdbc.Driver` for MySQL database; `com.microsoft.sqlserver.jdbc.SQLServerDriver` for SqlServer database. 
-- `db`:DataBase driver. `mysql`  for MySQL database ;`sqlserver`  for SqlServer database. 
+- `db`:DataBase type. `mysql`  for MySQL database ;`sqlserver`  for SqlServer database. 
 - `db_address`:Database address. If the database is native, `127.0.0.1`. 
 - `db_name`:Database name.. 
 - `db_username`:User name used to log in to the database.
 - `db_password`:Password used to log in to the database.
 
-After starting the jar package, the default service address of the system is:
+After starting the jar package, the default welcome page is:
 
 ```
 http://127.0.0.1:8080/ObjectLogger/
@@ -115,14 +115,14 @@ Add the following code to `applicationContext.xml` file:
 Add the following code to `application.properties`:
 
 ```
-object.logger.add.log.api=http://{ObjectLogger_address}/ObjectLogger/log/add
-object.logger.appName={your_app_name}
-object.logger.autoLog=true
+yeecode.objectLogger.serverAddress=http://{ObjectLogger_address}
+yeecode.objectLogger.businessAppName={your_app_name}
+yeecode.objectLogger.autoLogAttributes=true
 ```
 
 - `ObjectLogger_address`: The deployment address of the ObjectLogger in the previous step, such as: `127.0.0.1:8080`
 - `your_app_name`:The application name of the current business system. In order to differentiate log sources and support multiple business systems at the same time
-- `object.logger.autoLog`:Whether to automatically record all attributes of an object
+- `yeecode.objectLogger.autoLogAttributes`:Whether to automatically record all attributes of an object
 
 At this point, the configuration of the business system is completed.
 
@@ -145,15 +145,23 @@ private LogClient logClient;
 
 ## 5.1 Simple Use
 
-Just put the zero, one or more attributes of the object into `actionItemModelList` and call `sendLogForItems` method. For example, a business application calls:
+Just put the zero, one or more attributes of the object into `List<BaseAttributeModel>` and call `logAttributes` method. For example, a business application calls:
 
 ```
-logClient.sendLogForItems("TaskModel",5,"actor name","addTask","add Task","via web page","some comments",null);
+logClient.logAttributes(
+                "CleanRoomTask",
+                5,
+                "Tom",
+                "add",
+                "Add New Task",
+                "Create a cleanRoomTask",
+                "taskName is :Demo Task",
+                null);
 ```
 
 Query form ObjectLogger：
 ```
-http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=myBootApp&objectName=TaskModel&objectId=5
+http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5
 ```
 
 Results：
@@ -162,17 +170,28 @@ Results：
   "respMsg": "SUCCESS",
   "respData": [
     {
-      "id": 16,
-      "appName": "myBootApp",
-      "objectName": "TaskModel",
+      "id": 1,
+      "appName": "ObjectLoggerDemo",
+      "objectName": "CleanRoomTask",
       "objectId": 5,
-      "actor": "actor name",
-      "action": "addTask",
-      "actionName": "add Task",
-      "extraWords": "via web page",
-      "comment": "some comments",
-      "actionTime": "2019-04-10T10:56:15.000+0000",
-      "actionItemModelList": []
+      "operator": "Jone",
+      "operationName": "start",
+      "operationAlias": "Start a Task",
+      "extraWords": "Begin to clean room...",
+      "comment": "Come on and start cleaning up.",
+      "operationTime": "2019-07-04T06:53:40.000+0000",
+      "attributeModelList": [
+        {
+          "attributeType": "NORMAL",
+          "attributeName": "status",
+          "attributeAlias": "Status",
+          "oldValue": "TODO",
+          "newValue": "DOING",
+          "diffValue": null,
+          "id": 1,
+          "operationId": 1
+        }
+      ]
     }
   ],
   "respCode": "1000"
@@ -186,30 +205,35 @@ This function can automatically complete the comparison between old and new obje
 For example:
 
 ```
-TaskModel oldTaskModel = new TaskModel();
-oldTaskModel.setId(9);
-oldTaskModel.setTaskName("oldName");
-oldTaskModel.setUserId(3);
-oldTaskModel.setDescription("\t<p>the first line</p>\n" +
-        "\t<p>the second line</p>\n" +
-        "\t<p>the 3th line</p>");
+CleanRoomTask oldTask = new CleanRoomTask();
+oldTask.setId(5);
+oldTask.setTaskName("Demo Task");
+oldTask.setStatus("TODO");
+oldTask.setDescription("Do something...");
 
-TaskModel newTaskModel = new TaskModel();
-newTaskModel.setId(9);
-newTaskModel.setTaskName("newName");
-newTaskModel.setUserId(5);
-newTaskModel.setDescription("\t<p>the first line</p>\n" +
-        "\t<p>the second line</p>\n" +
-        "\t<p>the last line</p>");
+CleanRoomTask newTask = new CleanRoomTask();
+newTask.setId(5);
+newTask.setTaskName("Demo Task");
+newTask.setStatus("DOING");
+newTask.setDescription("The main job is to clean the floor.");
+newTask.setAddress("Sunny Street");
+newTask.setRoomNumber(702);
 
-logClient.sendLogForObject(9,"actor name","editTask","edit Task","via app",
-"some comments",oldTaskModel,newTaskModel);
+logClient.logObject(
+                cleanRoomTask.getId(),
+                "Tom",
+                "update",
+                "Update a Task",
+                null,
+                null,
+                oldTask,
+                newTask);
 ```
 
 Query form ObjectLogger：
 
 ```
-http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=myBootApp&objectName=TaskModel&objectId=9
+http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5
 ```
 
 Results：
@@ -219,46 +243,56 @@ Results：
   "respMsg": "SUCCESS",
   "respData": [
     {
-      "id": 15,
-      "appName": "myBootApp",
-      "objectName": "TaskModel",
-      "objectId": 9,
-      "actor": "actor name",
-      "action": "editTask",
-      "actionName": "edit Task",
-      "extraWords": "via app",
-      "comment": "some comments",
-      "actionTime": "2019-04-10T10:56:17.000+0000",
-      "actionItemModelList": [
+      "id": 4,
+      "appName": "ObjectLoggerDemo",
+      "objectName": "CleanRoomTask",
+      "objectId": 5,
+      "operator": "Tom",
+      "operationName": "update",
+      "operationAlias": "Update a Task",
+      "extraWords": null,
+      "comment": null,
+      "operationTime": "2019-07-04T07:22:59.000+0000",
+      "attributeModelList": [
         {
-          "id": 18,
-          "actionId": 15,
           "attributeType": "NORMAL",
-          "attribute": "taskName",
-          "attributeName": "TASK",
-          "oldValue": "oldName",
-          "newValue": "newName",
-          "diffValue": null
+          "attributeName": "roomNumber",
+          "attributeAlias": "roomNumber",
+          "oldValue": "",
+          "newValue": "702",
+          "diffValue": null,
+          "id": 5,
+          "operationId": 4
         },
         {
-          "id": 19,
-          "actionId": 15,
-          "attributeType": "USERID",
-          "attribute": "userId",
-          "attributeName": "USER",
-          "oldValue": "USER:3",
-          "newValue": "USER:5",
-          "diffValue": "diffValue"
+          "attributeType": "NORMAL",
+          "attributeName": "address",
+          "attributeAlias": "address",
+          "oldValue": "",
+          "newValue": "Sunny Street",
+          "diffValue": null,
+          "id": 6,
+          "operationId": 4
         },
         {
-          "id": 20,
-          "actionId": 15,
+          "attributeType": "NORMAL",
+          "attributeName": "status",
+          "attributeAlias": "Status",
+          "oldValue": "TODO",
+          "newValue": "DOING",
+          "diffValue": null,
+          "id": 7,
+          "operationId": 4
+        },
+        {
           "attributeType": "TEXT",
-          "attribute": "description",
-          "attributeName": "DESCRIPTION",
-          "oldValue": "\"\\t<p>the first line</p>\\n\\t<p>the second line</p>\\n\\t<p>the 3th line</p>\"",
-          "newValue": "\"\\t<p>the first line</p>\\n\\t<p>the second line</p>\\n\\t<p>the last line</p>\"",
-          "diffValue": "Line 6:<br/>&nbsp;&nbsp;&nbsp; -： <del> the 3th line </del> <br/>&nbsp;&nbsp; +： <u> the last line </u> <br/>"
+          "attributeName": "description",
+          "attributeAlias": "Description",
+          "oldValue": "Do something...",
+          "newValue": "The main job is to clean the floor.",
+          "diffValue": "Line 1<br/>&nbsp;&nbsp;&nbsp; -： <del> Do something... </del> <br/>&nbsp;&nbsp; +： <u> The main job is to clean the floor. </u> <br/>",
+          "id": 8,
+          "operationId": 4
         }
       ]
     }
@@ -269,14 +303,14 @@ Results：
 
 # 6 Object Attribute Filtering
 
-Some object attributes do not need to be logged, such as `updateTime', `hashCode', etc. ObjectLogger supports filtering attributes of objects, tracking only attributes that we are interested in.
+Some object attributes do not need to be logged, such as `updateTime`, `hashCode`, etc. ObjectLogger supports filtering attributes of objects, tracking only attributes that we are interested in.
 
 And for each attribute, we can change the way it is recorded in the ObjectLogger system, such as changing the name.
 
-To enable this function, first change the `object. logger. autoLog` in the configuration to `false'.
+To enable this function, first change the `yeecode.objectLogger.autoLogAttributes` in the configuration to `false'.
 
 ```
-object.logger.autoLog=false
+yeecode.objectLogger.autoLogAttributes=true
 ```
 
 Then, the `@LogTag` annotation should be added to the attributes that need to be logged for change. Attributes without the annotation will be automatically skipped when logging.
@@ -286,17 +320,20 @@ For example, if the annotation configuration is as follows, `id` field changes w
 ```
 private Integer id;
 
-@LogTag(name = "TaskName")
+@LogTag
 private String taskName;
 
-@LogTag(name = "UserId", extendedType = "userIdType")
+@LogTag(alias = "UserId", extendedType = "userIdType")
 private int userId;
 
-@LogTag(name = "Description", builtinType = BuiltinTypeHandler.TEXT)
+@LogTag(alias = "Status")
+private String status;
+
+@LogTag(alias = "Description", builtinType = BuiltinTypeHandler.TEXT)
 private String description;
 ```
 
-- name:The attribute name to display.
+- alias:The attribute alias to display.
 - builtinType：Built-in type of ObjectLogger, which form the BuiltinTypeHandler enum. The default value is `BuiltinTypeHandler.NORMAL`.
     - BuiltinTypeHandler.NORMAL：Record the new and old values.
     - BuiltinTypeHandler.TEXT: Line-by-line comparison of rich text differences.
@@ -309,8 +346,8 @@ In many cases, users want to be able to decide how to handle certain object attr
 ObjectLogger fully supports this scenario, allowing users to decide how to log certain attributes independently. To achieve this function, first assign a string value to the `extendedType` attribute of `@LogTag` that needs to be extended. For example:
 
 ```
-@LogTag(name = "UserId", extendedType = "userIdType")
-    private int userId;
+@LogTag(alias = "UserId", extendedType = "userIdType")
+private int userId;
 ```
 
 And new a Bean implements BaseExtendedTypeHandler in business system:
@@ -319,8 +356,8 @@ And new a Bean implements BaseExtendedTypeHandler in business system:
 @Service
 public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
     @Override
-    public BaseActionItemModel handleAttributeChange(String attributeName, String logTagName, Object oldValue, Object newValue) {
-        return null;
+    public BaseAttributeModel handleAttributeChange(String extendedType, String attributeName, String attributeAlias, Object oldValue, Object newValue) {
+        // TODO
     }
 }
 ```
@@ -329,21 +366,25 @@ When ObjectLogger processes this property, it passes information about the prope
 
 - `extendedType`：Extended Type.In this example, `userIdType`. 
 - `attributeName`：Attribute Name. In this example,`userId`. 
-- `logTagName`：Name value of `@LogTag`， may be null. In this example,`UserId`. 
+- `attributeAlias`：Attribute alias, from `@LogTag`. In this example,`UserId`. 
 - `oldValue`：Old value of the attribute. 
 - `newValue`：New value of the attribute. 
 
 For example, we can deal with the `userIdType` attribute in the following way:
 
 ```
-public BaseActionItemModel handleAttributeChange(String extendedType, String attributeName, String logTagName, Object oldValue, Object newValue) {
-    BaseActionItemModel baseActionItemModel = new BaseActionItemModel();
-    if (extendedType.equals("userIdType")) {
-        baseActionItemModel.setOldValue("USER_" + oldValue);
-        baseActionItemModel.setNewValue("USER_" + newValue);
-        baseActionItemModel.setDiffValue(oldValue + "->" + newValue);
+@Service
+public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
+    @Override
+    public BaseAttributeModel handleAttributeChange(String extendedType, String attributeName, String attributeAlias, Object oldValue, Object newValue) {
+        BaseAttributeModel baseAttributeModel = new BaseAttributeModel();
+        if (extendedType.equals("userIdType")) {
+            baseAttributeModel.setOldValue("USER_" + oldValue);
+            baseAttributeModel.setNewValue("USER_" + newValue);
+            baseAttributeModel.setDiffValue(oldValue + "->" + newValue);
+        }
+        return baseAttributeModel;
     }
-    return baseActionItemModel;
 }
 ```
 
@@ -354,6 +395,7 @@ public BaseActionItemModel handleAttributeChange(String extendedType, String att
 - 2.0.1：Made the system support multi-threading
 - 2.2.0：Added automatic recording function of global object attribute change
 - 2.3.0：Added automatic recording for inherited attributes
+- 3.0.0：Optimizing System Naming
 - TODO：Added object deep copy function
 
 

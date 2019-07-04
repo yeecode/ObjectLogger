@@ -6,8 +6,7 @@ import java.lang.reflect.Field;
 
 public class FieldWrapper {
     private String attributeName; // 属性名称
-    private String logTagName; // 注解的属性名称
-    private String displayName; // 用于展示的属性名称
+    private String attributeAlias; // 注解的属性名称,如果不存在则使用attributeName
     private Object oldValue; // 属性的旧值
     private Object newValue; // 属性的新值
     private String oldValueString; // 属性旧值字符串
@@ -25,8 +24,7 @@ public class FieldWrapper {
         this.newValueString = newValue == null ? "" : newValue.toString();
         this.logTag = field.getAnnotation(LogTag.class);
         this.withLogTag = logTag != null;
-        this.logTagName = (withLogTag && logTag.name().length() != 0) ? logTag.name() : null;
-        this.displayName = logTagName != null ? logTagName : attributeName;
+        this.attributeAlias = (withLogTag && logTag.alias().length() != 0) ? logTag.alias() : field.getName();
         this.withExtendedType = withLogTag && logTag.extendedType().length() != 0;
         this.extendedType = withExtendedType ? logTag.extendedType() : null;
     }
@@ -37,14 +35,6 @@ public class FieldWrapper {
 
     public void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 
     public Object getOldValue() {
@@ -111,11 +101,11 @@ public class FieldWrapper {
         this.extendedType = extendedType;
     }
 
-    public String getLogTagName() {
-        return logTagName;
+    public String getAttributeAlias() {
+        return attributeAlias;
     }
 
-    public void setLogTagName(String logTagName) {
-        this.logTagName = logTagName;
+    public void setAttributeAlias(String attributeAlias) {
+        this.attributeAlias = attributeAlias;
     }
 }

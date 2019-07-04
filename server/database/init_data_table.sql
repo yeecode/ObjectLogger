@@ -1,33 +1,37 @@
 -- ----------------------------
--- Table structure for t_action
+-- Table structure for operation
 -- ----------------------------
-DROP TABLE IF EXISTS `t_action`;
-CREATE TABLE `t_action` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `appName` varchar(30) DEFAULT NULL,
-  `objectName` varchar(30) NOT NULL DEFAULT '',
-  `objectId` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `actor` varchar(30) NOT NULL,
-  `action` varchar(30) NOT NULL DEFAULT '',
-  `actionName` varchar(30) NOT NULL DEFAULT '',
-  `extraWords` varchar(500) DEFAULT NULL,
+DROP TABLE IF EXISTS `operation`;
+CREATE TABLE `operation` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `appName` varchar(500) DEFAULT NULL,
+  `objectName` varchar(500) NOT NULL DEFAULT '',
+  `objectId` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `operator` varchar(500) NOT NULL,
+  `operationName` varchar(500) NOT NULL DEFAULT '',
+  `operationAlias` varchar(500) NOT NULL DEFAULT '',
+  `extraWords` varchar(5000) DEFAULT NULL,
   `comment` mediumtext,
-  `actionTime` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `operationTime` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `appName` (`appName`) USING HASH,
+  KEY `objectName` (`objectName`) USING HASH,
+  KEY `objectId` (`objectId`) USING BTREE
 );
 
 -- ----------------------------
--- Table structure for t_action_item
+-- Table structure for attribute
 -- ----------------------------
-DROP TABLE IF EXISTS `t_action_item`;
-CREATE TABLE `t_action_item` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `actionId` mediumint(8) unsigned NOT NULL,
-  `attributeType` varchar(30) NOT NULL DEFAULT '',
-  `attribute` varchar(30) NOT NULL DEFAULT '',
-  `attributeName` varchar(30) NOT NULL DEFAULT '',
+DROP TABLE IF EXISTS `attribute`;
+CREATE TABLE `attribute` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `operationId` bigint(20) unsigned NOT NULL,
+  `attributeType` varchar(500) NOT NULL DEFAULT '',
+  `attributeName` varchar(500) NOT NULL DEFAULT '',
+  `attributeAlias` varchar(500) NOT NULL DEFAULT '',
   `oldValue` mediumtext,
   `newValue` mediumtext,
   `diffValue` mediumtext,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `operationId` (`operationId`) USING BTREE
 );

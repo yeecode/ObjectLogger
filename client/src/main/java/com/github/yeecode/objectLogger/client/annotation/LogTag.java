@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogTag {
-    String name() default "";
+    String alias() default "";
 
     BuiltinTypeHandler builtinType() default BuiltinTypeHandler.NORMAL;
 
