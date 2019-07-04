@@ -1,7 +1,7 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.controller;
 
 import com.github.yeecode.objectLogger.ApplicationDemo.model.CleanRoomTask;
-import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
+import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
 import com.github.yeecode.objectLogger.client.service.LogClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class TaskController {
         // Omission: Read and write database operations
 
         // Usage 1: Record a log without property change
-        logClient.sendLogForItems(
+        logClient.logAttributes(
                 "CleanRoomTask",
                 cleanRoomTask.getId(),
                 "Tom",
@@ -43,18 +43,18 @@ public class TaskController {
         cleanRoomTask.setStatus("DOING");
         // Omission: Read and write database operations
 
-        List<BaseActionItemModel> baseActionItemModelList = new ArrayList<>();
-        BaseActionItemModel baseActionItemModel = new BaseActionItemModel();
-        baseActionItemModel.setAttribute("status");
+        List<BaseAttributeModel> baseActionItemModelList = new ArrayList<>();
+        BaseAttributeModel baseActionItemModel = new BaseAttributeModel();
         baseActionItemModel.setAttributeType("NORMAL");
-        baseActionItemModel.setAttributeName("Status");
+        baseActionItemModel.setAttributeName("status");
+        baseActionItemModel.setAttributeAlias("Status");
         baseActionItemModel.setOldValue("TODO");
         baseActionItemModel.setNewValue("DOING");
         baseActionItemModel.setDiffValue(null);
         baseActionItemModelList.add(baseActionItemModel);
 
         // Usage 2: Record a log with property changes
-        logClient.sendLogForItems(
+        logClient.logAttributes(
                 "CleanRoomTask",
                 cleanRoomTask.getId(),
                 "Jone",
@@ -71,6 +71,7 @@ public class TaskController {
     public String update() {
         initTask();
         CleanRoomTask oldTask = cleanRoomTask;
+        // Omission: Read and write database operations
 
         CleanRoomTask newTask = new CleanRoomTask();
         newTask.setId(5);
@@ -82,7 +83,7 @@ public class TaskController {
 
 
         // Usage 3: Automatically analyze and record changes in object attributes
-        logClient.sendLogForObject(
+        logClient.logObject(
                 cleanRoomTask.getId(),
                 "Tom",
                 "update",

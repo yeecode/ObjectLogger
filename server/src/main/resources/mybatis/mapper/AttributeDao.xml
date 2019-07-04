@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.yeecode.objectLogger.server.dao.AttributeDao">
+
+    <select id="queryByFilter" parameterType="AttributeModel" resultType="AttributeModel">
+        SELECT * FROM attribute
+        <where>
+            <if test="id != null">
+                `id`=#{id}
+            </if>
+            <if test="operationId != null">
+                AND `operationId`=#{operationId}
+            </if>
+            <if test="attributeType != null">
+                AND `attributeType`=#{attributeType}
+            </if>
+            <if test="attributeName != null">
+                AND `attributeName`=#{attributeName}
+            </if>
+            <if test="attributeAlias != null">
+                AND `attributeAlias`=#{attributeAlias}
+            </if>
+            <if test="oldValue != null">
+                AND `oldValue`=#{oldValue}
+            </if>
+            <if test="newValue != null">
+                AND `newValue`=#{newValue}
+            </if>
+            <if test="diffValue != null">
+                AND `diffValue`=#{diffValue}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addBatch" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO attribute (`operationId`,`attributeType`,`attributeName`,`attributeAlias`,
+        `oldValue`,`newValue`,`diffValue`)
+        VALUES
+        <foreach collection="attributeModelList" item="item" index="index" separator=",">
+            (#{item.operationId},#{item.attributeType},#{item.attributeName},#{item.attributeAlias},
+            #{item.oldValue},#{item.newValue},#{item.diffValue})
+        </foreach>
+    </insert>
+
+</mapper>

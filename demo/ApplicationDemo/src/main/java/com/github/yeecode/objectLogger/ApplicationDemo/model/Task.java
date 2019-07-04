@@ -9,13 +9,13 @@ public class Task {
     @LogTag
     private String taskName;
 
-    @LogTag(name = "UserId", extendedType = "userIdType")
+    @LogTag(alias = "UserId", extendedType = "userIdType")
     private int userId;
 
-    @LogTag(name = "Status")
+    @LogTag(alias = "Status")
     private String status;
 
-    @LogTag(name = "Description", builtinType = BuiltinTypeHandler.TEXT)
+    @LogTag(alias = "Description", builtinType = BuiltinTypeHandler.TEXT)
     private String description;
 
     public Integer getId() {
