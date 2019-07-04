@@ -3,6 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.yeecode.objectLogger.server.dao.AttributeDao">
 
+    <select id="queryByOperationIdList" resultType="AttributeModel">
+        SELECT *
+        FROM attribute
+        WHERE operationId IN
+        <foreach item="operationId" collection="list" open="("
+                 separator="," close=")">
+            #{operationId}
+        </foreach>
+    </select>
+
     <select id="queryByFilter" parameterType="AttributeModel" resultType="AttributeModel">
         SELECT * FROM attribute
         <where>

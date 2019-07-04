@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,13 +67,24 @@ public class LogBusiness {
             operationFilterModel.setOperator(operationForm.getOperator());
             operationFilterModel.setOperationName(operationForm.getOperationName());
             operationFilterModel.setOperationAlias(operationForm.getOperationAlias());
-
             List<OperationModel> operationModelList = operationDao.queryByFilter(operationFilterModel);
 
-            for (OperationModel item : operationModelList) {
-                AttributeModel attributeFilterModel = new AttributeModel();
-                attributeFilterModel.setOperationId(item.getId());
-                item.getAttributeModelList().addAll(attributeDao.queryByFilter(attributeFilterModel));
+            List<Integer> operationIdList = new ArrayList<>();
+            for (OperationModel operationModel : operationModelList) {
+                operationIdList.add(operationModel.getId());
+            }
+            List<AttributeModel> attributeModelList = attributeDao.queryByOperationIdList(operationIdList);
+
+            Map<Integer, List<AttributeModel>> attributeModelMap = new HashMap<>();
+            for (AttributeModel attributeModel : attributeModelList) {
+                attributeModelMap.putIfAbsent(attributeModel.getOperationId(), new ArrayList<>());
+                attributeModelMap.get(attributeModel.getOperationId()).add(attributeModel);
+            }
+
+            for (OperationModel operationModel : operationModelList) {
+                if (attributeModelMap.containsKey(operationModel.getId())) {
+                    operationModel.getAttributeModelList().addAll(attributeModelMap.get(operationModel.getId()));
+                }
             }
             return RespUtil.getSuccessMap(operationModelList);
         } catch (Exception ex) {
