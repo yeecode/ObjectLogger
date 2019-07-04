@@ -1,11 +1,11 @@
 package com.github.yeecode.objectLogger.client.service;
 
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
-import com.github.yeecode.objectLogger.client.http.HttpBean;
 import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
-import com.github.yeecode.objectLogger.client.model.ActionItemModel;
-import com.github.yeecode.objectLogger.client.task.SendLogForObjectTask;
+import com.github.yeecode.objectLogger.client.http.HttpBean;
+import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
 import com.github.yeecode.objectLogger.client.task.SendLogForItemsTask;
+import com.github.yeecode.objectLogger.client.task.SendLogForObjectTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +35,8 @@ public class LogClient {
      * @param actionName action name for display
      * @param extraWords extra description for action
      * @param comment    comment for action or log
-     * @param oldObject   required,the object before action
-     * @param newObject   required,the object after action
+     * @param oldObject  required,the object before action
+     * @param newObject  required,the object after action
      */
     public void sendLogForObject(Integer objectId, String actor, String action, String actionName,
                                  String extraWords, String comment,
@@ -55,25 +55,27 @@ public class LogClient {
     /**
      * Write log with items
      *
-     * @param objectName           required,the object name
-     * @param objectId             required,the object id
-     * @param actor                required,actor
-     * @param action               action
-     * @param actionName           action name for display
-     * @param extraWords           extra description for action
-     * @param comment               comment for action or log
-     * @param actionItemModelList   attributes list:
-     *                               required: attributeType，attribute，attributeName
-     *                               optional: oldValue，newValue,diffValue
-     *                               leave null : id, actionId
+     * @param objectName              required,the object name
+     * @param objectId                required,the object id
+     * @param actor                   required,actor
+     * @param action                  action
+     * @param actionName              action name for display
+     * @param extraWords              extra description for action
+     * @param comment                 comment for action or log
+     * @param baseActionItemModelList attributes list:
+     *                                required: attributeType，attribute，attributeName
+     *                                optional: oldValue，newValue,diffValue
+     *                                leave null : id, actionId
      */
     public void sendLogForItems(String objectName, Integer objectId,
                                 String actor, String action, String actionName,
                                 String extraWords, String comment,
-                                List<ActionItemModel> actionItemModelList) {
+                                List<BaseActionItemModel> baseActionItemModelList) {
         try {
+
+
             SendLogForItemsTask sendLogForItemsTask = new SendLogForItemsTask(objectName, objectId, actor,
-                    action, actionName, extraWords, comment, actionItemModelList, objectLoggerConfigBean, httpBean);
+                    action, actionName, extraWords, comment, baseActionItemModelList, objectLoggerConfigBean, httpBean);
             fixedThreadPool.execute(sendLogForItemsTask);
         } catch (Exception ex) {
             ex.printStackTrace();

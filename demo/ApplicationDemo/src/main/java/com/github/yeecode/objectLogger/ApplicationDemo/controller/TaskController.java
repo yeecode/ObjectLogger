@@ -1,8 +1,7 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.controller;
 
 import com.github.yeecode.objectLogger.ApplicationDemo.model.CleanRoomTask;
-import com.github.yeecode.objectLogger.ApplicationDemo.model.Task;
-import com.github.yeecode.objectLogger.client.model.ActionItemModel;
+import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
 import com.github.yeecode.objectLogger.client.service.LogClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,15 +43,15 @@ public class TaskController {
         cleanRoomTask.setStatus("DOING");
         // Omission: Read and write database operations
 
-        List<ActionItemModel> actionItemModelList = new ArrayList<>();
-        ActionItemModel actionItemModel = new ActionItemModel();
-        actionItemModel.setAttribute("status");
-        actionItemModel.setAttributeType("NORMAL");
-        actionItemModel.setAttributeName("Status");
-        actionItemModel.setOldValue("TODO");
-        actionItemModel.setNewValue("DOING");
-        actionItemModel.setDiffValue(null);
-        actionItemModelList.add(actionItemModel);
+        List<BaseActionItemModel> baseActionItemModelList = new ArrayList<>();
+        BaseActionItemModel baseActionItemModel = new BaseActionItemModel();
+        baseActionItemModel.setAttribute("status");
+        baseActionItemModel.setAttributeType("NORMAL");
+        baseActionItemModel.setAttributeName("Status");
+        baseActionItemModel.setOldValue("TODO");
+        baseActionItemModel.setNewValue("DOING");
+        baseActionItemModel.setDiffValue(null);
+        baseActionItemModelList.add(baseActionItemModel);
 
         // Usage 2: Record a log with property changes
         logClient.sendLogForItems(
@@ -63,7 +62,7 @@ public class TaskController {
                 "Start a Task",
                 "Begin to clean room...",
                 "Come on and start cleaning up.",
-                actionItemModelList);
+                baseActionItemModelList);
 
         return "success";
     }

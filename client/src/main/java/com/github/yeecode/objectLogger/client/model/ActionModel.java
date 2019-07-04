@@ -34,6 +34,12 @@ public class ActionModel {
         this.actionTime = actionTime;
     }
 
+    public void addBaseActionItemModelList(List<BaseActionItemModel> baseActionItemModelList) {
+        for (BaseActionItemModel baseActionItemModel : baseActionItemModelList) {
+            addBaseActionItemModel(baseActionItemModel);
+        }
+    }
+
     public void addBaseActionItemModel(BaseActionItemModel baseActionItemModel) {
         ActionItemModel actionItemModel = new ActionItemModel(baseActionItemModel);
         this.getActionItemModelList().add(actionItemModel);

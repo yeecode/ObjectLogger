@@ -3,10 +3,9 @@ package com.github.yeecode.objectLogger.client.task;
 import com.alibaba.fastjson.JSON;
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfigBean;
 import com.github.yeecode.objectLogger.client.http.HttpBean;
-import com.github.yeecode.objectLogger.client.model.ActionItemModel;
 import com.github.yeecode.objectLogger.client.model.ActionModel;
+import com.github.yeecode.objectLogger.client.model.BaseActionItemModel;
 import org.springframework.util.CollectionUtils;
-
 
 import java.util.Date;
 import java.util.List;
@@ -22,11 +21,11 @@ public class SendLogForItemsTask implements Runnable {
     private String comment;
     private ObjectLoggerConfigBean objectLoggerConfigBean;
 
-    private List<ActionItemModel> actionItemModelList;
+    private List<BaseActionItemModel> baseActionItemModelList;
 
     public SendLogForItemsTask(String objectName, Integer objectId, String actor, String action, String actionName,
                                String extraWords, String comment,
-                               List<ActionItemModel> actionItemModelList, ObjectLoggerConfigBean objectLoggerConfigBean, HttpBean httpBean) {
+                               List<BaseActionItemModel> baseActionItemModelList, ObjectLoggerConfigBean objectLoggerConfigBean, HttpBean httpBean) {
         this.objectName = objectName;
         this.objectId = objectId;
         this.actor = actor;
@@ -34,7 +33,7 @@ public class SendLogForItemsTask implements Runnable {
         this.actionName = actionName;
         this.extraWords = extraWords;
         this.comment = comment;
-        this.actionItemModelList = actionItemModelList;
+        this.baseActionItemModelList = baseActionItemModelList;
         this.objectLoggerConfigBean = objectLoggerConfigBean;
         this.httpBean = httpBean;
     }
@@ -42,11 +41,11 @@ public class SendLogForItemsTask implements Runnable {
     @Override
     public void run() {
         try {
-            ActionModel actionModel = new ActionModel(objectLoggerConfigBean.getAppName(), objectName, objectId,actor,
-            action,actionName,extraWords,comment,new Date());
+            ActionModel actionModel = new ActionModel(objectLoggerConfigBean.getAppName(), objectName, objectId, actor,
+                    action, actionName, extraWords, comment, new Date());
 
-            if (! CollectionUtils.isEmpty(actionItemModelList)) {
-                actionModel.getActionItemModelList().addAll(actionItemModelList);
+            if (!CollectionUtils.isEmpty(baseActionItemModelList)) {
+                actionModel.addBaseActionItemModelList(baseActionItemModelList);
             }
             httpBean.sendLog(JSON.toJSONString(actionModel));
         } catch (Exception ex) {
