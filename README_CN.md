@@ -217,8 +217,15 @@ newTask.setDescription("The main job is to clean the floor.");
 newTask.setAddress("Sunny Street");
 newTask.setRoomNumber(702);
 
-logClient.sendLogForObject(9,"actor name","editTask","edit Task","via app",
-"some comments",oldTaskModel,newTaskModel);
+logClient.logObject(
+                cleanRoomTask.getId(),
+                "Tom",
+                "update",
+                "Update a Task",
+                null,
+                null,
+                oldTask,
+                newTask);
 ```
 
 则我们可以使用下面查询条件：
@@ -326,7 +333,7 @@ private String description;
 
 该注解属性介绍如下：
 
-- alias:必填，属性别名。
+- alias:属性别名。默认情况下会将属性名写入。
 - builtinType：ObjectLogger的内置类型，为BuiltinTypeHandler的值。默认为`BuiltinTypeHandler.NORMAL`。
     - BuiltinTypeHandler.NORMAL：记录属性的新值和旧值，对比值为null
     - BuiltinTypeHandler.TEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
