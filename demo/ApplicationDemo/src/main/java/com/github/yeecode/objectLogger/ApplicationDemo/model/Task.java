@@ -6,11 +6,14 @@ import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
 public class Task {
     private Integer id;
 
-    @LogTag(name = "TaskName")
+    @LogTag
     private String taskName;
 
     @LogTag(name = "UserId", extendedType = "userIdType")
     private int userId;
+
+    @LogTag(name = "Status")
+    private String status;
 
     @LogTag(name = "Description", builtinType = BuiltinTypeHandler.TEXT)
     private String description;
@@ -37,6 +40,14 @@ public class Task {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {

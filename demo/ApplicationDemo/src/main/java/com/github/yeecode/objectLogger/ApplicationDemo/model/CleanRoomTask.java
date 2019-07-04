@@ -1,7 +1,11 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.model;
 
+import com.github.yeecode.objectLogger.client.annotation.LogTag;
+
 public class CleanRoomTask extends Task {
+    @LogTag
     private Integer roomNumber;
+
     private String address;
 
     public Integer getRoomNumber() {
