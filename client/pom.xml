@@ -22,7 +22,7 @@
     <developers>
         <developer>
             <name>yeecode</name>
-            <email>diancitie@hotmail.com</email>
+            <email>yeecode@126.com</email>
         </developer>
     </developers>
     <scm>
@@ -30,7 +30,7 @@
         <developerConnection>scm:git:git@github.com/yeecode/ObjectLoggerClient.git</developerConnection>
         <url>git@github.com/yeecode/ObjectLoggerClient.git</url>
     </scm>
-    <description>The simple and easy-to-use object log client.</description>
+    <description>The powerful and easy-to-use object logger client.</description>
     <packaging>jar</packaging>
 
     <properties>
