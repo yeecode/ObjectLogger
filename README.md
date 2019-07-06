@@ -22,7 +22,7 @@ ObjectLogger is powerful and easy-to-use object log system, which supports writi
 
 It can be used in many scenarios, such as user operation log record, object attribute change record and so on.
 
-![demo](./pic/web.gif)
+![demo](./pic/page_en.jpg)
 
 The system has the following characteristics:
 
