@@ -26,11 +26,11 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git@github.com/yeecode/ObjectLoggerClient.git</connection>
-        <developerConnection>scm:git:git@github.com/yeecode/ObjectLoggerClient.git</developerConnection>
-        <url>git@github.com/yeecode/ObjectLoggerClient.git</url>
+        <connection>scm:git:git@github.com/yeecode/ObjectLogger.git</connection>
+        <developerConnection>scm:git:git@github.com/yeecode/ObjectLogger.git</developerConnection>
+        <url>git@github.com/yeecode/ObjectLogger.git</url>
     </scm>
-    <description>The powerful and easy-to-use object logger client.</description>
+    <description>The powerful and easy-to-use object logger system.</description>
     <packaging>jar</packaging>
 
     <properties>
