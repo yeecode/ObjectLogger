@@ -133,8 +133,18 @@ The logs recorded in the system can be queried by `ObjectLogger/log/query', and 
 
 ![demo](./pic/api.gif)
 
+# 5 日志展示
 
-# 5 Insert Logs
+
+[react-object-logger](https://github.com/promise-coding/react-object-logger) is the react plugin for ObjectLogger project to show logs in web:
+
+![react-object-logger demo](./pic/react.png)
+
+More information can be obtained via [react-object-logger](https://github.com/promise-coding/react-object-logger)进行了解。
+
+Plugins for other Front-end technology stacks are also under development.
+
+# 6 Insert Logs
 
 The business system introduces `LogClient` in any class that requires logging:
 
@@ -143,7 +153,7 @@ The business system introduces `LogClient` in any class that requires logging:
 private LogClient logClient;
 ```
 
-## 5.1 Simple Use
+## 6.1 Simple Use
 
 Just put the zero, one or more attributes of the object into `List<BaseAttributeModel>` and call `logAttributes` method. For example, a business application calls:
 
@@ -198,7 +208,7 @@ Results：
 }
 ```
 
-## 5.2 Automatic Recording of Object Attributes
+## 6.2 Automatic Recording of Object Attributes
 
 This function can automatically complete the comparison between old and new objects, and insert multiple attribute changes into the log system together. When used, ensure that the old and new objects belong to the same class.
 
@@ -301,7 +311,7 @@ Results：
 }
 ```
 
-# 6 Object Attribute Filtering
+# 7 Object Attribute Filtering
 
 Some object attributes do not need to be logged, such as `updateTime`, `hashCode`, etc. ObjectLogger supports filtering attributes of objects, tracking only attributes that we are interested in.
 
@@ -339,7 +349,7 @@ private String description;
     - BuiltinTypeHandler.TEXT: Line-by-line comparison of rich text differences.
 - extendedType：Extend attribute types. Users can extend the processing of certain fields.
 
-# 7 Extended Processing Attribute
+# 8 Extended Processing Attribute
 
 In many cases, users want to be able to decide how to handle certain object attributes independently. For example, users may want to convert the `userId` attribute of the `Task` object into a name and store it in the log system, thus completely decoupling the log system from `userId'.
 
@@ -388,7 +398,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-## 8 ReleaseNotes
+## 9 ReleaseNotes
 
 - 1.0.0：Initialize the system
 - 2.0.0：Optimized system structure
