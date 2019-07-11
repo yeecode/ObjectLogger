@@ -140,7 +140,7 @@ ObjectLogger有前端React组件[react-object-logger](https://github.com/promise
 
 感兴趣的用户可以前往[react-object-logger](https://github.com/promise-coding/react-object-logger)进行了解。
 
-其他前端组件也在陆续开发中。
+面向其它前端技术栈的组件也在陆续开发中。
 
 # 6 日志写入
 

@@ -138,7 +138,7 @@ The logs recorded in the system can be queried by `ObjectLogger/log/query', and 
 
 [react-object-logger](https://github.com/promise-coding/react-object-logger) is the react plugin for ObjectLogger project to show logs in web:
 
-![react-object-logger demo](./pic/react.png)
+![react-object-logger demo](./pic/react_en.png)
 
 More information can be obtained via [react-object-logger](https://github.com/promise-coding/react-object-logger).
 
