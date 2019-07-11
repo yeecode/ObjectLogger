@@ -132,7 +132,17 @@ yeecode.objectLogger.autoLogAttributes=true
 
 通过这里，我们可以查询下一步中写入的日志。
 
-# 5 日志写入
+# 5 日志展示
+
+ObjectLogger有前端React组件[react-object-logger](https://github.com/promise-coding/react-object-logger)支持，用于进行日志信息的展示。展示效果如图：
+
+![react-object-logger实例图片](./pic/react.png)
+
+感兴趣的用户可以前往[react-object-logger](https://github.com/promise-coding/react-object-logger)进行了解。
+
+其他前端组件也在陆续开发中。
+
+# 6 日志写入
 
 业务系统在任何需要进行日志记录的类中引入`LogClient`。例如：
 
@@ -141,7 +151,7 @@ yeecode.objectLogger.autoLogAttributes=true
 private LogClient logClient;
 ```
 
-## 5.1 简单使用
+## 6.1 简单使用
 
 直接将对象的零个、一个、多个属性变化放入`List<BaseAttributeModel>`后调用`logAttributes`方法发出即可。`List<BaseAttributeModel>`置为`null`则表示此次对象无需要记录的属性变动。例如，业务应用中调用：
 
@@ -196,7 +206,7 @@ http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDe
 }
 ```
 
-## 5.2 对象变动自动记录
+## 6.2 对象变动自动记录
 
 该功能可以自动完成新老对象的对比，并根据对比结果，将多个属性变动一起写入日志系统中。使用时，要确保传入的新老对象属于同一个类。
 
@@ -299,7 +309,7 @@ http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDe
 }
 ```
 
-# 6 对象属性过滤
+# 7 对象属性过滤
 
 有些对象的属性的变动不需要进行日志记录，例如`updateTime`、`hashCode`等。ObjectLogger支持对对象的属性进行过滤，只追踪我们感兴趣的属性。
 
@@ -339,7 +349,7 @@ private String description;
     - BuiltinTypeHandler.TEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
 - extendedType：扩展属性类型。使用ObjcetLogger时，用户可以扩展某些字段的处理方式，此时，`alias`等信息均可以被用户自主覆盖。
 
-# 7 属性处理扩展
+# 8 属性处理扩展
 
 很多情况下，用户希望能够自主决定某些对象属性的处理方式。例如，对于例子中`Task`对象的`userId`属性，用户可能想将其转化为姓名后存入日志系统，从而使得日志系统与`userId`完全解耦。
 
@@ -388,7 +398,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-## 8 ReleaseNotes
+## 9 ReleaseNotes
 
 - 1.0.0：实现基本功能
 - 2.0.0：重新组织代码结构
