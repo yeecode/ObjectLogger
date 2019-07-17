@@ -398,9 +398,9 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-## 9 ReleaseNotes
+## 9 Roadmap
 
-- 1.0.0：Initialize the system
+-[ ] 1.0.0：Initialize the system
 - 2.0.0：Optimized system structure
 - 2.0.1：Made the system support multi-threading
 - 2.2.0：Added automatic recording function of global object attribute change
