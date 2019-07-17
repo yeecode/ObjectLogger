@@ -398,7 +398,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-## 9 ReleaseNotes
+## 9 Roadmap
 
 - 1.0.0：实现基本功能
 - 2.0.0：重新组织代码结构
