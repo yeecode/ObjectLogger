@@ -35,7 +35,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.yeecode.objectLogger</groupId>
+			<groupId>com.github.yeecode.objectLogger.client</groupId>
 			<artifactId>ObjectLoggerClient</artifactId>
 			<version>3.0.0</version>
 		</dependency>
