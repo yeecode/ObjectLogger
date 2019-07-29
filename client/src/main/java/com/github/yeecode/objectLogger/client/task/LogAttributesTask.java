@@ -1,17 +1,16 @@
 package com.github.yeecode.objectLogger.client.task;
 
-import com.alibaba.fastjson.JSON;
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
 import com.github.yeecode.objectLogger.client.http.HttpUtil;
-import com.github.yeecode.objectLogger.client.model.OperationModel;
+import com.github.yeecode.objectLogger.client.http.JacksonUtils;
 import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectLogger.client.model.OperationModel;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
 
 public class LogAttributesTask implements Runnable {
-    private HttpUtil httpUtil;
     private String objectName;
     private Integer objectId;
     private String operator;
@@ -25,7 +24,7 @@ public class LogAttributesTask implements Runnable {
 
     public LogAttributesTask(String objectName, Integer objectId, String operator, String operationName, String operationAlias,
                              String extraWords, String comment,
-                             List<BaseAttributeModel> baseAttributeModelList, ObjectLoggerConfig objectLoggerConfig, HttpUtil httpUtil) {
+                             List<BaseAttributeModel> baseAttributeModelList, ObjectLoggerConfig objectLoggerConfig) {
         this.objectName = objectName;
         this.objectId = objectId;
         this.operator = operator;
@@ -35,7 +34,6 @@ public class LogAttributesTask implements Runnable {
         this.comment = comment;
         this.baseAttributeModelList = baseAttributeModelList;
         this.objectLoggerConfig = objectLoggerConfig;
-        this.httpUtil = httpUtil;
     }
 
     @Override
@@ -47,7 +45,7 @@ public class LogAttributesTask implements Runnable {
             if (!CollectionUtils.isEmpty(baseAttributeModelList)) {
                 operationModel.addBaseActionItemModelList(baseAttributeModelList);
             }
-            httpUtil.sendLog(JSON.toJSONString(operationModel));
+            HttpUtil.sendLog(JacksonUtils.toJSONString(operationModel), objectLoggerConfig.getServerAddress());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -1,12 +1,12 @@
 package com.github.yeecode.objectLogger.client.task;
 
-import com.alibaba.fastjson.JSON;
 import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
 import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
 import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
 import com.github.yeecode.objectLogger.client.http.HttpUtil;
-import com.github.yeecode.objectLogger.client.model.OperationModel;
+import com.github.yeecode.objectLogger.client.http.JacksonUtils;
 import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectLogger.client.model.OperationModel;
 import com.github.yeecode.objectLogger.client.wrapper.ClazzWrapper;
 import com.github.yeecode.objectLogger.client.wrapper.FieldWrapper;
 import org.springframework.util.CollectionUtils;
@@ -26,13 +26,12 @@ public class LogObjectTask implements Runnable {
     private Object oldObject;
     private Object newObject;
     private ObjectLoggerConfig objectLoggerConfig;
-    private HttpUtil httpUtil;
 
 
     public LogObjectTask(Integer objectId, String operator, String operationName, String operationAlias,
                          String extraWords, String comment,
                          Object oldObject, Object newObject, ObjectLoggerConfig objectLoggerConfig,
-                         HttpUtil httpUtil, BaseExtendedTypeHandler baseExtendedTypeHandler) {
+                         BaseExtendedTypeHandler baseExtendedTypeHandler) {
         this.objectId = objectId;
         this.operator = operator;
         this.operationName = operationName;
@@ -42,7 +41,6 @@ public class LogObjectTask implements Runnable {
         this.oldObject = oldObject;
         this.newObject = newObject;
         this.objectLoggerConfig = objectLoggerConfig;
-        this.httpUtil = httpUtil;
         this.baseExtendedTypeHandler = baseExtendedTypeHandler;
     }
 
@@ -79,7 +77,7 @@ public class LogObjectTask implements Runnable {
                 }
             }
             if (!CollectionUtils.isEmpty(operationModel.getAttributeModelList())) {
-                httpUtil.sendLog(JSON.toJSONString(operationModel));
+                HttpUtil.sendLog(JacksonUtils.toJSONString(operationModel), objectLoggerConfig.getServerAddress());
             }
         } catch (Exception ex) {
             ex.printStackTrace();

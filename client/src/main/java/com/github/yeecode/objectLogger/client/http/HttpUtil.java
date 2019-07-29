@@ -1,7 +1,6 @@
 package com.github.yeecode.objectLogger.client.http;
 
 
-import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.NameValuePair;
@@ -14,30 +13,29 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class HttpUtil {
+public final class HttpUtil {
+    private HttpUtil() {
+
+    }
+
     private static final Log LOGGER = LogFactory.getLog(HttpUtil.class);
 
-    @Autowired(required = false)
-    private ObjectLoggerConfig objectLoggerConfig;
 
-    public synchronized void sendLog(String jsonString) {
+    public static synchronized void sendLog(String jsonString, String baseUrl) {
         try {
             List<NameValuePair> paramsList = new ArrayList<>();
             paramsList.add(new BasicNameValuePair("logJsonString", jsonString));
-            sendPost(objectLoggerConfig.getServerAddress() + "/ObjectLogger/log/add", paramsList);
+            sendPost(baseUrl + "/ObjectLogger/log/add", paramsList);
         } catch (Exception ex) {
             LOGGER.error("sendLog error!", ex);
         }
     }
 
-    private synchronized String sendPost(String url, List<NameValuePair> nameValuePairList) throws Exception {
+    private static synchronized String sendPost(String url, List<NameValuePair> nameValuePairList) throws Exception {
         CloseableHttpResponse response = null;
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost post = new HttpPost(url);

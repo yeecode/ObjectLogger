@@ -6,44 +6,42 @@ import com.github.yeecode.objectLogger.client.http.HttpUtil;
 import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
 import com.github.yeecode.objectLogger.client.task.LogAttributesTask;
 import com.github.yeecode.objectLogger.client.task.LogObjectTask;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-@Component
 public class LogClient {
-    @Autowired
     private ObjectLoggerConfig objectLoggerConfig;
-    @Autowired
-    private HttpUtil httpUtil;
-    @Autowired(required = false)
     private BaseExtendedTypeHandler baseExtendedTypeHandler;
+    private ExecutorService fixedThreadPool;
 
-    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+    public LogClient(ObjectLoggerConfig objectLoggerConfig, BaseExtendedTypeHandler baseExtendedTypeHandler, ExecutorService fixedThreadPool) {
+        this.objectLoggerConfig = objectLoggerConfig;
+        this.baseExtendedTypeHandler = baseExtendedTypeHandler;
+        this.fixedThreadPool = fixedThreadPool;
+
+    }
 
 
     /**
      * Auto diff old/new object and write one log
      * Attention: the attributes be diffed must with @LogTag
      *
-     * @param objectId          required
-     * @param operator          required
-     * @param operationName     operationName
-     * @param operationAlias    operation alias for display
-     * @param extraWords        extra description for operation
-     * @param comment           comment for operation
-     * @param oldObject         required,the object before operation
-     * @param newObject         required,the object after operation
+     * @param objectId       required
+     * @param operator       required
+     * @param operationName  operationName
+     * @param operationAlias operation alias for display
+     * @param extraWords     extra description for operation
+     * @param comment        comment for operation
+     * @param oldObject      required,the object before operation
+     * @param newObject      required,the object after operation
      */
     public void logObject(Integer objectId, String operator, String operationName, String operationAlias,
-                                 String extraWords, String comment,
-                                 Object oldObject, Object newObject) {
+                          String extraWords, String comment,
+                          Object oldObject, Object newObject) {
         try {
             LogObjectTask logObjectTask = new LogObjectTask(objectId, operator, operationName, operationAlias,
-                    extraWords, comment, oldObject, newObject, objectLoggerConfig, httpUtil, baseExtendedTypeHandler);
+                    extraWords, comment, oldObject, newObject, objectLoggerConfig,  baseExtendedTypeHandler);
             fixedThreadPool.execute(logObjectTask);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -55,26 +53,26 @@ public class LogClient {
     /**
      * Write log with items
      *
-     * @param objectName              required,the object alias
-     * @param objectId                required,the object id
-     * @param operator                required
-     * @param operationName           operationName
-     * @param operationAlias          operation alias for display
-     * @param extraWords              extra description for operation
-     * @param comment                 comment for operation
-     * @param baseAttributeModelList  attributes list:
-     *                                required: attributeType，attribute，attributeName
-     *                                optional: oldValue，newValue,diffValue
+     * @param objectName             required,the object alias
+     * @param objectId               required,the object id
+     * @param operator               required
+     * @param operationName          operationName
+     * @param operationAlias         operation alias for display
+     * @param extraWords             extra description for operation
+     * @param comment                comment for operation
+     * @param baseAttributeModelList attributes list:
+     *                               required: attributeType，attribute，attributeName
+     *                               optional: oldValue，newValue,diffValue
      */
     public void logAttributes(String objectName, Integer objectId,
-                                String operator, String operationName, String operationAlias,
-                                String extraWords, String comment,
-                                List<BaseAttributeModel> baseAttributeModelList) {
+                              String operator, String operationName, String operationAlias,
+                              String extraWords, String comment,
+                              List<BaseAttributeModel> baseAttributeModelList) {
         try {
 
 
             LogAttributesTask logAttributesTask = new LogAttributesTask(objectName, objectId, operator,
-                    operationName, operationAlias, extraWords, comment, baseAttributeModelList, objectLoggerConfig, httpUtil);
+                    operationName, operationAlias, extraWords, comment, baseAttributeModelList, objectLoggerConfig);
             fixedThreadPool.execute(logAttributesTask);
         } catch (Exception ex) {
             ex.printStackTrace();
