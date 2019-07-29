@@ -1,8 +1,8 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.controller;
 
 import com.github.yeecode.objectLogger.ApplicationDemo.model.CleanRoomTask;
-import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
-import com.github.yeecode.objectLogger.client.service.LogClient;
+import com.github.yeecode.logger.client.model.BaseAttributeModel;
+import com.github.yeecode.logger.client.service.LogClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

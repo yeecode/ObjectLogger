@@ -1,7 +1,7 @@
 package com.github.yeecode.objectLogger.ApplicationDemo.model;
 
-import com.github.yeecode.objectLogger.client.annotation.LogTag;
-import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
+import com.github.yeecode.logger.client.annotation.LogTag;
+import com.github.yeecode.logger.client.handler.BuiltinTypeHandler;
 
 public class Task {
     private Integer id;
