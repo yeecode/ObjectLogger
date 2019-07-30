@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class LogBusiness {
@@ -69,23 +70,23 @@ public class LogBusiness {
             operationFilterModel.setOperationAlias(operationForm.getOperationAlias());
             List<OperationModel> operationModelList = operationDao.queryByFilter(operationFilterModel);
 
-            List<Integer> operationIdList = new ArrayList<>();
-            for (OperationModel operationModel : operationModelList) {
-                operationIdList.add(operationModel.getId());
-            }
-            List<AttributeModel> attributeModelList = attributeDao.queryByOperationIdList(operationIdList);
+            List<Integer> collect = operationModelList.stream().map(OperationModel::getId).collect(Collectors.toList());
 
-            Map<Integer, List<AttributeModel>> attributeModelMap = new HashMap<>();
-            for (AttributeModel attributeModel : attributeModelList) {
-                attributeModelMap.putIfAbsent(attributeModel.getOperationId(), new ArrayList<>());
-                attributeModelMap.get(attributeModel.getOperationId()).add(attributeModel);
-            }
-
-            for (OperationModel operationModel : operationModelList) {
-                if (attributeModelMap.containsKey(operationModel.getId())) {
-                    operationModel.getAttributeModelList().addAll(attributeModelMap.get(operationModel.getId()));
+            if (!collect.isEmpty()) {
+                List<AttributeModel> attributeModelList = attributeDao.queryByOperationIdList(collect);
+                Map<Integer, List<AttributeModel>> attributeModelMap = new HashMap<>();
+                for (AttributeModel attributeModel : attributeModelList) {
+                    attributeModelMap.putIfAbsent(attributeModel.getOperationId(), new ArrayList<>());
+                    attributeModelMap.get(attributeModel.getOperationId()).add(attributeModel);
+                }
+                for (OperationModel operationModel : operationModelList) {
+                    if (attributeModelMap.containsKey(operationModel.getId())) {
+                        operationModel.getAttributeModelList().addAll(attributeModelMap.get(operationModel.getId()));
+                    }
                 }
             }
+
+
             return RespUtil.getSuccessMap(operationModelList);
         } catch (Exception ex) {
             LOG.error("ObjectLogger ERROR : query log error,", ex);
