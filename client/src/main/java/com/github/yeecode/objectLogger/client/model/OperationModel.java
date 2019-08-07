@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.client.model;
+package com.github.yeecode.objectlogger.client.model;
 
 import java.util.ArrayList;
 import java.util.Date;

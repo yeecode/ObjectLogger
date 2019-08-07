@@ -1,6 +1,6 @@
-package com.github.yeecode.objectLogger.ApplicationDemo.model;
+package com.github.yeecode.objectlogger.ApplicationDemo.model;
 
-import com.github.yeecode.objectLogger.client.annotation.LogTag;
+import com.github.yeecode.objectlogger.client.annotation.LogTag;
 
 public class CleanRoomTask extends Task {
     @LogTag

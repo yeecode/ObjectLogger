@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.server.controller;
+package com.github.yeecode.objectlogger.server.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

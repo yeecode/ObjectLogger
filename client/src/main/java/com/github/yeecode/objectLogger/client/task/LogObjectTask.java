@@ -1,14 +1,14 @@
-package com.github.yeecode.objectLogger.client.task;
+package com.github.yeecode.objectlogger.client.task;
 
 import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
-import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
-import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
-import com.github.yeecode.objectLogger.client.http.HttpUtil;
-import com.github.yeecode.objectLogger.client.model.OperationModel;
-import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
-import com.github.yeecode.objectLogger.client.wrapper.ClazzWrapper;
-import com.github.yeecode.objectLogger.client.wrapper.FieldWrapper;
+import com.github.yeecode.objectlogger.client.config.ObjectLoggerConfig;
+import com.github.yeecode.objectlogger.client.handler.BaseExtendedTypeHandler;
+import com.github.yeecode.objectlogger.client.handler.BuiltinTypeHandler;
+import com.github.yeecode.objectlogger.client.http.HttpUtil;
+import com.github.yeecode.objectlogger.client.model.OperationModel;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.wrapper.ClazzWrapper;
+import com.github.yeecode.objectlogger.client.wrapper.FieldWrapper;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;

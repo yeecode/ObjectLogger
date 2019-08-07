@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.client.wrapper;
+package com.github.yeecode.objectlogger.client.wrapper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

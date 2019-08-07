@@ -1,7 +1,7 @@
 
-package com.github.yeecode.objectLogger.server.dao;
+package com.github.yeecode.objectlogger.server.dao;
 
-import com.github.yeecode.objectLogger.client.model.OperationModel;
+import com.github.yeecode.objectlogger.client.model.OperationModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

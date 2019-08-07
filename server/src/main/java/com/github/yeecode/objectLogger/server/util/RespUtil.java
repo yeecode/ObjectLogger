@@ -1,6 +1,6 @@
-package com.github.yeecode.objectLogger.server.util;
+package com.github.yeecode.objectlogger.server.util;
 
-import com.github.yeecode.objectLogger.server.constant.RespConstant;
+import com.github.yeecode.objectlogger.server.constant.RespConstant;
 
 import java.util.HashMap;
 import java.util.Map;

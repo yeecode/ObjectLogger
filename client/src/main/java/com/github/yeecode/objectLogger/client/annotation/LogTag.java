@@ -1,6 +1,6 @@
-package com.github.yeecode.objectLogger.client.annotation;
+package com.github.yeecode.objectlogger.client.annotation;
 
-import com.github.yeecode.objectLogger.client.handler.BuiltinTypeHandler;
+import com.github.yeecode.objectlogger.client.handler.BuiltinTypeHandler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

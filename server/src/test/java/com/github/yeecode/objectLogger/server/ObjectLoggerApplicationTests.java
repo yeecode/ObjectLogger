@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.server;
+package com.github.yeecode.objectlogger.server;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

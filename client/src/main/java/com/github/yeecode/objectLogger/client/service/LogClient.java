@@ -1,11 +1,11 @@
-package com.github.yeecode.objectLogger.client.service;
+package com.github.yeecode.objectlogger.client.service;
 
-import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
-import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
-import com.github.yeecode.objectLogger.client.http.HttpUtil;
-import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
-import com.github.yeecode.objectLogger.client.task.LogAttributesTask;
-import com.github.yeecode.objectLogger.client.task.LogObjectTask;
+import com.github.yeecode.objectlogger.client.config.ObjectLoggerConfig;
+import com.github.yeecode.objectlogger.client.handler.BaseExtendedTypeHandler;
+import com.github.yeecode.objectlogger.client.http.HttpUtil;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.task.LogAttributesTask;
+import com.github.yeecode.objectlogger.client.task.LogObjectTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

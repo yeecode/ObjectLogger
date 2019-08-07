@@ -1,7 +1,7 @@
-package com.github.yeecode.objectLogger.client.http;
+package com.github.yeecode.objectlogger.client.http;
 
 
-import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
+import com.github.yeecode.objectlogger.client.config.ObjectLoggerConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.NameValuePair;

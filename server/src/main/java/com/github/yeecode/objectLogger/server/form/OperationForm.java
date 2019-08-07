@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.server.form;
+package com.github.yeecode.objectlogger.server.form;
 
 public class OperationForm {
     private String id;

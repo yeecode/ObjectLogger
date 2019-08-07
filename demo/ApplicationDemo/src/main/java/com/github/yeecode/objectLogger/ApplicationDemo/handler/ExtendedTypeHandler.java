@@ -1,7 +1,7 @@
-package com.github.yeecode.objectLogger.ApplicationDemo.handler;
+package com.github.yeecode.objectlogger.ApplicationDemo.handler;
 
-import com.github.yeecode.objectLogger.client.handler.BaseExtendedTypeHandler;
-import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.handler.BaseExtendedTypeHandler;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
 import org.springframework.stereotype.Service;
 
 @Service

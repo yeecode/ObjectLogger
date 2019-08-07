@@ -1,6 +1,6 @@
-package com.github.yeecode.objectLogger.client.wrapper;
+package com.github.yeecode.objectlogger.client.wrapper;
 
-import com.github.yeecode.objectLogger.client.annotation.LogTag;
+import com.github.yeecode.objectlogger.client.annotation.LogTag;
 
 import java.lang.reflect.Field;
 

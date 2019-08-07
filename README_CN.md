@@ -78,7 +78,7 @@ http://127.0.0.1:8080/ObjectLogger/
 
 ```
 <dependency>
-    <groupId>com.github.yeecode.objectLogger</groupId>
+    <groupId>com.github.yeecode.objectlogger</groupId>
     <artifactId>ObjectLoggerClient</artifactId>
     <version>{最新版本}</version>
 </dependency>
@@ -88,11 +88,11 @@ http://127.0.0.1:8080/ObjectLogger/
 
 ### 3.2.1 对于SpringBoot应用
 
-在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectLoggerClient`，如：
+在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectloggerClient`，如：
 
 ```
 @SpringBootApplication
-@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectLogger"})
+@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectlogger"})
 public class MyBootAppApplication {
 public static void main(String[] args) {
     // 省略其他代码
@@ -104,7 +104,7 @@ public static void main(String[] args) {
 在`applicationContext.xml`增加对ObjectLoggerClient包地址的扫描：
 
 ```
-<context:component-scan base-package="com.github.yeecode.objectLoggerClient">
+<context:component-scan base-package="com.github.yeecode.objectloggerClient">
 </context:component-scan>
 ```
 

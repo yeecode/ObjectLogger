@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.yeecode.objectLogger.server.dao.AttributeDao">
+<mapper namespace="com.github.yeecode.objectlogger.server.dao.AttributeDao">
 
     <select id="queryByOperationIdList" resultType="AttributeModel">
         SELECT *

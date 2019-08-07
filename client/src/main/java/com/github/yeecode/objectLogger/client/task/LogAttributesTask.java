@@ -1,10 +1,10 @@
-package com.github.yeecode.objectLogger.client.task;
+package com.github.yeecode.objectlogger.client.task;
 
 import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectLogger.client.config.ObjectLoggerConfig;
-import com.github.yeecode.objectLogger.client.http.HttpUtil;
-import com.github.yeecode.objectLogger.client.model.OperationModel;
-import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.config.ObjectLoggerConfig;
+import com.github.yeecode.objectlogger.client.http.HttpUtil;
+import com.github.yeecode.objectlogger.client.model.OperationModel;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;

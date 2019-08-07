@@ -8,7 +8,7 @@
     </settings>-->
 
     <typeAliases>
-        <package name="com.github.yeecode.objectLogger.client.model"/>
+        <package name="com.github.yeecode.objectlogger.client.model"/>
     </typeAliases>
 
 </configuration>

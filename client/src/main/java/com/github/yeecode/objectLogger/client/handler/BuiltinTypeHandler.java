@@ -1,9 +1,9 @@
-package com.github.yeecode.objectLogger.client.handler;
+package com.github.yeecode.objectlogger.client.handler;
 
-import com.github.yeecode.objectLogger.client.model.BaseAttributeModel;
-import com.github.yeecode.objectLogger.client.richText.Html2Text;
-import com.github.yeecode.objectLogger.client.richText.RichTextHandler;
-import com.github.yeecode.objectLogger.client.wrapper.FieldWrapper;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.richText.Html2Text;
+import com.github.yeecode.objectlogger.client.richText.RichTextHandler;
+import com.github.yeecode.objectlogger.client.wrapper.FieldWrapper;
 
 public enum BuiltinTypeHandler {
     NORMAL {

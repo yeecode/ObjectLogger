@@ -1,4 +1,4 @@
-package com.github.yeecode.objectLogger.server.constant;
+package com.github.yeecode.objectlogger.server.constant;
 
 public class RespConstant {
     // respKey

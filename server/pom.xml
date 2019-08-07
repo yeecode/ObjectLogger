@@ -8,7 +8,7 @@
 		<version>2.1.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.github.yeecode.objectLogger.server</groupId>
+	<groupId>com.github.yeecode.objectlogger.server</groupId>
 	<artifactId>ObjectLogger</artifactId>
 	<version>3.0.0</version>
 	<name>ObjectLogger</name>
@@ -62,7 +62,7 @@
 
 
 		<dependency>
-			<groupId>com.github.yeecode.objectLogger</groupId>
+			<groupId>com.github.yeecode.objectlogger</groupId>
 			<artifactId>ObjectLoggerClient</artifactId>
 			<version>3.0.0</version>
 		</dependency>

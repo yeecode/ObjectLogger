@@ -1,7 +1,7 @@
-package com.github.yeecode.objectLogger.server.controller;
+package com.github.yeecode.objectlogger.server.controller;
 
-import com.github.yeecode.objectLogger.server.business.LogBusiness;
-import com.github.yeecode.objectLogger.server.form.OperationForm;
+import com.github.yeecode.objectlogger.server.business.LogBusiness;
+import com.github.yeecode.objectlogger.server.form.OperationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

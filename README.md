@@ -80,7 +80,7 @@ Add dependency package in POM file：
 
 ```
 <dependency>
-    <groupId>com.github.yeecode.objectLogger</groupId>
+    <groupId>com.github.yeecode.objectlogger</groupId>
     <artifactId>ObjectLoggerClient</artifactId>
     <version>{last_version}</version>
 </dependency>
@@ -90,11 +90,11 @@ Add dependency package in POM file：
 
 ### 3.2.1 SpringBoot
 
-Add `@ComponentScan` and add ``com.github.yeecode.objectLoggerClient` in `basePackages`：
+Add `@ComponentScan` and add ``com.github.yeecode.objectloggerClient` in `basePackages`：
 
 ```
 @SpringBootApplication
-@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectLogger"})
+@ComponentScan(basePackages={"{your_beans_root}","com.github.yeecode.objectlogger"})
 public class MyBootAppApplication {
 public static void main(String[] args) {
     // Eliminate other code
@@ -106,7 +106,7 @@ public static void main(String[] args) {
 Add the following code to `applicationContext.xml` file:
 
 ```
-<context:component-scan base-package="com.github.yeecode.objectLoggerClient">
+<context:component-scan base-package="com.github.yeecode.objectloggerClient">
 </context:component-scan>
 ```
 
