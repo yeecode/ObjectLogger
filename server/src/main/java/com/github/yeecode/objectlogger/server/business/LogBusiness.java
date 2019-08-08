@@ -62,9 +62,7 @@ public class LogBusiness {
             }
             operationFilterModel.setAppName(operationForm.getAppName());
             operationFilterModel.setObjectName(operationForm.getObjectName());
-            if (operationForm.getObjectId() != null) {
-                operationFilterModel.setObjectId(Integer.parseInt(operationForm.getObjectId()));
-            }
+            operationFilterModel.setObjectId(operationForm.getObjectId());
             operationFilterModel.setOperator(operationForm.getOperator());
             operationFilterModel.setOperationName(operationForm.getOperationName());
             operationFilterModel.setOperationAlias(operationForm.getOperationAlias());

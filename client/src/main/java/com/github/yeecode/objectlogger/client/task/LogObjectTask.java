@@ -17,7 +17,7 @@ import java.util.List;
 
 public class LogObjectTask implements Runnable {
     private BaseExtendedTypeHandler baseExtendedTypeHandler;
-    private Integer objectId;
+    private String objectId;
     private String operator;
     private String operationName;
     private String operationAlias;
@@ -29,7 +29,7 @@ public class LogObjectTask implements Runnable {
     private HttpUtil httpUtil;
 
 
-    public LogObjectTask(Integer objectId, String operator, String operationName, String operationAlias,
+    public LogObjectTask(String objectId, String operator, String operationName, String operationAlias,
                          String extraWords, String comment,
                          Object oldObject, Object newObject, ObjectLoggerConfig objectLoggerConfig,
                          HttpUtil httpUtil, BaseExtendedTypeHandler baseExtendedTypeHandler) {

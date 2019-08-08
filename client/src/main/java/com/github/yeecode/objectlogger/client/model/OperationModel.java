@@ -8,7 +8,7 @@ public class OperationModel {
     private Integer id;
     private String appName;
     private String objectName;
-    private Integer objectId;
+    private String objectId;
     private String operator;
     private String operationName;
     private String operationAlias;
@@ -20,7 +20,7 @@ public class OperationModel {
     public OperationModel() {
     }
 
-    public OperationModel(String appName, String objectName, Integer objectId, String operator,
+    public OperationModel(String appName, String objectName, String objectId, String operator,
                           String operationName, String operationAlias, String extraWords,
                           String comment, Date operationTime) {
         this.appName = appName;
@@ -69,11 +69,11 @@ public class OperationModel {
         this.objectName = objectName;
     }
 
-    public Integer getObjectId() {
+    public String getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(Integer objectId) {
+    public void setObjectId(String objectId) {
         this.objectId = objectId;
     }
 

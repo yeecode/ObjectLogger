@@ -26,7 +26,7 @@ public class TaskController {
         // Usage 1: Record a log without property change
         logClient.logAttributes(
                 "CleanRoomTask",
-                cleanRoomTask.getId(),
+                cleanRoomTask.getId().toString(),
                 "Tom",
                 "add",
                 "Add New Task",
@@ -56,7 +56,7 @@ public class TaskController {
         // Usage 2: Record a log with property changes
         logClient.logAttributes(
                 "CleanRoomTask",
-                cleanRoomTask.getId(),
+                cleanRoomTask.getId().toString(),
                 "Jone",
                 "start",
                 "Start a Task",
@@ -84,7 +84,7 @@ public class TaskController {
 
         // Usage 3: Automatically analyze and record changes in object attributes
         logClient.logObject(
-                cleanRoomTask.getId(),
+                cleanRoomTask.getId().toString(),
                 "Tom",
                 "update",
                 "Update a Task",
