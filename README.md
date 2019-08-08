@@ -90,7 +90,7 @@ Add dependency package in POM file：
 
 ### 3.2.1 SpringBoot
 
-Add `@ComponentScan` and add ``com.github.yeecode.objectloggerClient` in `basePackages`：
+Add `@ComponentScan` and add `com.github.yeecode.objectloggerClient` in `basePackages`：
 
 ```
 @SpringBootApplication
@@ -400,14 +400,14 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 
 ## 9 ReleaseNotes
 
-- 1.0.0：Initialize the system
-- 2.0.0：Optimized system structure
-- 2.0.1：Made the system support multi-threading
-- 2.2.0：Added automatic recording function of global object attribute change
-- 2.3.0：Added automatic recording for inherited attributes
-- 3.0.0：Optimizing System Naming
 - TODO：Added object deep copy function
-
+- 3.0.0：Optimizing System Naming, represent the difference value with json
+- 3.0.0：Optimizing System Naming
+- 2.3.0：Added automatic recording for inherited attributes
+- 2.2.0：Added automatic recording function of global object attribute change
+- 2.0.1：Made the system support multi-threading
+- 2.0.0：Optimized system structure
+- 1.0.0：Initialize the system
 
 
 
