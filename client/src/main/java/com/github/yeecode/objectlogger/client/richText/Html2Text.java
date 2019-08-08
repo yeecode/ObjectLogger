@@ -73,7 +73,7 @@ public class Html2Text extends HTMLEditorKit.ParserCallback {
         }
     }
 
-    public String getText() {
+    private String getText() {
         return stringBuilder.toString();
     }
 

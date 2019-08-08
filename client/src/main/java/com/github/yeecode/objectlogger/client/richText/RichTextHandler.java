@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.github.yeecode.objectlogger.client.richText.Constant.imgLeftPlaceholder;
-
 public class RichTextHandler {
     private RichTextHandler() {
     }
@@ -29,8 +27,6 @@ public class RichTextHandler {
      * @return 类似于gitDiff的html片段
      */
     public static String diffText(String oldText, String newText) {
-        StringBuilder outputSb = new StringBuilder();
-
         List<String> oldStringList = CollectionUtils.arrayToList(Html2Text.simpleHtml(oldText).split("\n"));
         List<String> newStringList = CollectionUtils.arrayToList(Html2Text.simpleHtml(newText).split("\n"));
 
@@ -62,7 +58,7 @@ public class RichTextHandler {
         }
 
         Map<String, Object> textDiffMap = new HashMap<>();
-        textDiffMap.put("version","1.0.0");
+        textDiffMap.put("version", "1.0.0");
         List<Fragment> diffFragmentList = new ArrayList<>();
 
         // 遍历map
@@ -75,98 +71,31 @@ public class RichTextHandler {
             for (DiffRow row : diffRowList) {
                 DiffRow.Tag tag = row.getTag();
                 if (tag == DiffRow.Tag.INSERT) {
-                    Part part = new Part(PartType.ADD,replaceImgTag(row.getNewLine()));
+                    Part part = new Part(PartType.ADD, replaceImgTag(row.getNewLine()));
                     partList.add(part);
-//                    outputSb.append("&nbsp;&nbsp; +： <u> ").append(replaceImgTag(row.getNewLine())).append(" </u> <br/>");
                 } else if (tag == DiffRow.Tag.CHANGE) {
                     if (!row.getOldLine().trim().isEmpty()) {
-                        Part part = new Part(PartType.CHANGE_OLD,replaceImgTag(row.getOldLine()));
+                        Part part = new Part(PartType.CHANGE_OLD, replaceImgTag(row.getOldLine()));
                         partList.add(part);
-//                        outputSb.append("&nbsp;&nbsp;&nbsp; -： <del> ");
-//                        outputSb.append(replaceImgTag(row.getOldLine()));
-//                        outputSb.append(" </del> <br/>");
                     }
                     if (!row.getNewLine().trim().isEmpty()) {
-                        Part part = new Part(PartType.CHANGE_NEW,replaceImgTag(row.getNewLine()));
+                        Part part = new Part(PartType.CHANGE_NEW, replaceImgTag(row.getNewLine()));
                         partList.add(part);
-//                        outputSb.append("&nbsp;&nbsp; +： <u> ");
-//                        outputSb.append(replaceImgTag(row.getNewLine()));
-//                        outputSb.append(" </u> <br/>");
                     }
                 } else if (tag == DiffRow.Tag.DELETE) {
-                    Part part = new Part(PartType.DEL,replaceImgTag(row.getOldLine()));
+                    Part part = new Part(PartType.DEL, replaceImgTag(row.getOldLine()));
                     partList.add(part);
-//                    outputSb.append("&nbsp;&nbsp;&nbsp; -： <del> ").append(replaceImgTag(row.getOldLine())).append(" </del> <br/>");
                 }
             }
             fragment.setPartList(partList);
             diffFragmentList.add(fragment);
 
         }
-        textDiffMap.put("content",diffFragmentList);
+        textDiffMap.put("content", diffFragmentList);
         return new Gson().toJson(textDiffMap);
     }
 
     private static String replaceImgTag(String s) {
         return s.replaceAll(Constant.imgLeftPlaceholder, "<img ").replaceAll(Constant.imgRightPlaceholder, " >");
-    }
-
-    private static class Fragment {
-        private Integer lineNumber;
-        List<Part> partList;
-
-        public Fragment(Integer lineNumber) {
-            this.lineNumber = lineNumber;
-        }
-
-        public Integer getLineNumber() {
-            return lineNumber;
-        }
-
-        public void setLineNumber(Integer lineNumber) {
-            this.lineNumber = lineNumber;
-        }
-
-        public List<Part> getPartList() {
-            return partList;
-        }
-
-        public void setPartList(List<Part> partList) {
-            this.partList = partList;
-        }
-    }
-
-    private static  class Part{
-        private PartType partType;
-        private String partContent;
-
-        public Part(PartType partType) {
-            this.partType = partType;
-        }
-
-        public Part(PartType partType, String partContent) {
-            this.partType = partType;
-            this.partContent = partContent;
-        }
-
-        public PartType getPartType() {
-            return partType;
-        }
-
-        public void setPartType(PartType partType) {
-            this.partType = partType;
-        }
-
-        public String getPartContent() {
-            return partContent;
-        }
-
-        public void setPartContent(String partContent) {
-            this.partContent = partContent;
-        }
-    }
-
-    enum PartType{
-        ADD,DEL,CHANGE_NEW,CHANGE_OLD
     }
 }
