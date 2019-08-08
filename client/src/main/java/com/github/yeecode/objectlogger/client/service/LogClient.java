@@ -27,7 +27,6 @@ public class LogClient {
 
     /**
      * Auto diff old/new object and write one log
-     * Attention: the attributes be diffed must with @LogTag
      *
      * @param objectId       required
      * @param operator       required
@@ -53,7 +52,7 @@ public class LogClient {
 
 
     /**
-     * Write log with items
+     * Write log with attributes
      *
      * @param objectName             required,the object alias
      * @param objectId               required,the object id
