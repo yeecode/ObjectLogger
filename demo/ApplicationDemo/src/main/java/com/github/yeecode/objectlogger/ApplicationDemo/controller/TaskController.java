@@ -77,7 +77,27 @@ public class TaskController {
         newTask.setId(5);
         newTask.setTaskName("Demo Task");
         newTask.setStatus("DOING");
-        newTask.setDescription("The main job is to clean the floor.");
+        newTask.setDescription("" +
+                "<p>" +
+                "What is poetry? Who knows<br>" +
+                "Not a rose, but the scent of the rose.<br>" +
+                "<p>" +
+                "add some words" +
+                "</p>" +
+                "Not the sky, but the light of the sky." +
+                "</p>" +
+                "<p>" +
+                "<span style=\\\"font-weight: bold;\\\">Hi~ this is demo</span>" +
+                "</p>" +
+                "<p>Not the fly, but the gleam of the fly.<br>" +
+                "Not the sea, but the sound of sea .</p>" +
+                "<p><br>" +
+                "</p>" +
+                "<p><br>" +
+                "Not myself, but what makes me .sfd<br>" +
+                "See ,hear and feel something that prose<br>" +
+                "Cannot: and what it is who knows.</p>" +
+                "<h2>yes!</h2>");
         newTask.setAddress("Sunny Street");
         newTask.setRoomNumber(702);
 
@@ -100,7 +120,27 @@ public class TaskController {
         cleanRoomTask.setId(5);
         cleanRoomTask.setTaskName("Demo Task");
         cleanRoomTask.setStatus("TODO");
-        cleanRoomTask.setDescription("Do something...");
+        cleanRoomTask.setDescription("" +
+                "<p>" +
+                "What is poetry? Who knows<br>" +
+                "Not a rose, but the scent of the rose.<br>" +
+                "Not the sky, but the light of the sky." +
+                "</p>" +
+                "<p>" +
+                "<span style=\\\"font-weight: bold;\\\">Hi~</span>" +
+                "</p>" +
+                "<p>Not the fly, but the gleam of the fly.<br>" +
+                "Not the sea, but the sound of sea .</p>" +
+                "<p><br>" +
+                "</p>" +
+                "<p><br>" +
+                "Not myself, but what makes us .sfd<br>" +
+                "See you,hear and feel something that prose<br>" +
+                "Cannot: and what it is who knows.</p>" +
+                "<h2>yes!</h2>" +
+                "<p><br></p>" +
+                "<p><br></p>" +
+                "<p>that is the end</p>");
     }
 
 }

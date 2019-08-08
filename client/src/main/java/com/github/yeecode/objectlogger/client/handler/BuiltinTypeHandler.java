@@ -15,14 +15,14 @@ public enum BuiltinTypeHandler {
             return baseAttributeModel;
         }
     },
-    TEXT {
+    RICHTEXT {
         @Override
         public BaseAttributeModel handlerAttributeChange(FieldWrapper fieldWrapper) {
             String simpleOldValue = Html2Text.simpleHtml(fieldWrapper.getOldValueString());
             String simpleNewValue = Html2Text.simpleHtml(fieldWrapper.getNewValueString());
-            // 去除格式，只留下可显示部分
+            // Delete the format and leave the main content behind.
             if (simpleOldValue == null || simpleNewValue == null || simpleOldValue.equals(simpleNewValue)) {
-                // 可显示部分无不同，算是相同
+                // The main content is the same, the same
                 return null;
             } else {
                 BaseAttributeModel baseAttributeModel = new BaseAttributeModel();

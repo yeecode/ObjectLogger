@@ -49,11 +49,10 @@ public class LogObjectTask implements Runnable {
     @Override
     public void run() {
         try {
-            // 基本Action
             OperationModel operationModel = new OperationModel(objectLoggerConfig.getBusinessAppName(), oldObject.getClass().getSimpleName(),
                     objectId, operator, operationName, operationAlias, extraWords, comment, new Date());
 
-            // Action中的attributes
+            // handle attributes of operation
             Class modelClazz = newObject.getClass();
             Class oldModelClazz = oldObject.getClass();
             if (oldModelClazz.equals(modelClazz)) {

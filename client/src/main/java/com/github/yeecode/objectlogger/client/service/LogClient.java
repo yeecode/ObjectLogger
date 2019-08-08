@@ -29,18 +29,18 @@ public class LogClient {
      * Auto diff old/new object and write one log
      * Attention: the attributes be diffed must with @LogTag
      *
-     * @param objectId          required
-     * @param operator          required
-     * @param operationName     operationName
-     * @param operationAlias    operation alias for display
-     * @param extraWords        extra description for operation
-     * @param comment           comment for operation
-     * @param oldObject         required,the object before operation
-     * @param newObject         required,the object after operation
+     * @param objectId       required
+     * @param operator       required
+     * @param operationName  operationName
+     * @param operationAlias operation alias for display
+     * @param extraWords     extra description for operation
+     * @param comment        comment for operation
+     * @param oldObject      required,the object before operation
+     * @param newObject      required,the object after operation
      */
     public void logObject(String objectId, String operator, String operationName, String operationAlias,
-                                 String extraWords, String comment,
-                                 Object oldObject, Object newObject) {
+                          String extraWords, String comment,
+                          Object oldObject, Object newObject) {
         try {
             LogObjectTask logObjectTask = new LogObjectTask(objectId, operator, operationName, operationAlias,
                     extraWords, comment, oldObject, newObject, objectLoggerConfig, httpUtil, baseExtendedTypeHandler);
@@ -55,24 +55,22 @@ public class LogClient {
     /**
      * Write log with items
      *
-     * @param objectName              required,the object alias
-     * @param objectId                required,the object id
-     * @param operator                required
-     * @param operationName           operationName
-     * @param operationAlias          operation alias for display
-     * @param extraWords              extra description for operation
-     * @param comment                 comment for operation
-     * @param baseAttributeModelList  attributes list:
-     *                                required: attributeType，attribute，attributeName
-     *                                optional: oldValue，newValue,diffValue
+     * @param objectName             required,the object alias
+     * @param objectId               required,the object id
+     * @param operator               required
+     * @param operationName          operationName
+     * @param operationAlias         operation alias for display
+     * @param extraWords             extra description for operation
+     * @param comment                comment for operation
+     * @param baseAttributeModelList attributes list:
+     *                               required: attributeType，attribute，attributeName
+     *                               optional: oldValue，newValue,diffValue
      */
     public void logAttributes(String objectName, String objectId,
-                                String operator, String operationName, String operationAlias,
-                                String extraWords, String comment,
-                                List<BaseAttributeModel> baseAttributeModelList) {
+                              String operator, String operationName, String operationAlias,
+                              String extraWords, String comment,
+                              List<BaseAttributeModel> baseAttributeModelList) {
         try {
-
-
             LogAttributesTask logAttributesTask = new LogAttributesTask(objectName, objectId, operator,
                     operationName, operationAlias, extraWords, comment, baseAttributeModelList, objectLoggerConfig, httpUtil);
             fixedThreadPool.execute(logAttributesTask);

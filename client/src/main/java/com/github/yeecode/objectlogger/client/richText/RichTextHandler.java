@@ -1,5 +1,6 @@
 package com.github.yeecode.objectlogger.client.richText;
 
+import com.google.gson.Gson;
 import difflib.Delta;
 import difflib.DiffRow;
 import difflib.DiffRowGenerator;
@@ -8,10 +9,13 @@ import difflib.Patch;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.github.yeecode.objectlogger.client.richText.Constant.imgLeftPlaceholder;
 
 public class RichTextHandler {
     private RichTextHandler() {
@@ -57,36 +61,112 @@ public class RichTextHandler {
             }
         }
 
+        Map<String, Object> textDiffMap = new HashMap<>();
+        textDiffMap.put("version","1.0.0");
+        List<Fragment> diffFragmentList = new ArrayList<>();
+
         // 遍历map
         Set<Map.Entry<Integer, List<DiffRow>>> entrySet = diffRowMap.entrySet();
         for (Map.Entry<Integer, List<DiffRow>> entry : entrySet) {
             Integer pos = entry.getKey();
             List<DiffRow> diffRowList = entry.getValue();
-            outputSb.append("Line ").append(pos + 1).append("<br/>");
+            Fragment fragment = new Fragment(pos + 1);
+            List<Part> partList = new ArrayList<>();
             for (DiffRow row : diffRowList) {
                 DiffRow.Tag tag = row.getTag();
                 if (tag == DiffRow.Tag.INSERT) {
-                    outputSb.append("&nbsp;&nbsp; +： <u> ").append(replaceImgTag(row.getNewLine())).append(" </u> <br/>");
+                    Part part = new Part(PartType.ADD,replaceImgTag(row.getNewLine()));
+                    partList.add(part);
+//                    outputSb.append("&nbsp;&nbsp; +： <u> ").append(replaceImgTag(row.getNewLine())).append(" </u> <br/>");
                 } else if (tag == DiffRow.Tag.CHANGE) {
                     if (!row.getOldLine().trim().isEmpty()) {
-                        outputSb.append("&nbsp;&nbsp;&nbsp; -： <del> ");
-                        outputSb.append(replaceImgTag(row.getOldLine()));
-                        outputSb.append(" </del> <br/>");
+                        Part part = new Part(PartType.CHANGE_OLD,replaceImgTag(row.getOldLine()));
+                        partList.add(part);
+//                        outputSb.append("&nbsp;&nbsp;&nbsp; -： <del> ");
+//                        outputSb.append(replaceImgTag(row.getOldLine()));
+//                        outputSb.append(" </del> <br/>");
                     }
                     if (!row.getNewLine().trim().isEmpty()) {
-                        outputSb.append("&nbsp;&nbsp; +： <u> ");
-                        outputSb.append(replaceImgTag(row.getNewLine()));
-                        outputSb.append(" </u> <br/>");
+                        Part part = new Part(PartType.CHANGE_NEW,replaceImgTag(row.getNewLine()));
+                        partList.add(part);
+//                        outputSb.append("&nbsp;&nbsp; +： <u> ");
+//                        outputSb.append(replaceImgTag(row.getNewLine()));
+//                        outputSb.append(" </u> <br/>");
                     }
                 } else if (tag == DiffRow.Tag.DELETE) {
-                    outputSb.append("&nbsp;&nbsp;&nbsp; -： <del> ").append(replaceImgTag(row.getOldLine())).append(" </del> <br/>");
+                    Part part = new Part(PartType.DEL,replaceImgTag(row.getOldLine()));
+                    partList.add(part);
+//                    outputSb.append("&nbsp;&nbsp;&nbsp; -： <del> ").append(replaceImgTag(row.getOldLine())).append(" </del> <br/>");
                 }
             }
+            fragment.setPartList(partList);
+            diffFragmentList.add(fragment);
+
         }
-        return outputSb.toString();
+        textDiffMap.put("content",diffFragmentList);
+        return new Gson().toJson(textDiffMap);
     }
 
     private static String replaceImgTag(String s) {
-        return s.replaceAll("【【-START_IMG-】】", "<img ").replaceAll("【【-END_IMG-】】", " >");
+        return s.replaceAll(Constant.imgLeftPlaceholder, "<img ").replaceAll(Constant.imgRightPlaceholder, " >");
+    }
+
+    private static class Fragment {
+        private Integer lineNumber;
+        List<Part> partList;
+
+        public Fragment(Integer lineNumber) {
+            this.lineNumber = lineNumber;
+        }
+
+        public Integer getLineNumber() {
+            return lineNumber;
+        }
+
+        public void setLineNumber(Integer lineNumber) {
+            this.lineNumber = lineNumber;
+        }
+
+        public List<Part> getPartList() {
+            return partList;
+        }
+
+        public void setPartList(List<Part> partList) {
+            this.partList = partList;
+        }
+    }
+
+    private static  class Part{
+        private PartType partType;
+        private String partContent;
+
+        public Part(PartType partType) {
+            this.partType = partType;
+        }
+
+        public Part(PartType partType, String partContent) {
+            this.partType = partType;
+            this.partContent = partContent;
+        }
+
+        public PartType getPartType() {
+            return partType;
+        }
+
+        public void setPartType(PartType partType) {
+            this.partType = partType;
+        }
+
+        public String getPartContent() {
+            return partContent;
+        }
+
+        public void setPartContent(String partContent) {
+            this.partContent = partContent;
+        }
+    }
+
+    enum PartType{
+        ADD,DEL,CHANGE_NEW,CHANGE_OLD
     }
 }

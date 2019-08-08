@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+
 public class Html2Text extends HTMLEditorKit.ParserCallback {
 
     private String lineBreak = "\n";
@@ -68,7 +69,7 @@ public class Html2Text extends HTMLEditorKit.ParserCallback {
     public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
         // deal with <img>
         if (HTML.Tag.IMG.equals(t)) {
-            stringBuilder.append("【【-START_IMG-】】 " + a.toString() + "【【-END_IMG-】】");
+            stringBuilder.append(Constant.imgLeftPlaceholder).append(a.toString()).append(Constant.imgRightPlaceholder);
         }
     }
 

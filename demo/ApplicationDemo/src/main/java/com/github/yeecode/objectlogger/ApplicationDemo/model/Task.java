@@ -15,7 +15,7 @@ public class Task {
     @LogTag(alias = "Status")
     private String status;
 
-    @LogTag(alias = "Description", builtinType = BuiltinTypeHandler.TEXT)
+    @LogTag(alias = "Description", builtinType = BuiltinTypeHandler.RICHTEXT)
     private String description;
 
     public Integer getId() {
