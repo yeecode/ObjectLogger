@@ -1,10 +1,10 @@
 package com.github.yeecode.objectlogger.client.task;
 
-import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
-import com.github.yeecode.objectlogger.client.model.OperationModel;
 import com.github.yeecode.objectlogger.client.config.ObjectLoggerConfig;
 import com.github.yeecode.objectlogger.client.http.HttpUtil;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.model.OperationModel;
+import com.google.gson.Gson;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
@@ -47,7 +47,7 @@ public class LogAttributesTask implements Runnable {
             if (!CollectionUtils.isEmpty(baseAttributeModelList)) {
                 operationModel.addBaseActionItemModelList(baseAttributeModelList);
             }
-            httpUtil.sendLog(JSON.toJSONString(operationModel));
+            httpUtil.sendLog(new Gson().toJson(operationModel));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

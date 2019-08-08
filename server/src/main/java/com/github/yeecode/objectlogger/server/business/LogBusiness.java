@@ -1,13 +1,13 @@
 package com.github.yeecode.objectlogger.server.business;
 
-import com.github.yeecode.objectlogger.server.constant.RespConstant;
-import com.github.yeecode.objectlogger.server.util.RespUtil;
 import com.github.yeecode.objectlogger.client.model.AttributeModel;
 import com.github.yeecode.objectlogger.client.model.OperationModel;
 import com.github.yeecode.objectlogger.client.service.LogServer;
+import com.github.yeecode.objectlogger.server.constant.RespConstant;
 import com.github.yeecode.objectlogger.server.dao.AttributeDao;
 import com.github.yeecode.objectlogger.server.dao.OperationDao;
 import com.github.yeecode.objectlogger.server.form.OperationForm;
+import com.github.yeecode.objectlogger.server.util.RespUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class LogBusiness {
@@ -69,23 +70,24 @@ public class LogBusiness {
             operationFilterModel.setOperationAlias(operationForm.getOperationAlias());
             List<OperationModel> operationModelList = operationDao.queryByFilter(operationFilterModel);
 
-            List<Integer> operationIdList = new ArrayList<>();
-            for (OperationModel operationModel : operationModelList) {
-                operationIdList.add(operationModel.getId());
-            }
-            List<AttributeModel> attributeModelList = attributeDao.queryByOperationIdList(operationIdList);
+            if (!CollectionUtils.isEmpty(operationModelList)) {
+                List<Integer> operationIdList = operationModelList.stream().map(OperationModel::getId).collect(Collectors.toList());
+                List<AttributeModel> attributeModelList = attributeDao.queryByOperationIdList(operationIdList);
+                if (!CollectionUtils.isEmpty(attributeModelList)) {
+                    Map<Integer, List<AttributeModel>> attributeModelMap = new HashMap<>();
+                    for (AttributeModel attributeModel : attributeModelList) {
+                        attributeModelMap.putIfAbsent(attributeModel.getOperationId(), new ArrayList<>());
+                        attributeModelMap.get(attributeModel.getOperationId()).add(attributeModel);
+                    }
 
-            Map<Integer, List<AttributeModel>> attributeModelMap = new HashMap<>();
-            for (AttributeModel attributeModel : attributeModelList) {
-                attributeModelMap.putIfAbsent(attributeModel.getOperationId(), new ArrayList<>());
-                attributeModelMap.get(attributeModel.getOperationId()).add(attributeModel);
-            }
-
-            for (OperationModel operationModel : operationModelList) {
-                if (attributeModelMap.containsKey(operationModel.getId())) {
-                    operationModel.getAttributeModelList().addAll(attributeModelMap.get(operationModel.getId()));
+                    for (OperationModel operationModel : operationModelList) {
+                        if (attributeModelMap.containsKey(operationModel.getId())) {
+                            operationModel.getAttributeModelList().addAll(attributeModelMap.get(operationModel.getId()));
+                        }
+                    }
                 }
             }
+
             return RespUtil.getSuccessMap(operationModelList);
         } catch (Exception ex) {
             LOG.error("ObjectLogger ERROR : query log error,", ex);

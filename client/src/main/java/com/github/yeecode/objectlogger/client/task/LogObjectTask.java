@@ -1,14 +1,14 @@
 package com.github.yeecode.objectlogger.client.task;
 
-import com.alibaba.fastjson.JSON;
-import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
-import com.github.yeecode.objectlogger.client.model.OperationModel;
-import com.github.yeecode.objectlogger.client.wrapper.ClazzWrapper;
-import com.github.yeecode.objectlogger.client.wrapper.FieldWrapper;
 import com.github.yeecode.objectlogger.client.config.ObjectLoggerConfig;
 import com.github.yeecode.objectlogger.client.handler.BaseExtendedTypeHandler;
 import com.github.yeecode.objectlogger.client.handler.BuiltinTypeHandler;
 import com.github.yeecode.objectlogger.client.http.HttpUtil;
+import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
+import com.github.yeecode.objectlogger.client.model.OperationModel;
+import com.github.yeecode.objectlogger.client.wrapper.ClazzWrapper;
+import com.github.yeecode.objectlogger.client.wrapper.FieldWrapper;
+import com.google.gson.Gson;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
@@ -79,7 +79,7 @@ public class LogObjectTask implements Runnable {
                 }
             }
             if (!CollectionUtils.isEmpty(operationModel.getAttributeModelList())) {
-                httpUtil.sendLog(JSON.toJSONString(operationModel));
+                httpUtil.sendLog(new Gson().toJson(operationModel));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

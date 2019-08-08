@@ -71,5 +71,6 @@ public class OperationForm {
         this.operationAlias = operationAlias;
     }
 
-    public interface Query{}
+    public interface Query {
+    }
 }

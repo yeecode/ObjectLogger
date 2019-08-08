@@ -1,4 +1,3 @@
-
 package com.github.yeecode.objectlogger.server.dao;
 
 import com.github.yeecode.objectlogger.client.model.OperationModel;
