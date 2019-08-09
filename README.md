@@ -144,7 +144,7 @@ At this point, the configuration of the business system is completed.
 # 4 Query Logs
 
 
-The logs recorded in the system can be queried by `http://127.0.0.1:12301/ObjectLoggerServer/log/query', and the logs can be filtered by passing in parameters.
+The logs recorded in the system can be queried by `http://127.0.0.1:12301/ObjectLoggerServer/log/query`, and the logs can be filtered by passing in parameters.
 
 ![demo](./pic/api.gif)
 
@@ -332,7 +332,7 @@ Some object attributes do not need to be logged, such as `updateTime`, `hashCode
 
 And for each attribute, we can change the way it is recorded in the ObjectLoggerClient system, such as changing the name.
 
-To enable this function, first change the `yeecode.objectLogger.autoLogAttributes` in the configuration to `false'.
+To enable this function, first change the `yeecode.objectLogger.autoLogAttributes` in the configuration to `false`.
 
 ```
 yeecode.objectLogger.autoLogAttributes=true
@@ -366,7 +366,7 @@ private String description;
 
 # 8 Extended Processing Attribute
 
-In many cases, users want to be able to decide how to handle certain object attributes independently. For example, users may want to convert the `userId` attribute of the `Task` object into a name and store it in the log system, thus completely decoupling the log system from `userId'.
+In many cases, users want to be able to decide how to handle certain object attributes independently. For example, users may want to convert the `userId` attribute of the `Task` object into a name and store it in the log system, thus completely decoupling the log system from `userId`.
 
 ObjectLoggerClient fully supports this scenario, allowing users to decide how to log certain attributes independently. To achieve this function, first assign a string value to the `extendedType` attribute of `@LogTag` that needs to be extended. For example:
 
@@ -387,7 +387,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-When ObjectLoggerClient processes this property, it passes information about the property into the `handleAttributeChange'method of the extended bean. The four parameters introduced are explained as follows:
+When ObjectLoggerClient processes this property, it passes information about the property into the `handleAttributeChange`method of the extended bean. The four parameters introduced are explained as follows:
 
 - `extendedType`：Extended Type.In this example, `userIdType`. 
 - `attributeName`：Attribute Name. In this example,`userId`. 
@@ -416,22 +416,10 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 ## 9 ReleaseNotes
 
 - TODO：Added object deep copy function
-- 3.0.0：Optimizing System Naming, represent the difference value with json
+- 3.0.1：Optimizing System Naming, represent the difference value with json
 - 3.0.0：Optimizing System Naming
 - 2.3.0：Added automatic recording for inherited attributes
 - 2.2.0：Added automatic recording function of global object attribute change
 - 2.0.1：Made the system support multi-threading
 - 2.0.0：Optimized system structure
 - 1.0.0：Initialize the system
-
-
-
-
-
-
-
-
-
-
-
-
