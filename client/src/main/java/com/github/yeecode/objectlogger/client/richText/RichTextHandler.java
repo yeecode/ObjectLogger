@@ -6,9 +6,9 @@ import difflib.DiffRow;
 import difflib.DiffRowGenerator;
 import difflib.DiffUtils;
 import difflib.Patch;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,8 +27,9 @@ public class RichTextHandler {
      * @return 类似于gitDiff的html片段
      */
     public static String diffText(String oldText, String newText) {
-        List<String> oldStringList = CollectionUtils.arrayToList(Html2Text.simpleHtml(oldText).split("\n"));
-        List<String> newStringList = CollectionUtils.arrayToList(Html2Text.simpleHtml(newText).split("\n"));
+
+        List<String> oldStringList = Arrays.asList(Html2Text.simpleHtml(oldText).split("\n"));
+        List<String> newStringList = Arrays.asList(Html2Text.simpleHtml(newText).split("\n"));
 
         // 获得文件的不同之处
         Patch patch = DiffUtils.diff(oldStringList, newStringList);

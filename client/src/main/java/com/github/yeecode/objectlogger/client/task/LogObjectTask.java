@@ -9,7 +9,6 @@ import com.github.yeecode.objectlogger.client.model.OperationModel;
 import com.github.yeecode.objectlogger.client.wrapper.ClazzWrapper;
 import com.github.yeecode.objectlogger.client.wrapper.FieldWrapper;
 import com.google.gson.Gson;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -77,7 +76,7 @@ public class LogObjectTask implements Runnable {
                     }
                 }
             }
-            if (!CollectionUtils.isEmpty(operationModel.getAttributeModelList())) {
+            if (!operationModel.getAttributeModelList().isEmpty()) {
                 httpUtil.sendLog(new Gson().toJson(operationModel));
             }
         } catch (Exception ex) {
