@@ -239,7 +239,7 @@ newTask.setAddress("Sunny Street");
 newTask.setRoomNumber(702);
 
 logClient.logObject(
-                cleanRoomTask.getId(),
+                cleanRoomTask.getId().toString(),
                 "Tom",
                 "update",
                 "Update a Task",
