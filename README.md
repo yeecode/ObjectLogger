@@ -4,7 +4,7 @@
 
 # [ObjectLogger](https://github.com/yeecode/ObjectLogger)
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-3.0.0-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-3.0.1-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -65,7 +65,11 @@ The above configuration items are described below:
 - `db_username`:User name used to log in to the database.
 - `db_password`:Password used to log in to the database.
 
-After starting the jar package, the default welcome page is:
+After starting the jar package, you can see:
+
+![server_start](./pic/server_start.png)
+
+The default welcome page is:
 
 ```
 http://127.0.0.1:12301/ObjectLoggerServer/
@@ -82,6 +86,8 @@ The ObjectLoggerServer system has been built.
 This section explains how to configure the business system to analyze the object changes in the business system through ObjectLoggerClient and then record them in ObjectLoggerServer.
 
 The use of this part can refer to the ObjectLoggerDemo project, which gives a detailed example of business system integration ObjectLoggerClient. ObjectLoggerDemo's product package can be obtained from `/demo/target/ObjectLoggerDemo-*. jar`, and the project can be started directly without any other configuration by running `java -jar ObjectLoggerDemo-*. jar`.
+
+![demo_start](./pic/demo_start.png)
 
 ## 3.1 Add Dependency
 

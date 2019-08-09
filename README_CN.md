@@ -4,7 +4,7 @@
 
 # [ObjectLogger](https://github.com/yeecode/ObjectLogger)
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-3.0.0-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-3.0.1-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -63,7 +63,11 @@ java -jar ObjectLoggerServer-*.jar --spring.datasource.driver-class-name={db_dri
 - `db_username`:数据库登录用户名。
 - `db_password`:数据库登录密码。
 
-启动jar包后，系统欢迎页面地址为：
+启动jar成功后可以看到下面的界面：
+
+![启动页面](./pic/server_start.png)
+
+使用浏览器访问下面的页面可以看到系统欢迎页面：
 
 ```
 http://127.0.0.1:12301/ObjectLoggerServer/
@@ -80,6 +84,10 @@ http://127.0.0.1:12301/ObjectLoggerServer/
 该部分讲解如何配置业务系统来将业务系统中的对象变化通过ObjectLoggerClient分析，然后记录到ObjectLoggerServer中。
 
 这一部分的使用可以参照ObjectLoggerDemo项目，该项目给出了业务系统集成ObjectLoggerClient的详细示例。ObjectLoggerDemo的制品包可以从`/demo/target/ObjectLoggerDemo-*.jar`获得，无需其他配置直接运行`java -jar ObjectLoggerDemo-*.jar`便可以直接启动该项目。
+
+可以直接根据启动页面的提示访问相关地址来体验：
+
+![demo_start](./pic/demo_start.png)
 
 ## 3.1 引入依赖包
 
