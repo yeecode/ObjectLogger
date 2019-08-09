@@ -6,6 +6,7 @@ import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
 import com.github.yeecode.objectlogger.client.model.OperationModel;
 import com.google.gson.Gson;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class LogAttributesTask implements Runnable {
         try {
             OperationModel operationModel = new OperationModel(objectLoggerConfig.getBusinessAppName(), objectName, objectId, operator,
                     operationName, operationAlias, extraWords, comment, new Date());
-            if (!baseAttributeModelList.isEmpty()) {
+            if (baseAttributeModelList != null && !baseAttributeModelList.isEmpty()) {
                 operationModel.addBaseActionItemModelList(baseAttributeModelList);
             }
             httpUtil.sendLog(new Gson().toJson(operationModel));

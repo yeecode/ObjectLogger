@@ -31,6 +31,13 @@ ObjectLogger是一套强大且易用的对象日志记录系统。它能够将�
 - 自动解析：能自动解析对象的属性变化，并支持富文本的前后对比。
 - 便于扩展：支持自定义对象变动说明、属性变动说明。支持更多对象属性类型的扩展。
 
+整个项目包含四个部分：
+
+- ObjectLoggerClient：能够集成到业务系统进行日志分析、发送jar包。可以从Maven官方仓库引入该jar包。该模块位于`client`子包下。
+- ObjectLoggerServer：一个web服务，需要数据库的支持。它能够接收并保存ObjectLoggerClient发出的日志信息，支持日志的查询操作。该模块位于`server`子包下。
+- react-object-logger：一个React前端组件，用于进行日志的前端展示。可以从npm官方仓库引入该组件。该子项目位于[react-object-logger](https://github.com/promise-coding/react-object-logger)。
+- ObjectLoggerDemo：一个业务端集成ObjectLoggerClient的示例。该模块位于`demo`子包下。
+
 # 2 快速上手
 
 ## 2.1 创建数据库
@@ -39,12 +46,12 @@ ObjectLogger是一套强大且易用的对象日志记录系统。它能够将�
 
 ## 2.2 启动Server
 
-下载该项目下最新的Server服务jar包，地址为`/server/target/ObjectLogger-*.jar`。
+下载该项目下最新的Server服务jar包，地址为`/server/target/ObjectLoggerServer-*.jar`。
 
 启动下载的jar包。
 
 ```
-java -jar ObjectLogger-*.jar --spring.datasource.driver-class-name={db_driver} --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
+java -jar ObjectLoggerServer-*.jar --spring.datasource.driver-class-name={db_driver} --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
 ```
 
 上述命令中的用户配置项说明如下：
@@ -59,18 +66,20 @@ java -jar ObjectLogger-*.jar --spring.datasource.driver-class-name={db_driver} -
 启动jar包后，系统欢迎页面地址为：
 
 ```
-http://127.0.0.1:8080/ObjectLogger/
+http://127.0.0.1:12301/ObjectLoggerServer/
 ```
 
 访问上述地址可以看到下面的欢迎界面：
 
 ![系统首页](./pic/100.jpg)
 
-至此，ObjectLogger系统已经搭建结束，可以接受业务系统的日志写入和查询操作。
+至此，ObjectLoggerServer系统已经搭建结束，可以接受业务系统的日志写入和查询操作。
 
 # 3 业务系统接入
 
-该部分讲解如何配置业务系统来将业务系统中的对象变化记录到ObjectLogger中。
+该部分讲解如何配置业务系统来将业务系统中的对象变化通过ObjectLoggerClient分析，然后记录到ObjectLoggerServer中。
+
+这一部分的使用可以参照ObjectLoggerDemo项目，该项目给出了业务系统集成ObjectLoggerClient的详细示例。ObjectLoggerDemo的制品包可以从`/demo/target/ObjectLoggerDemo-*.jar`获得，无需其他配置直接运行`java -jar ObjectLoggerDemo-*.jar`便可以直接启动该项目。
 
 ## 3.1 引入依赖包
 
@@ -88,7 +97,7 @@ http://127.0.0.1:8080/ObjectLogger/
 
 ### 3.2.1 对于SpringBoot应用
 
-在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectloggerClient`，如：
+在SpringBoot的启动类前添加`@ComponentScan`注解，并在`basePackages`中增加ObjectLoggerClient的包地址：`com.github.yeecode.objectlogger`，如：
 
 ```
 @SpringBootApplication
@@ -104,7 +113,7 @@ public static void main(String[] args) {
 在`applicationContext.xml`增加对ObjectLoggerClient包地址的扫描：
 
 ```
-<context:component-scan base-package="com.github.yeecode.objectloggerClient">
+<context:component-scan base-package="com.github.yeecode.objectlogger">
 </context:component-scan>
 ```
 
@@ -113,20 +122,20 @@ public static void main(String[] args) {
 在`application.properties`中增加:
 
 ```
-yeecode.objectLogger.serverAddress=http://{ObjectLogger_address}
+yeecode.objectLogger.serverAddress=http://{ObjectLoggerServer_address}
 yeecode.objectLogger.businessAppName={your_app_name}
 yeecode.objectLogger.autoLogAttributes=true
 ```
 
-- `ObjectLogger_address`:属性指向上一步的ObjectLogger的部署地址，例如：`127.0.0.1:8080`
+- `ObjectLoggerServer_address`:属性指向上一步的ObjectLoggerServer的部署地址，例如：`127.0.0.1:12301`
 - `your_app_name`:指当前业务系统的应用名。以便于区分日志来源，实现同时支持多个业务系统
 - `yeecode.objectLogger.autoLogAttributes`:是否对对象的所有属性进行变更日志记录
 
-至此，业务系统的配置完成。已经实现了和ObjectLogger的Server端的对接。
+至此，业务系统的配置完成。已经实现了和ObjectLoggerServer端的对接。
 
 # 4 日志查询
 
-系统运行后，可以通过`/ObjectLogger/log/query`查询系统中记录的日志，并通过传入参数对日志进行过滤。
+系统运行后，可以通过`http://127.0.0.1:12301/ObjectLoggerServer/log/query`查询系统中记录的日志，并通过传入参数对日志进行过滤。
 
 ![实例图片](./pic/api.gif)
 
@@ -167,9 +176,9 @@ logClient.logAttributes(
                 null);
 ```
 
-在ObjectLogger中使用如下查询条件：
+在ObjectLoggerServer中使用如下查询条件：
 ```
-http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5
+http://127.0.0.1:12301/ObjectLoggerServer/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5
 ```
 
 查询到日志：
@@ -241,7 +250,7 @@ logClient.logObject(
 则我们可以使用下面查询条件：
 
 ```
-http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5
+http://127.0.0.1:12301/ObjectLoggerServer/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5
 ```
 
 查询到如下结果：
@@ -311,9 +320,9 @@ http://{your_ObjectLogger_address}/ObjectLogger/log/query?appName=ObjectLoggerDe
 
 # 7 对象属性过滤
 
-有些对象的属性的变动不需要进行日志记录，例如`updateTime`、`hashCode`等。ObjectLogger支持对对象的属性进行过滤，只追踪我们感兴趣的属性。
+有些对象的属性的变动不需要进行日志记录，例如`updateTime`、`hashCode`等。ObjectLoggerClient支持对对象的属性进行过滤，只追踪我们感兴趣的属性。
 
-并且，对于每个属性我们可以更改其记录到ObjectLogger系统中的具体方式，例如修改命名等。
+并且，对于每个属性我们可以更改其记录到ObjectLoggerClient系统中的具体方式，例如修改命名等。
 
 要想启用这个功能，首先将配置中的`yeecode.objectLogger.autoLogAttributes`改为`false`。
 
@@ -344,16 +353,16 @@ private String description;
 该注解属性介绍如下：
 
 - alias:属性别名。默认情况下会将属性名写入。
-- builtinType：ObjectLogger的内置类型，为BuiltinTypeHandler的值。默认为`BuiltinTypeHandler.NORMAL`。
+- builtinType：ObjectLoggerClient的内置类型，为BuiltinTypeHandler的值。默认为`BuiltinTypeHandler.NORMAL`。
     - BuiltinTypeHandler.NORMAL：记录属性的新值和旧值，对比值为null
-    - BuiltinTypeHandler.TEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
+    - BuiltinTypeHandler.RICHTEXT: 用户富文本对比。记录属性值的新值和旧值，并将新旧值转化为纯文本后逐行对比差异，对比值中记录差异
 - extendedType：扩展属性类型。使用ObjcetLogger时，用户可以扩展某些字段的处理方式，此时，`alias`等信息均可以被用户自主覆盖。
 
 # 8 属性处理扩展
 
 很多情况下，用户希望能够自主决定某些对象属性的处理方式。例如，对于例子中`Task`对象的`userId`属性，用户可能想将其转化为姓名后存入日志系统，从而使得日志系统与`userId`完全解耦。
 
-ObjectLogger完全支持这种情况，可以让用户自主决定某些属性的日志记录方式。要想实现这种功能，首先在需要进行扩展处理的属性上为`@LogTag`的`extendedType`属性赋予一个字符串值。例如：
+ObjectLoggerClient完全支持这种情况，可以让用户自主决定某些属性的日志记录方式。要想实现这种功能，首先在需要进行扩展处理的属性上为`@LogTag`的`extendedType`属性赋予一个字符串值。例如：
 
 ```
 @LogTag(alias = "UserId", extendedType = "userIdType")
@@ -372,7 +381,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-接下来，当ObjectLogger处理到该属性时，会将该属性的相关信息传入到扩展Bean的`handleAttributeChange`方法中，然后用户可以自行处理。传入的四个参数解释如下：
+接下来，当ObjectLoggerClient处理到该属性时，会将该属性的相关信息传入到扩展Bean的`handleAttributeChange`方法中，然后用户可以自行处理。传入的四个参数解释如下：
 
 - `extendedType`：扩展类型值，即`@LogTag`注解的`extendedType`值。本示例中为`userIdType`。
 - `attributeName`：属性名。本示例中为`userId`。

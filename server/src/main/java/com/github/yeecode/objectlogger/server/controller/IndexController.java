@@ -14,6 +14,6 @@ public class IndexController {
                 "<br>" +
                 "<span>For example:</span>" +
                 "<br>" +
-                "<span><code>http://localhost:8080/ObjectLogger/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5<code></span>";
+                "<span><code>http://localhost:12301/ObjectLoggerServer/log/query?appName=ObjectLoggerDemo&objectName=CleanRoomTask&objectId=5<code></span>";
     }
 }
