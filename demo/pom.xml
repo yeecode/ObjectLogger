@@ -19,10 +19,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.junit</groupId>
-            <artifactId>com.springsource.org.junit</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.yeecode.objectlogger</groupId>
             <artifactId>ObjectLoggerClient</artifactId>
         </dependency>
