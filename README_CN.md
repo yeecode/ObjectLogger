@@ -151,7 +151,9 @@ yeecode.objectLogger.autoLogAttributes=true
 
 # 5 日志展示
 
-ObjectLogger有前端React组件[react-object-logger](https://github.com/promise-coding/react-object-logger)支持，用于进行日志信息的展示。展示效果如图：
+ObjectLogger有前端React组件[react-object-logger](https://github.com/promise-coding/react-object-logger)支持，用于进行日志信息的展示。体验页面：[react-object-logger 示例页面](https://promise-coding.github.io/react-object-logger/)
+
+展示效果如图：
 
 ![react-object-logger实例图片](./pic/react.png)
 

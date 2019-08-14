@@ -22,7 +22,7 @@ ObjectLogger is powerful and easy-to-use object log system, which supports writi
 
 It can be used in many scenarios, such as user operation log record, object attribute change record and so on.
 
-![demo](./pic/page_en.jpg)
+![react-object-logger demo](./pic/react_en.png)
 
 The system has the following characteristics:
 
@@ -151,7 +151,7 @@ The logs recorded in the system can be queried by `http://127.0.0.1:12301/Object
 # 5 Show Logs
 
 
-[react-object-logger](https://github.com/promise-coding/react-object-logger) is the react plugin for ObjectLogger project to show logs in web:
+[react-object-logger](https://github.com/promise-coding/react-object-logger) is the react plugin for ObjectLogger project to show logs in web. Demo: [react-object-logger demo](https://promise-coding.github.io/react-object-logger/)
 
 ![react-object-logger demo](./pic/react_en.png)
 
