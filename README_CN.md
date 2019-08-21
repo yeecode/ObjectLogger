@@ -51,12 +51,11 @@ ObjectLogger是一套强大且易用的对象日志记录系统。它能够将�
 启动下载的jar包。
 
 ```
-java -jar ObjectLoggerServer-*.jar --spring.datasource.driver-class-name={db_driver} --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
+java -jar ObjectLoggerServer-*.jar --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
 ```
 
 上述命令中的用户配置项说明如下：
 
-- `db_driver`:你所用的数据库对应的驱动。如果使用MySql数据库则为`com.mysql.jdbc.Driver`;如果使用SqlServer数据库则为`com.microsoft.sqlserver.jdbc.SQLServerDriver`。
 - `db`:数据库类型。如果使用MySql数据库则为`mysql`;如果使用SqlServer数据库则为`sqlserver`。
 - `db_address`:数据库连接地址。如果数据库在本机则为`127.0.0.1`。
 - `db_name`:数据库名，该数据库中需包含上一步初始化的两个数据表。
