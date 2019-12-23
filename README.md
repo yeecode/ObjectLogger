@@ -22,7 +22,9 @@ ObjectLogger is powerful and easy-to-use object log system, which supports writi
 
 It can be used in many scenarios, such as user operation log record, object attribute change record and so on.
 
-![react-object-logger demo](./pic/react_en.png)
+<div align=center>
+  <img width="90%" src="./pic/react_en.png"/>
+</div>
 
 The system has the following characteristics:
 
@@ -67,7 +69,9 @@ The above configuration items are described below:
 
 After starting the jar package, you can see:
 
-![server_start](./pic/server_start.png)
+<div align=center>
+  <img width="80%" src="./pic/server_start.png"/>
+</div>
 
 The default welcome page is:
 
@@ -77,7 +81,9 @@ http://127.0.0.1:12301/ObjectLoggerServer/
 
 Visit the above address to see the following welcome interface:
 
-![welcome interface](./pic/100.jpg)
+<div align=center>
+  <img width="80%" src="./pic/100.jpg"/>
+</div>
 
 The ObjectLoggerServer system has been built.
 
@@ -87,7 +93,9 @@ This section explains how to configure the business system to analyze the object
 
 The use of this part can refer to the ObjectLoggerDemo project, which gives a detailed example of business system integration ObjectLoggerClient. ObjectLoggerDemo's product package can be obtained from `/demo/target/ObjectLoggerDemo-*. jar`, and the project can be started directly without any other configuration by running `java -jar ObjectLoggerDemo-*. jar`.
 
-![demo_start](./pic/demo_start.png)
+<div align=center>
+  <img width="90%" src="./pic/demo_start.png"/>
+</div>
 
 ## 3.1 Add Dependency
 
@@ -146,14 +154,18 @@ At this point, the configuration of the business system is completed.
 
 The logs recorded in the system can be queried by `http://127.0.0.1:12301/ObjectLoggerServer/log/query`, and the logs can be filtered by passing in parameters.
 
-![demo](./pic/api.gif)
+<div align=center>
+  <img width="90%" src="./pic/api.gif"/>
+</div>
 
 # 5 Show Logs
 
 
 [react-object-logger](https://github.com/promise-coding/react-object-logger) is the react plugin for ObjectLogger project to show logs in web. Demo: [react-object-logger demo](https://promise-coding.github.io/react-object-logger/)
 
-![react-object-logger demo](./pic/react_en.png)
+<div align=center>
+  <img width="90%" src="./pic/react_en.png"/>
+</div>
 
 More information can be obtained via [react-object-logger](https://github.com/promise-coding/react-object-logger).
 
@@ -404,6 +416,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
     public BaseAttributeModel handleAttributeChange(String extendedType, String attributeName, String attributeAlias, Object oldValue, Object newValue) {
         BaseAttributeModel baseAttributeModel = new BaseAttributeModel();
         if (extendedType.equals("userIdType")) {
+        	// 这里仅作示例，实际使用中可以进行调用用户系统将userId转化为userName的操作等
             baseAttributeModel.setOldValue("USER_" + oldValue);
             baseAttributeModel.setNewValue("USER_" + newValue);
             baseAttributeModel.setDiffValue(oldValue + "->" + newValue);
