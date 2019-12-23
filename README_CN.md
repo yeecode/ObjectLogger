@@ -20,7 +20,7 @@
 
 ObjectLogger是一套强大且易用的对象日志记录系统。它能够将任意对象的变动日志记录下来，并支持查询。可以应用在用户操作日志记录、对象属性变更记录等诸多场景中。
 
-![实例图片](./pic/react.png)
+![实例图片](./pic/react_en.png)
 
 该系统具有以下特点：
 
@@ -51,11 +51,12 @@ ObjectLogger是一套强大且易用的对象日志记录系统。它能够将�
 启动下载的jar包。
 
 ```
-java -jar ObjectLoggerServer-*.jar --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
+java -jar ObjectLoggerServer-*.jar --spring.datasource.driver-class-name={db_driver} --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
 ```
 
 上述命令中的用户配置项说明如下：
 
+- `db_driver`:你所用的数据库对应的驱动。如果使用MySql数据库则为`com.mysql.jdbc.Driver`;如果使用SqlServer数据库则为`com.microsoft.sqlserver.jdbc.SQLServerDriver`。
 - `db`:数据库类型。如果使用MySql数据库则为`mysql`;如果使用SqlServer数据库则为`sqlserver`。
 - `db_address`:数据库连接地址。如果数据库在本机则为`127.0.0.1`。
 - `db_name`:数据库名，该数据库中需包含上一步初始化的两个数据表。
@@ -416,7 +417,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-## 9 ReleaseNotes
+## 9 Roadmap
 
 - TODO：增加对象深度镜像功能
 - 3.0.1: 优化系统命名，对比值输出转为灵活的json

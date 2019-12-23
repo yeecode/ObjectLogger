@@ -53,11 +53,12 @@ Download the new target jar file from `/server/target/ObjectLoggerServer-*.jar`.
 Start the jar with the following statement:
 
 ```
-java -jar ObjectLoggerServer-*.jar --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
+java -jar ObjectLoggerServer-*.jar --spring.datasource.driver-class-name={db_driver} --spring.datasource.url=jdbc:{db}://{db_address}/{db_name} --spring.datasource.username={db_username} --spring.datasource.password={db_password}
 ```
 
 The above configuration items are described below:
 
+- `db_driver`:Database driver. `com.mysql.jdbc.Driver` for MySQL database; `com.microsoft.sqlserver.jdbc.SQLServerDriver` for SqlServer database. 
 - `db`:DataBase type. `mysql`  for MySQL database ;`sqlserver`  for SqlServer database. 
 - `db_address`:Database address. If the database is native, `127.0.0.1`. 
 - `db_name`:Database name.
@@ -412,7 +413,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 }
 ```
 
-## 9 ReleaseNotes
+## 9 Roadmap
 
 - TODO：Added object deep copy function
 - 3.0.1：Optimizing System Naming, represent the difference value with json
