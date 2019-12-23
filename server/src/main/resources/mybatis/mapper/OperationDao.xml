@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.yeecode.objectlogger.server.dao.OperationDao">
+
+    <select id="queryByFilter" parameterType="OperationModel" resultType="OperationModel">
+        SELECT * FROM operation
+        <where>
+            <if test="id != null">
+                `id`=#{id}
+            </if>
+            <if test="appName != null">
+                AND `appName`=#{appName}
+            </if>
+            <if test="objectName != null">
+                AND `objectName`=#{objectName}
+            </if>
+            <if test="objectId != null">
+                AND `objectId`=#{objectId}
+            </if>
+            <if test="operator != null">
+                AND `operator`=#{operator}
+            </if>
+            <if test="operationName != null">
+                AND `operationName`=#{operationName}
+            </if>
+            <if test="operationAlias != null">
+                AND `operationAlias`=#{operationAlias}
+            </if>
+            <if test="extraWords != null">
+                AND `extraWords`=#{extraWords}
+            </if>
+            <if test="comment != null">
+                AND `comment`=#{comment}
+            </if>
+            <if test="operationTime != null">
+                AND `operationTime`=#{operationTime}
+            </if>
+        </where>
+        ORDER BY `operationTime`
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="OperationModel">
+        INSERT INTO operation (`appName`,`objectName`,`objectId`,`operator`,`operationName`,
+        `operationAlias`,`extraWords`,`comment`,`operationTime`)
+        VALUES
+        (#{appName},#{objectName},#{objectId},#{operator},#{operationName},
+        #{operationAlias},#{extraWords},#{comment},#{operationTime})
+    </insert>
+
+</mapper>
