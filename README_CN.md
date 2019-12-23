@@ -1,5 +1,5 @@
 <div align="left">
-<img src="./pic/ObjectLogger.png" height="80px" alt="ObjectLogger" >
+  <img src="./pic/ObjectLogger.png" height="80px" alt="ObjectLogger" >
 </div>
 
 # [ObjectLogger](https://github.com/yeecode/ObjectLogger)
@@ -8,7 +8,7 @@
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
-强大且易用的Java对象日志记录系统，支持对象属性变动的记录与查询。
+强大且易用的Java对象日志记录系统，支持对象属性变化的自动分析、记录、查询。
 
 ---
 
@@ -20,7 +20,9 @@
 
 ObjectLogger是一套强大且易用的对象日志记录系统。它能够将任意对象的变动日志记录下来，并支持查询。可以应用在用户操作日志记录、对象属性变更记录等诸多场景中。
 
-![实例图片](./pic/react_en.png)
+<div align=center>
+  <img width="90%" src="./pic/react_en.png"/>
+</div>
 
 该系统具有以下特点：
 
@@ -65,7 +67,9 @@ java -jar ObjectLoggerServer-*.jar --spring.datasource.driver-class-name={db_dri
 
 启动jar成功后可以看到下面的界面：
 
-![启动页面](./pic/server_start.png)
+<div align=center>
+  <img width="80%" src="./pic/server_start.png"/>
+</div>
 
 使用浏览器访问下面的页面可以看到系统欢迎页面：
 
@@ -75,7 +79,9 @@ http://127.0.0.1:12301/ObjectLoggerServer/
 
 访问上述地址可以看到下面的欢迎界面：
 
-![系统首页](./pic/100.jpg)
+<div align=center>
+  <img width="80%" src="./pic/100.jpg"/>
+</div>
 
 至此，ObjectLoggerServer系统已经搭建结束，可以接受业务系统的日志写入和查询操作。
 
@@ -87,7 +93,9 @@ http://127.0.0.1:12301/ObjectLoggerServer/
 
 可以直接根据启动页面的提示访问相关地址来体验：
 
-![demo_start](./pic/demo_start.png)
+<div align=center>
+  <img width="90%" src="./pic/demo_start.png"/>
+</div>
 
 ## 3.1 引入依赖包
 
@@ -145,7 +153,9 @@ yeecode.objectLogger.autoLogAttributes=true
 
 系统运行后，可以通过`http://127.0.0.1:12301/ObjectLoggerServer/log/query`查询系统中记录的日志，并通过传入参数对日志进行过滤。
 
-![实例图片](./pic/api.gif)
+<div align=center>
+  <img width="90%" src="./pic/api.gif"/>
+</div>
 
 通过这里，我们可以查询下一步中写入的日志。
 
@@ -155,7 +165,9 @@ ObjectLogger有前端React组件[react-object-logger](https://github.com/promise
 
 展示效果如图：
 
-![react-object-logger实例图片](./pic/react.png)
+<div align=center>
+  <img width="90%" src="./pic/react.png"/>
+</div>
 
 感兴趣的用户可以前往[react-object-logger](https://github.com/promise-coding/react-object-logger)进行了解。
 
