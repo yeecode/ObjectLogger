@@ -416,7 +416,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
     public BaseAttributeModel handleAttributeChange(String extendedType, String attributeName, String attributeAlias, Object oldValue, Object newValue) {
         BaseAttributeModel baseAttributeModel = new BaseAttributeModel();
         if (extendedType.equals("userIdType")) {
-        	// 这里仅作示例，实际使用中可以进行调用用户系统将userId转化为userName的操作等
+        	  // For example only, you can call external application here to convert user number to user name.
             baseAttributeModel.setOldValue("USER_" + oldValue);
             baseAttributeModel.setNewValue("USER_" + newValue);
             baseAttributeModel.setDiffValue(oldValue + "->" + newValue);
