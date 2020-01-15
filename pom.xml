@@ -5,6 +5,7 @@
     <groupId>com.github.yeecode.objectlogger</groupId>
     <artifactId>ObjectLogger</artifactId>
     <version>3.0.1</version>
+    <name>ObjectLogger</name>
 
     <modules>
         <module>client</module>
@@ -129,6 +130,16 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.7.1</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>3.0.0</version>
                     </plugin>
                     <!-- Javadoc -->
                     <plugin>
