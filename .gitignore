@@ -1,7 +1,9 @@
 HELP.md
+/target/*
 /*/target/*
 /*/*/target/*
 !ObjectLogger*.jar
+!ObjectLogger*.pom
 !*/*.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
