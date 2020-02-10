@@ -70,14 +70,12 @@ public class TaskController {
     @RequestMapping(value = "/update")
     public String update() {
         initTask();
-        CleanRoomTask oldTask = cleanRoomTask;
-        // Omission: Read and write database operations
+        // Get a deep copy of the original object
+        CleanRoomTask oldTask = logClient.deepCopy(cleanRoomTask);
 
-        CleanRoomTask newTask = new CleanRoomTask();
-        newTask.setId(5);
-        newTask.setTaskName("Demo Task");
-        newTask.setStatus("DOING");
-        newTask.setDescription("" +
+        // Modify the original object
+        cleanRoomTask.setStatus("DOING");
+        cleanRoomTask.setDescription("" +
                 "<p>" +
                 "What is poetry? Who knows<br>" +
                 "Not a rose, but the scent of the rose.<br>" +
@@ -98,20 +96,20 @@ public class TaskController {
                 "See ,hear and feel something that prose<br>" +
                 "Cannot: and what it is who knows.</p>" +
                 "<h2>yes!</h2>");
-        newTask.setAddress("Sunny Street");
-        newTask.setRoomNumber(702);
+        cleanRoomTask.setAddress("Sunny Street");
+        cleanRoomTask.setRoomNumber(702);
 
 
         // Usage 3: Automatically analyze and record changes in object attributes
         logClient.logObject(
-                cleanRoomTask.getId().toString(),
+                this.cleanRoomTask.getId().toString(),
                 "Tom",
                 "update",
                 "Update a Task",
                 null,
                 null,
                 oldTask,
-                newTask);
+                cleanRoomTask);
 
         return "success";
     }

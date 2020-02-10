@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.yeecode.objectlogger</groupId>
         <artifactId>ObjectLogger</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.1</version>
     </parent>
     <artifactId>ObjectLoggerDemo</artifactId>
 

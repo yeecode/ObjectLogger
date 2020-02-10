@@ -6,6 +6,7 @@ import com.github.yeecode.objectlogger.client.http.HttpUtil;
 import com.github.yeecode.objectlogger.client.model.BaseAttributeModel;
 import com.github.yeecode.objectlogger.client.task.LogAttributesTask;
 import com.github.yeecode.objectlogger.client.task.LogObjectTask;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,17 @@ public class LogClient {
 
     private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
 
+    /**
+     * Get a deep copy of the input object
+     *
+     * @param originalObject Original object
+     * @param <T> Type of original object
+     * @return Deep copy of the original object
+     */
+    public <T> T deepCopy(T originalObject) {
+        Gson gson = new Gson();
+        return gson.fromJson(gson.toJson(originalObject), (Class<T>)originalObject.getClass());
+    }
 
     /**
      * Auto diff old/new object and write one log

@@ -4,7 +4,7 @@
 
 # [ObjectLogger](https://github.com/yeecode/ObjectLogger)
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-3.0.1-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-3.1.1-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -242,19 +242,20 @@ This function can automatically complete the comparison between old and new obje
 For example:
 
 ```
-CleanRoomTask oldTask = new CleanRoomTask();
-oldTask.setId(5);
-oldTask.setTaskName("Demo Task");
-oldTask.setStatus("TODO");
-oldTask.setDescription("Do something...");
+CleanRoomTask task = new CleanRoomTask();
+task.setId(5);
+task.setTaskName("Demo Task");
+task.setStatus("TODO");
+task.setDescription("Do something...");
 
-CleanRoomTask newTask = new CleanRoomTask();
-newTask.setId(5);
-newTask.setTaskName("Demo Task");
-newTask.setStatus("DOING");
-newTask.setDescription("The main job is to clean the floor.");
-newTask.setAddress("Sunny Street");
-newTask.setRoomNumber(702);
+CleanRoomTask oldTask = logClient.deepCopy(task);
+
+task.setId(5);
+task.setTaskName("Demo Task");
+task.setStatus("DOING");
+task.setDescription("The main job is to clean the floor.");
+task.setAddress("Sunny Street");
+task.setRoomNumber(702);
 
 logClient.logObject(
                 cleanRoomTask.getId().toString(),
@@ -264,7 +265,7 @@ logClient.logObject(
                 null,
                 null,
                 oldTask,
-                newTask);
+                task);
 ```
 
 Query form ObjectLoggerServer：
@@ -428,7 +429,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 
 ## 9 Roadmap
 
-- TODO：Added object deep copy function
+- 3.1.1：Add object deep copy function to facilitate users to save the objects before change
 - 3.0.1：Optimizing System Naming, represent the difference value with json
 - 3.0.0：Optimizing System Naming
 - 2.3.0：Added automatic recording for inherited attributes
