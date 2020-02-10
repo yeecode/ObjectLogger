@@ -4,7 +4,7 @@
 
 # [ObjectLogger](https://github.com/yeecode/ObjectLogger)
 ![language](https://img.shields.io/badge/language-java-green.svg)
-![version](https://img.shields.io/badge/mvn-3.0.1-blue.svg?style=flat)
+![version](https://img.shields.io/badge/mvn-3.1.1-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/94beca78-0817-4a27-9544-326afe35339f)](https://codebeat.co/projects/github-com-yeecode-objectlogger-master)
 ![license](https://img.shields.io/badge/license-Apache-brightgreen.svg)
 
@@ -244,19 +244,20 @@ http://127.0.0.1:12301/ObjectLoggerServer/log/query?appName=ObjectLoggerDemo&obj
 例如，业务系统这样调用：
 
 ```
-CleanRoomTask oldTask = new CleanRoomTask();
-oldTask.setId(5);
-oldTask.setTaskName("Demo Task");
-oldTask.setStatus("TODO");
-oldTask.setDescription("Do something...");
+CleanRoomTask task = new CleanRoomTask();
+task.setId(5);
+task.setTaskName("Demo Task");
+task.setStatus("TODO");
+task.setDescription("Do something...");
 
-CleanRoomTask newTask = new CleanRoomTask();
-newTask.setId(5);
-newTask.setTaskName("Demo Task");
-newTask.setStatus("DOING");
-newTask.setDescription("The main job is to clean the floor.");
-newTask.setAddress("Sunny Street");
-newTask.setRoomNumber(702);
+CleanRoomTask oldTask = logClient.deepCopy(task);
+
+task.setId(5);
+task.setTaskName("Demo Task");
+task.setStatus("DOING");
+task.setDescription("The main job is to clean the floor.");
+task.setAddress("Sunny Street");
+task.setRoomNumber(702);
 
 logClient.logObject(
                 cleanRoomTask.getId().toString(),
@@ -266,7 +267,7 @@ logClient.logObject(
                 null,
                 null,
                 oldTask,
-                newTask);
+                task);
 ```
 
 则我们可以使用下面查询条件：
@@ -432,7 +433,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 
 ## 9 Roadmap
 
-- TODO：增加对象深度镜像功能
+- 3.1.1：增加对象深度拷贝功能，便于用户保存变更前的对象
 - 3.0.1: 优化系统命名，对比值输出转为灵活的json
 - 3.0.0：优化系统命名
 - 2.3.0：增加对继承属性的自动记录功能
