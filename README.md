@@ -429,6 +429,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 
 ## 9 Roadmap
 
+- 3.1.2：Fixed log4j2 vulnerability introduced by external dependencies
 - 3.1.1：Add object deep copy function to facilitate users to save the objects before change
 - 3.0.1：Optimizing System Naming, represent the difference value with json
 - 3.0.0：Optimizing System Naming

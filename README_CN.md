@@ -433,6 +433,7 @@ public class ExtendedTypeHandler implements BaseExtendedTypeHandler {
 
 ## 9 Roadmap
 
+- 3.1.2：修复外部依赖引入的log4j2漏洞
 - 3.1.1：增加对象深度拷贝功能，便于用户保存变更前的对象
 - 3.0.1: 优化系统命名，对比值输出转为灵活的json
 - 3.0.0：优化系统命名
